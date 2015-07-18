@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ONIXmessage release="3.0">
+  <header>
+    <sender>
+      <x298>John Doe</x298>
+    </sender>
+    <x307>20150717T210409</x307>
+  </header>
+  <product>
+    <a001>org.john-doe.some-id</a001>
+    <a002>03</a002>
+    <productidentifier>
+      <b221>15</b221>
+      <b244>9788871184371</b244>
+    </productidentifier>
+  </product>
+</ONIXmessage>

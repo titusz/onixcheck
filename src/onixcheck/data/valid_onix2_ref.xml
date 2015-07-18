@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<ONIXMessage release="2.1">
+    <Header>
+        <FromCompany>John Doe</FromCompany>
+        <SentDate>20141202</SentDate>
+    </Header>
+    <Product>
+        <RecordReference>9783898694247</RecordReference>
+        <NotificationType>03</NotificationType>
+        <ProductIdentifier>
+            <ProductIDType>15</ProductIDType>
+            <IDValue>9783898694247</IDValue>
+        </ProductIdentifier>
+        <ProductForm>DG</ProductForm>
+        <Title>
+            <TitleType>01</TitleType>
+            <TitleText>Some Title</TitleText>
+        </Title>
+        <Publisher>
+            <PublishingRole>01</PublishingRole>
+            <PublisherName>Some Publisher</PublisherName>
+        </Publisher>
+    </Product>
+</ONIXMessage>

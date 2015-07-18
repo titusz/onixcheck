@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ONIXMessage release="3.0">
+    <Header>
+        <!--Intentionaly missing required "Sender" element-->
+        <SentDateTime>20150717T210409</SentDateTime>
+    </Header>
+    <Product>
+        <RecordReference>org.john-doe.some-id</RecordReference>
+        <NotificationType>03</NotificationType>
+        <ProductIdentifier>
+            <ProductIDType>15</ProductIDType>
+            <IDValue>9788871184371</IDValue>
+        </ProductIdentifier>
+    </Product>
+</ONIXMessage>
