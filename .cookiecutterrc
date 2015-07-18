@@ -1,0 +1,29 @@
+# This file exists so you can easily regenerate your project.
+#
+# Unfortunatelly cookiecutter can't use this right away so
+# you have to copy this file to ~/.cookiecutterrc
+
+default_context:
+
+    c_extension_optional:      'no'
+    c_extension_support:       'no'
+    codecov:                   'no'
+    command_line_interface:    'click'
+    coveralls:                 'no'
+    distribution_name:         'onixcheck'
+    email:                     'tp@py7.de'
+    full_name:                 'Titusz Pan'
+    github_username:           'titusz'
+    landscape:                 'no'
+    package_name:              'onixcheck'
+    project_name:              'onixcheck'
+    project_short_description: 'ONIX validation library and commandline tool'
+    release_date:              '2015-07-18'
+    repo_name:                 'onixcheck'
+    scrutinizer:               'no'
+    sphinx_theme:              'readthedocs'
+    test_matrix_configurator:  'no'
+    test_runner:               'pytest'
+    version:                   '0.1.0'
+    website:                   'http://py7.de'
+    year:                      '2015'
