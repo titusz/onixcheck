@@ -55,10 +55,10 @@ setup(
         'Topic :: Utilities',
     ],
     keywords=[
-        # eg: 'keyword1', 'keyword2', 'keyword3',
+        'ONIX', 'validation', 'EDItEUR', 'XML', 'RelaxNG', 'XMLSchema'
     ],
     install_requires=[
-        'click',
+        'click', 'lxml',
     ],
     extras_require={
         # eg:
