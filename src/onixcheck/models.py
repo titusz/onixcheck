@@ -109,10 +109,10 @@ class OnixMeta(Atom):
 
     def get_ns_string(self):
         if self.onix_version == OnixVersion.o21:
-            tpl = 'http://www.editeur.org/onix/2.1/{}'
+            tpl = 'http://www.editeur.org/onix/2.1/%s'
         elif self.onix_version == OnixVersion.o30:
-            tpl = 'http://ns.editeur.org/onix/3.0/{}'
-        return tpl.format(self.onix_style)
+            tpl = 'http://ns.editeur.org/onix/3.0/%s'
+        return tpl % self.onix_style
 
     def get_schema_file(self):
         curdir = os.path.abspath(os.path.dirname(__file__))
