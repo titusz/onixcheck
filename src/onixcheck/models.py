@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from collections import namedtuple
 import os
 from os.path import join
+import re
 from onixcheck.exeptions import OnixError
 from lxml import etree
 import logging
@@ -126,3 +128,33 @@ class OnixMeta(object):
             )
         }
         return schema_map[self.onix_version + self.onix_style]
+
+
+_BaseMessage = namedtuple('Message', 'level validator location message error_type')
+
+
+class Message(_BaseMessage):
+
+    def __str__(self):
+        return ' | '.join(self._asdict().values())
+
+    @classmethod
+    def from_logentry(cls, logentry, filename=''):
+        """Instanciate ValidationError lxml LogEntry object
+
+        :param _LogEntry logentry: Validatation error from LXML
+        :param str filename: Optional filename to prefix error location
+        :return ValidationError:
+        """
+        l = logentry
+        location = '%s:%s:%s' % (filename, l.line, l.column)
+        message = l.message or ''
+        message = re.sub('({.*?})', '', message)
+
+        return cls(
+            level=l.level_name,
+            validator=l.domain_name,
+            location=location,
+            message=message,
+            error_type=l.type_name
+        )

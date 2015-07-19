@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from onixcheck import data
 from onixcheck.exeptions import OnixError
-from onixcheck.models import OnixMeta, OnixFile
+from onixcheck.models import OnixMeta, OnixFile, Message
 from lxml import etree
 import pytest
 
@@ -42,4 +42,12 @@ def test_get_validator_o2():
     o2_ref = OnixFile(data.VALID_ONIX2_REF)
     validator = o2_ref.get_validator()
     assert isinstance(validator, etree.XMLSchema)
+
+
+def test_message_from_logentry():
+    onix_file = OnixFile(data.INVALID_ONIX3_REF)
+    validator = onix_file.get_validator()
+    validator(onix_file.xml_tree())
+    msg = Message.from_logentry(validator.error_log[0])
+    assert isinstance(msg, Message)
 

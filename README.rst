@@ -46,6 +46,19 @@ Installation
 
     pip install onixcheck
 
+Quickstart
+==========
+
+Command line usage::
+
+    onixcheck myonixfile.xml
+
+Libary usage::
+
+    import onixcheck
+
+    errors = onixcheck.validate('/somedir/onixfile.xml')
+
 Documentation
 =============
 
