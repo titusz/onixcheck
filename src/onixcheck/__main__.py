@@ -4,7 +4,7 @@ import sys
 import logging
 import click
 from lxml import etree
-from onixcheck.models import OnixFile
+from onixcheck import validate
 
 log = logging.getLogger('onixcheck')
 
@@ -52,16 +52,16 @@ def main(infile, debug):
 
     click.echo('Validating: %s' % infile.name)
 
-    onix_file = OnixFile(infile)
-    log.debug(onix_file.meta)
+    messages = validate(infile)
+    is_valid = not messages
 
-    validator = onix_file.get_validator()
-    result = validator(onix_file.xml_tree())
-    click.echo('Valid: %s' % result)
-    for err in validator.error_log:
-        click.echo('Error: %s' % err)
-
-    if validator.error_log:
-        sys.exit(1)
+    if is_valid:
+        click.echo('VALID - No errors found')
     else:
+        for msg in messages:
+            click.echo(msg)
+
+    if is_valid:
         sys.exit(0)
+    else:
+        sys.exit(1)

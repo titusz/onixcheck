@@ -21,19 +21,19 @@ def test_main_o2_ref_valid():
 def test_main_has_ns_valid():
     runner = CliRunner()
     result = runner.invoke(main, [data.VALID_ONIX3_REF_NS])
-    assert 'Validating' in result.output
+    assert 'validating' in result.output.lower()
     assert result.exit_code == 0
 
 
 def test_main_plain_invalid():
     runner = CliRunner()
     result = runner.invoke(main, [data.INVALID_ONIX3_REF])
-    assert 'Error' in result.output
+    assert 'error' in result.output.lower()
     assert result.exit_code == 1
 
 
 def test_main_debug():
     runner = CliRunner()
     result = runner.invoke(main, [data.VALID_ONIX3_REF, '-d'])
-    assert 'DEBUG' in result.output
+    assert 'debug' in result.output.lower()
     assert result.exit_code == 0
