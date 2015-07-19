@@ -94,9 +94,9 @@ class OnixMeta(object):
         if onix_version is None:
             log.warning('No release attribute on root element. Try namespace.')
             try:
-                if cls.V21 in root.nsmap.values()[0]:
+                if cls.V21 in list(root.nsmap.values())[0]:
                     onix_version = cls.V21
-                elif cls.V30 in root.nsmap.values()[0]:
+                elif cls.V30 in list(root.nsmap.values())[0]:
                     onix_version = cls.V30
                 else:
                     raise OnixError('Could not determin ONIX version.')
