@@ -25,13 +25,11 @@ onixcheck
     :alt: AppVeyor Build Status
     :target: https://ci.appveyor.com/project/titusz/onixcheck
 
-
-
-.. |version| image:: http://img.shields.io/pypi/v/onixcheck.svg?style=flat
+.. |version| image:: http://img.shields.io/pypi/v/onixcheck.svg?style=flat-square
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/onixcheck
 
-.. |downloads| image:: http://img.shields.io/pypi/dm/onixcheck.svg?style=flat
+.. |downloads| image:: http://img.shields.io/pypi/dm/onixcheck.svg?style=flat-square
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/onixcheck
 
