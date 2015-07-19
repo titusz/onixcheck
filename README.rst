@@ -34,6 +34,12 @@ onixcheck
     :target: https://pypi.python.org/pypi/onixcheck
 
 ONIX validation library and commandline tool
+============================================
+
+`ONIX for Books <http://www.editeur.org/11/Books/>`_ is an international XML
+standard for the publishing and book trade industry. Onixcheck allows you
+to validate ONIX versions 2.1 and 3.0 against the official XML Schema.
+
 
 * Free software: BSD license
 
