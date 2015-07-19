@@ -13,15 +13,15 @@ onixcheck
     * - package
       - |version| |downloads|
 
-.. |docs| image:: https://readthedocs.org/projects/onixcheck/badge/?style=flat
+.. |docs| image:: https://readthedocs.org/projects/onixcheck/badge/?style=flat-square
     :target: https://readthedocs.org/projects/onixcheck
     :alt: Documentation Status
 
-.. |travis| image:: http://img.shields.io/travis/titusz/onixcheck/master.svg?style=flat&label=Travis
+.. |travis| image:: http://img.shields.io/travis/titusz/onixcheck/master.svg?style=flat-square&label=Travis
     :alt: Travis-CI Build Status
     :target: https://travis-ci.org/titusz/onixcheck
 
-.. |appveyor| image:: https://img.shields.io/appveyor/ci/titusz/onixcheck/master.svg?style=flat&label=AppVeyor
+.. |appveyor| image:: https://img.shields.io/appveyor/ci/titusz/onixcheck/master.svg?style=flat-square&label=AppVeyor
     :alt: AppVeyor Build Status
     :target: https://ci.appveyor.com/project/titusz/onixcheck
 
@@ -70,3 +70,4 @@ Development
 To run the all tests run::
 
     tox
+
