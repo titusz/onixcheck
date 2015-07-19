@@ -50,18 +50,16 @@ def main(infile, debug):
         )
         click.echo('DEBUG logging enabled')
 
-    click.echo('Validating: %s' % infile.name)
+    click.echo('Validating: %s' % click.format_filename(infile.name))
 
     messages = validate(infile)
-    is_valid = not messages
+    is_valid = messages == []
 
     if is_valid:
         click.echo('VALID - No errors found')
-    else:
-        for msg in messages:
-            click.echo(msg)
-
-    if is_valid:
         sys.exit(0)
     else:
+        click.echo('INVALID - errors found:')
+        for msg in messages:
+            click.echo(msg)
         sys.exit(1)
