@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from onixcheck import data
 from onixcheck.exeptions import OnixError
-from onixcheck.models import OnixMeta, OnixStyle, OnixVersion, OnixFile
+from onixcheck.models import OnixMeta, OnixFile
 from lxml import etree
 import pytest
 
@@ -10,16 +10,16 @@ def test_onix_meta_reference():
     meta = OnixMeta.from_file(data.VALID_ONIX3_REF)
     assert meta.xml_version == '1.0'
     assert meta.xml_encoding == 'utf-8'
-    assert meta.onix_version == OnixVersion.o30
-    assert meta.onix_style == OnixStyle.reference
+    assert meta.onix_version == OnixMeta.V30
+    assert meta.onix_style == OnixMeta.REFERENCE
 
 
 def test_onix_meta_short():
     meta = OnixMeta.from_file(data.VALID_ONIX3_SHORT)
     assert meta.xml_version == '1.0'
     assert meta.xml_encoding == 'utf-8'
-    assert meta.onix_version == OnixVersion.o30
-    assert meta.onix_style == OnixStyle.short
+    assert meta.onix_version == OnixMeta.V30
+    assert meta.onix_style == OnixMeta.SHORT
 
 
 def test_onix_root_invalid():

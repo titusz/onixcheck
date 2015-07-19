@@ -1,26 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import os
-from atom.atom import Atom
-from atom.enum import Enum
-from atom.list import List
-from atom.scalars import Unicode
 from os.path import join
 from onixcheck.exeptions import OnixError
 from lxml import etree
 import logging
 
 log = logging.getLogger('__name__')
-
-
-class OnixVersion(Enum):
-    o21 = '2.1'
-    o30 = '3.0'
-
-
-class OnixStyle(Enum):
-    short = 'short'
-    reference = 'reference'
 
 
 class OnixFile(object):
@@ -63,14 +49,23 @@ class OnixFile(object):
         return etree.XMLSchema(file=self.meta.get_schema_file())
 
 
-class OnixMeta(Atom):
+class OnixMeta(object):
     """A simple class representing low level onix file meta data."""
 
-    xml_version = Unicode()
-    xml_encoding = Unicode()
-    onix_version = Unicode()
-    onix_style = Unicode()
-    namespaces = List()
+    V21 = '2.1'
+    V30 = '3.0'
+    SHORT = 'short'
+    REFERENCE = 'reference'
+
+    ONIX_VERSIONS = (V21, V30)
+    ONIX_STYLES = (SHORT, REFERENCE)
+
+    def __init__(self, xml_version, xml_encoding, onix_version, onix_style, namespaces):
+        self.xml_version = xml_version
+        self.xml_encoding = xml_encoding
+        self.onix_version = onix_version
+        self.onix_style = onix_style
+        self.namespaces = namespaces
 
     def __repr__(self):
         msgs = (
@@ -87,9 +82,9 @@ class OnixMeta(Atom):
         root = tree.getroot()
 
         if root.tag.endswith('ONIXmessage'):
-            onix_style = 'short'
+            onix_style = cls.SHORT
         elif root.tag.endswith('ONIXMessage'):
-            onix_style = 'reference'
+            onix_style = cls.REFERENCE
         else:
             raise OnixError('Bad root element: %s' % root.tag)
 
@@ -108,9 +103,9 @@ class OnixMeta(Atom):
         return cls.from_tree(tree)
 
     def get_ns_string(self):
-        if self.onix_version == OnixVersion.o21:
+        if self.onix_version == self.V21:
             tpl = 'http://www.editeur.org/onix/2.1/%s'
-        elif self.onix_version == OnixVersion.o30:
+        elif self.onix_version == self.V30:
             tpl = 'http://ns.editeur.org/onix/3.0/%s'
         return tpl % self.onix_style
 
