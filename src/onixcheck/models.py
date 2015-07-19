@@ -4,11 +4,11 @@ from collections import namedtuple
 import os
 from os.path import join
 import re
-from onixcheck.exeptions import OnixError
+from onixcheck.exeptions import OnixError, get_logger
 from lxml import etree
-import logging
 
-log = logging.getLogger('__name__')
+
+log = get_logger()
 
 
 class OnixFile(object):
@@ -90,11 +90,24 @@ class OnixMeta(object):
         else:
             raise OnixError('Bad root element: %s' % root.tag)
 
+        onix_version = root.attrib.get('release')
+        if onix_version is None:
+            log.warning('No release attribute on root element. Try namespace.')
+            try:
+                if cls.V21 in root.nsmap.values()[0]:
+                    onix_version = cls.V21
+                elif cls.V30 in root.nsmap.values()[0]:
+                    onix_version = cls.V30
+                else:
+                    raise OnixError('Could not determin ONIX version.')
+            except IndexError:
+                raise OnixError('No release attribute and no Namespace :(')
+
         namespaces = list(root.nsmap.values())
         return cls(
             xml_version=tree.docinfo.xml_version,
             xml_encoding=tree.docinfo.encoding,
-            onix_version=root.attrib.get('release'),
+            onix_version=onix_version,
             onix_style=onix_style,
             namespaces=namespaces
         )

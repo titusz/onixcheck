@@ -51,3 +51,9 @@ def test_message_from_logentry():
     msg = Message.from_logentry(validator.error_log[0])
     assert isinstance(msg, Message)
 
+
+def test_onix_meta_from_tree_no_release():
+    tree = etree.parse(data.VALID_GOOGLE_SAMPLE)
+    meta = OnixMeta.from_tree(tree)
+    assert meta.onix_version == OnixMeta.V21
+
