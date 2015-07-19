@@ -4,18 +4,6 @@ environment:
   global:
     WITH_COMPILER: "cmd /E:ON /V:ON /C .\\ci\\appveyor-with-compiler.cmd"
   matrix:
-    - TOXENV: "2.6"
-      TOXPYTHON: "C:\\Python26\\python.exe"
-      WINDOWS_SDK_VERSION: "v7.0"
-      PYTHON_HOME: "C:\\Python26"
-      PYTHON_VERSION: "2.6"
-      PYTHON_ARCH: "32"
-    - TOXENV: "2.6-nocover"
-      TOXPYTHON: "C:\\Python26\\python.exe"
-      WINDOWS_SDK_VERSION: "v7.0"
-      PYTHON_HOME: "C:\\Python26"
-      PYTHON_VERSION: "2.6"
-      PYTHON_ARCH: "32"
     - TOXENV: "2.7"
       TOXPYTHON: "C:\\Python27\\python.exe"
       WINDOWS_SDK_VERSION: "v7.0"
