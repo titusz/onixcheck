@@ -1,40 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import sys
-import logging
 import click
-from lxml import etree
+import logging
 from onixcheck import validate
+from onixcheck.exeptions import get_logger
 
-log = logging.getLogger('onixcheck')
-
-SHORT = 'ONIXmessage'
-REF = 'ONIXMessage'
-NAMEPACES = {
-    '3.0': {None: 'http://ns.editeur.org/onix/3.0/reference'}
-}
-
-
-def add_namespace(infile):
-    """Add namespaces to xml and return an xml tree"""
-    tree = etree.parse(infile)
-    root = tree.getroot()
-    ns_root = etree.Element(
-        tree.docinfo.root_name,
-        root.attrib,
-        nsmap={None: 'http://ns.editeur.org/onix/3.0/reference'}
-    )
-    ns_root[:] = root[:]
-
-    # Roundtrip to add namespace
-    doc = etree.tostring(
-        ns_root,
-        encoding=tree.docinfo.encoding,
-        xml_declaration=True,
-        pretty_print=True
-    )
-    ns_tree = etree.fromstring(doc)
-    return etree.ElementTree(ns_tree)
+log = get_logger()
 
 
 @click.command()
