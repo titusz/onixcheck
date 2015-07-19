@@ -130,4 +130,4 @@ class OnixMeta(Atom):
                 curdir, 'xsd3.0', 'ONIX_BookProduct_3.0_reference_strict.xsd'
             )
         }
-        return schema_map[self.onix_version +  self.onix_style]
+        return schema_map[self.onix_version + self.onix_style]

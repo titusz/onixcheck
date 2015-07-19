@@ -4,7 +4,7 @@ import sys
 import logging
 import click
 from lxml import etree
-from onixcheck.models import OnixMeta, OnixFile
+from onixcheck.models import OnixFile
 
 log = logging.getLogger('onixcheck')
 
