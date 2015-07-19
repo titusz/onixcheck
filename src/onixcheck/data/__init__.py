@@ -12,3 +12,5 @@ VALID_ONIX3_REF_NS = join(ROOT, 'valid_onix3_ref_ns.xml')
 
 INVALID_ONIX3_REF = join(ROOT, 'invalid_onix3_ref.xml')
 INVALID_ONIX_ROOT = join(ROOT, 'invalid_onix_root.xml')
+
+VALID_GOOGLE_SAMPLE = join(ROOT, 'Google Sample ONIX 2.1.xml')
