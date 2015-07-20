@@ -52,7 +52,20 @@ class OnixFile(object):
 
 
 class OnixMeta(object):
-    """A simple class representing low level onix file meta data."""
+    """Read and detext minimal ONIX file properties needed for validation.
+
+    Onix XML files may or may not have `release` and `xmlns` attributes on
+    their root element. OnixMeta.from_file(infile) will detect Onix Version
+    and Style and also patch the root element with the appropriate namespace
+    needed for validation.
+
+    :param str xml_version: XML Version as str ("1.0").
+    :param str xml_encoding: XML Encoding as str ("utf-8").
+    :param str onix_version: Onix Version as string ("2.1" or "3.0")
+    :param str onix_style: Onix Style as str ("short" or "reference")
+    :param dict namespaces: dict of str with namspaces from the root element
+
+    """
 
     V21 = '2.1'
     V30 = '3.0'
