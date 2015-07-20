@@ -24,7 +24,7 @@ project = u'onixcheck'
 year = u'2015'
 author = u'Titusz Pan'
 copyright = '{0}, {1}'.format(year, author)
-version = release = u'0.3.0'
+version = release = u'0.4.0'
 # on_rtd is whether we are on readthedocs.org
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
