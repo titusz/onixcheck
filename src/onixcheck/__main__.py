@@ -8,6 +8,8 @@ from onixcheck import validate
 from onixcheck.exeptions import get_logger
 from onixcheck.utils import iter_files
 
+
+DEFAULT_EXTENSIONS = ('xml', 'onx', 'onix')
 log = get_logger()
 
 
@@ -30,6 +32,8 @@ def main(infile, path, ext, recursive, debug):
     # validate current working dir
     if not infile and not path:
         path = os.getcwdu()
+
+    ext = ext or DEFAULT_EXTENSIONS
 
     all_valid = True
 
