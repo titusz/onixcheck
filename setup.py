@@ -23,7 +23,7 @@ def read(*names, **kwargs):
 
 
 dependencies = ['click', 'lxml', 'defusedxml']
-if platform.python_implementation() == 'PyPy':
+if platform.python_implementation() != 'PyPy':
     dependencies.append('scandir')
 
 
