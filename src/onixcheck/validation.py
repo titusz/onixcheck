@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from os.path import basename
+from lxml.etree import XMLSyntaxError
 from onixcheck.exeptions import OnixError
 from onixcheck.models import OnixFile, Message
 
@@ -18,7 +19,7 @@ def validate(infile):
 
     try:
         onix_file = OnixFile(infile)
-    except OnixError as e:
+    except (OnixError, XMLSyntaxError) as e:
         return [Message.from_exception(e, filename)]
 
     validator = onix_file.get_validator()
