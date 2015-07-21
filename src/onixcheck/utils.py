@@ -4,7 +4,7 @@ from __future__ import print_function, unicode_literals
 from os.path import splitext, join
 from scandir import scandir, walk
 
-DEFAULT_EXTENSIONS = {'xml', 'onx', 'onix'}
+DEFAULT_EXTENSIONS = ('xml', 'onx', 'onix')
 
 
 def iter_files(root, exts=None, recursive=False):
@@ -20,7 +20,7 @@ def iter_files(root, exts=None, recursive=False):
     if exts is None:
         exts = DEFAULT_EXTENSIONS
 
-    exts = {x.lower() for x in exts}
+    exts = set((x.lower() for x in exts))
 
     if recursive is False:
         for entry in scandir(root):
