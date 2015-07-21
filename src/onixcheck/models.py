@@ -153,7 +153,7 @@ class Message(_BaseMessage):
 
         :param _LogEntry logentry: Validatation error from LXML
         :param str filename: Optional filename to prefix error location
-        :return ValidationError:
+        :return Message:
         """
         l = logentry
         location = '%s:%s:%s' % (filename, l.line, l.column)
@@ -166,4 +166,20 @@ class Message(_BaseMessage):
             location=location,
             message=message,
             error_type=l.type_name
+        )
+
+    @classmethod
+    def from_exception(cls, exc, filename=''):
+        """
+
+        :param Exception exc:
+        :param str filename: Optional filename to prefix error location
+        :return Message:
+        """
+        return cls(
+            level='CRITICAL',
+            validator='ONIXCHECK',
+            location=filename,
+            message=exc.message,
+            error_type='EXCEPTION'
         )
