@@ -10,7 +10,7 @@ try:
 except ImportError:
     from os import walk
     from os import listdir as scandir
-    from os.path import isfile
+    from os.path import isdir
     has_scandir = False
 
 
@@ -37,9 +37,8 @@ def iter_files(root, exts=None, recursive=False):
                     yield entry.path
             else:
                 ext = splitext(entry)[-1].lstrip('.').lower()
-                if isfile(entry) and matches(ext):
-                    yield entry
-
+                if not isdir(entry) and matches(ext):
+                    yield join(root, entry)
     else:
         for root, folders, files in walk(root):
             for f in files:
