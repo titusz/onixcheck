@@ -9,9 +9,9 @@ TEST_DIR = abspath(dirname(utils.__file__))
 
 
 def test_iter_files_simple():
-    gen = utils.iter_files(TEST_DIR)
+    gen = utils.iter_files(TEST_DIR, ['py'])
     assert isinstance(gen, types.GeneratorType)
-    assert list(gen) > 5
+    assert len(list(gen)) > 5
 
 
 def test_iter_files_no_matches():
