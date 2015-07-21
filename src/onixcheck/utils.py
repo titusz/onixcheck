@@ -2,7 +2,16 @@
 """Generic or common utility functions"""
 from __future__ import print_function, unicode_literals
 from os.path import splitext, join
-from scandir import scandir, walk
+
+has_scandir = True
+
+try:
+    from scandir import scandir, walk
+except ImportError:
+    from os import walk
+    from os import listdir as scandir
+    from os.path import isfile
+    has_scandir = False
 
 
 def iter_files(root, exts=None, recursive=False):
@@ -22,9 +31,15 @@ def iter_files(root, exts=None, recursive=False):
 
     if recursive is False:
         for entry in scandir(root):
-            ext = splitext(entry.name)[-1].lstrip('.').lower()
-            if entry.is_file() and matches(ext):
-                yield entry.path
+            if has_scandir:
+                ext = splitext(entry.name)[-1].lstrip('.').lower()
+                if entry.is_file() and matches(ext):
+                    yield entry.path
+            else:
+                ext = splitext(entry)[-1].lstrip('.').lower()
+                if isfile(entry) and matches(ext):
+                    yield entry
+
     else:
         for root, folders, files in walk(root):
             for f in files:
