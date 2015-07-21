@@ -35,3 +35,7 @@ def main(infile, debug):
         for msg in messages:
             click.echo(msg)
         sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()

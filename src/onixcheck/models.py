@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from collections import namedtuple
-import os
-from os.path import join
 import re
-from onixcheck.exeptions import OnixError, get_logger
+from collections import namedtuple
 from lxml import etree
+from .exeptions import OnixError, get_logger
+from . import schema
 
 
 log = get_logger()
@@ -20,6 +19,11 @@ class OnixFile(object):
             self.infile.seek(0)
 
     def xml_tree(self):
+        """
+        Parse the infile with lxml and add the proper namespace if required.
+
+        :return ElementTree: An lxml ElementTree with proper namespace
+        """
         tree = etree.parse(self.infile)
 
         if self.meta.namespaces:
@@ -51,8 +55,11 @@ class OnixFile(object):
         return etree.XMLSchema(file=self.meta.get_schema_file())
 
 
-class OnixMeta(object):
-    """Read and detext minimal ONIX file properties needed for validation.
+_BaseMeta = namedtuple('OnixMeta', 'xml_version xml_encoding onix_version onix_style namespaces')
+
+
+class OnixMeta(_BaseMeta):
+    """Read and detect minimal ONIX file properties needed for validation.
 
     Onix XML files may or may not have `release` and `xmlns` attributes on
     their root element. OnixMeta.from_file(infile) will detect Onix Version
@@ -75,22 +82,12 @@ class OnixMeta(object):
     ONIX_VERSIONS = (V21, V30)
     ONIX_STYLES = (SHORT, REFERENCE)
 
-    def __init__(self, xml_version, xml_encoding, onix_version, onix_style, namespaces):
-        self.xml_version = xml_version
-        self.xml_encoding = xml_encoding
-        self.onix_version = onix_version
-        self.onix_style = onix_style
-        self.namespaces = namespaces
-
-    def __repr__(self):
-        msgs = (
-            'XML Version:  %s' % self.xml_version,
-            'XML Encoding: %s' % self.xml_encoding,
-            'ONIX Version: %s' % self.onix_version,
-            'ONIX Style:   %s' % self.onix_style,
-            'Namespaces:   %s' % self.namespaces,
-        )
-        return '\n'.join(msgs)
+    SCHEMA_MAP = {
+        (V21, SHORT): schema.O21_XSD_SHORT,
+        (V21, REFERENCE): schema.O21_XSD_REFERENCE,
+        (V30, SHORT): schema.O30_XSD_SHORT,
+        (V30, REFERENCE): schema.O30_XSD_REFERENCE
+    }
 
     @classmethod
     def from_tree(cls, tree):
@@ -138,22 +135,7 @@ class OnixMeta(object):
         return tpl % self.onix_style
 
     def get_schema_file(self):
-        curdir = os.path.abspath(os.path.dirname(__file__))
-        schema_map = {
-            '2.1short': join(
-                curdir, 'xsd2.1', 'ONIX_BookProduct_Release2.1_short.xsd'
-            ),
-            '2.1reference': join(
-                curdir, 'xsd2.1', 'ONIX_BookProduct_Release2.1_reference.xsd'
-            ),
-            '3.0short': join(
-                curdir, 'xsd3.0', 'ONIX_BookProduct_3.0_short_strict.xsd'
-            ),
-            '3.0reference': join(
-                curdir, 'xsd3.0', 'ONIX_BookProduct_3.0_reference_strict.xsd'
-            )
-        }
-        return schema_map[self.onix_version + self.onix_style]
+        return self.SCHEMA_MAP[(self.onix_version, self.onix_style)]
 
 
 _BaseMessage = namedtuple('Message', 'level validator location message error_type')
