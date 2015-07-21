@@ -58,7 +58,7 @@ setup(
         'ONIX', 'validation', 'EDItEUR', 'XML', 'RelaxNG', 'XMLSchema'
     ],
     install_requires=[
-        'click', 'lxml',
+        'click', 'lxml', 'defusedxml'
     ],
     extras_require={
         # eg:

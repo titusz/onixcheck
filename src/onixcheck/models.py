@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import re
 from collections import namedtuple
+from defusedxml import lxml
 from lxml import etree
 from .exeptions import OnixError, get_logger
 from . import schema
@@ -24,7 +25,7 @@ class OnixFile(object):
 
         :return ElementTree: An lxml ElementTree with proper namespace
         """
-        tree = etree.parse(self.infile)
+        tree = lxml.parse(self.infile)
 
         if self.meta.namespaces:
             return tree
@@ -39,13 +40,13 @@ class OnixFile(object):
         ns_root[:] = root[:]
 
         # Roundtrip to add namespace
-        doc = etree.tostring(
+        doc = lxml.tostring(
             ns_root,
             encoding=tree.docinfo.encoding,
             xml_declaration=True,
             pretty_print=True
         )
-        ns_tree = etree.fromstring(doc)
+        ns_tree = lxml.fromstring(doc)
         return etree.ElementTree(ns_tree)
 
     def get_validator(self):
@@ -124,7 +125,7 @@ class OnixMeta(_BaseMeta):
 
     @classmethod
     def from_file(cls, infile):
-        tree = etree.parse(infile)
+        tree = lxml.parse(infile)
         return cls.from_tree(tree)
 
     def get_ns_string(self):
