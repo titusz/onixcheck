@@ -6,7 +6,7 @@ import click
 import logging
 from onixcheck import validate
 from onixcheck.exeptions import get_logger
-from onixcheck.utils import iter_files, DEFAULT_EXTENSIONS
+from onixcheck.utils import iter_files
 
 log = get_logger()
 

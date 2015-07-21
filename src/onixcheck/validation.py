@@ -26,4 +26,4 @@ def validate(infile):
     errors = validator.error_log
     msg = Message.from_logentry
 
-    return [msg(e, filename)for e in errors]
+    return [msg(err, filename)for err in errors]
