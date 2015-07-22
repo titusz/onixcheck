@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 import os
 import sys
-import click
 import logging
-from onixcheck import validate
+from argparse import ArgumentParser, FileType
+from onixcheck import validate, __version__
 from onixcheck.exeptions import get_logger
 from onixcheck.utils import iter_files
 
@@ -13,66 +13,91 @@ DEFAULT_EXTENSIONS = ('xml', 'onx', 'onix')
 log = get_logger()
 
 
-@click.command()
-@click.argument('infile', type=click.File('rb'), required=False)
-@click.option('--path', '-p', type=click.Path(exists=True, resolve_path=True), help='Validate all files in path')
-@click.option('--ext', '-e', multiple=True, help='Extension to check (default: xml, onx, onix)')
-@click.option('--recursive', '-r', default=False, is_flag=True, help='Scan subdirectories in path')
-@click.option('--debug', '-d', is_flag=True, help='Show debug information')
-@click.version_option(prog_name='Onixcheck')
-def main(infile, path, ext, recursive, debug):
+def create_parser():
+    """Create a custom commandline parser.
+    :rtype ArgumentParser:
+    """
+    parser = ArgumentParser(
+        prog='onixcheck',
+        version=__version__,
+        description="Onixcheck v%s - Validate your metadata" % __version__
+    )
 
-    if debug:
+    # Arguments
+    parser.add_argument('infile', nargs='?', type=FileType(mode='rb'), help="Path to Onix file to validate")
+
+    # Options
+    parser.add_argument('-p', '--path', help="Path to folder with ONIX files for batch validation")
+    parser.add_argument('-e', '--ext', nargs='*', help="File Extensions to validate. Default: xml onx onix")
+    parser.add_argument('-r', '--recursive', action='store_true', help='Recurse into subfolders')
+    parser.add_argument('-d', '--debug', action="store_true", help='Show debug information')
+
+    # Defaults
+    parser.set_defaults(ext=DEFAULT_EXTENSIONS)
+    return parser
+
+
+def main(argv=None):
+    """Command line app main function.
+
+    :param list | None argv: Overrides command options (for libuse or testing)
+    """
+    parser = create_parser()
+
+    args = parser.parse_args() if argv is None else parser.parse_args(argv)
+
+    if args.debug:
         logging.basicConfig(
             level=logging.DEBUG,
             format='%(asctime)s - %(levelname)s - %(name)s - %(message)s'
         )
-        click.echo('DEBUG logging enabled')
+        print('DEBUG logging enabled')
 
+    log.debug('TYPE of path: %s' % type(args.path))
     # validate current working dir
-    if not infile and not path:
-        path = os.getcwdu()
-
-    ext = ext or DEFAULT_EXTENSIONS
+    if not args.infile and not args.path:
+        args.path = os.getcwdu()
+        log.debug('NEW TYPE of path: %s' % type(args.path))
 
     all_valid = True
 
-    if infile:
-        click.echo('Validating: %s' % click.format_filename(infile.name))
-        messages = validate(infile)
+    if args.infile:
+        log.debug('TYPE of infile.name: %s' % type(args.infile.name))
+        print('Validating: %s' % args.infile.name)
+        messages = validate(args.infile)
         is_valid = messages == []
         if is_valid:
-            click.echo('VALID - No errors found')
+            print('VALID - No errors found')
         else:
-            click.echo('INVALID - errors found:')
+            print('INVALID - errors found:', file=sys.stderr)
             all_valid = False
             for msg in messages:
-                    click.echo(msg)
+                print(msg, file=sys.stderr)
 
-    if path:
-        tree_or_dir = 'tree' if recursive else 'dir'
-        click.echo()
-        click.echo('Validating all files in %s %s' % (tree_or_dir, path))
+    if args.path:
+        tree_or_dir = 'tree' if args.recursive else 'dir'
+        print()
+        print('Validating all files in %s %s' % (tree_or_dir, args.path))
 
-        for onix_file_path in iter_files(path, ext, recursive):
-            click.echo()
-            click.echo('Validating: %s' % click.format_filename(onix_file_path))
+        for onix_file_path in iter_files(args.path, args.ext, args.recursive):
+            print()
+            print('Validating: %s' % onix_file_path)
             with open(onix_file_path, 'rb') as onix_file:
                 messages = validate(onix_file)
                 is_valid = messages == []
 
             if is_valid:
-                click.echo('VALID - No errors found')
+                print('VALID - No errors found')
             else:
-                click.echo('INVALID - errors found:')
+                print('INVALID - errors found:', file=sys.stderr)
                 all_valid = False
                 for msg in messages:
-                    click.echo(msg)
+                    print(msg, file=sys.stderr)
     if all_valid:
-        sys.exit(0)
+        return 0
     else:
-        sys.exit(1)
+        return 1
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

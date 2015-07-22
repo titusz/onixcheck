@@ -4,6 +4,7 @@ from __future__ import absolute_import, print_function
 
 import io
 import re
+import sys
 import platform
 from glob import glob
 from os.path import basename
@@ -22,10 +23,13 @@ def read(*names, **kwargs):
     ).read()
 
 
-dependencies = ['click', 'lxml', 'defusedxml']
+dependencies = ['lxml', 'defusedxml', 'Gooey']
+
 if platform.python_implementation() != 'PyPy':
     dependencies.append('scandir')
 
+if sys.version.startswith('2.6'):
+    dependencies.append('argparse')
 
 setup(
     name='onixcheck',
