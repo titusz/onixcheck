@@ -19,7 +19,6 @@ def create_parser():
     """
     parser = ArgumentParser(
         prog='onixcheck',
-        version=__version__,
         description="Onixcheck v%s - Validate your metadata" % __version__
     )
 
