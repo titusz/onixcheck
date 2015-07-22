@@ -51,7 +51,7 @@ def main(argv=None):
             level=logging.DEBUG,
             format='%(asctime)s - %(levelname)s - %(name)s - %(message)s'
         )
-        print('DEBUG logging enabled')
+        print('DEBUG logging enabled.')
 
     log.debug('TYPE of path: %s' % type(args.path))
     # validate current working dir
