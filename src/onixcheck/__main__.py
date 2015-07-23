@@ -71,7 +71,7 @@ def main(argv=None):
             print('INVALID - errors found:', file=sys.stderr)
             all_valid = False
             for msg in messages:
-                print(msg, file=sys.stderr)
+                print(msg.short, file=sys.stderr)
 
     if args.path:
         tree_or_dir = 'tree' if args.recursive else 'dir'
@@ -91,7 +91,7 @@ def main(argv=None):
                 print('INVALID - errors found:', file=sys.stderr)
                 all_valid = False
                 for msg in messages:
-                    print(msg, file=sys.stderr)
+                    print(msg.short, file=sys.stderr)
     if all_valid:
         return 0
     else:

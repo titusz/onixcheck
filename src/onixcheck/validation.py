@@ -13,7 +13,7 @@ def validate(infile):
     :return list: List Message objs (invalid onix) or empty list (valid onix)
     """
     if hasattr(infile, 'name'):
-        filename = infile.name
+        filename = basename(infile.name)
     else:
         filename = basename(infile)
 

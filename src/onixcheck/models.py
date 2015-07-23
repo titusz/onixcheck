@@ -147,6 +147,11 @@ class Message(_BaseMessage):
     def __str__(self):
         return ' | '.join(self._asdict().values())
 
+    @property
+    def short(self):
+        """Short string representation of message"""
+        return "{m.level} - {m.location} - {m.message}".format(m=self)
+
     @classmethod
     def from_logentry(cls, logentry, filename=''):
         """Instanciate ValidationError lxml LogEntry object
