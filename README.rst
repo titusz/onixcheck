@@ -76,8 +76,8 @@ Using onixcheck as a python lib
 
 Simple usage with `onixcheck.validate`::
 
-    >>> import onixcheck
-    >>> errors = onixcheck.validate('/somedir/onixfile.xml')
+    import onixcheck
+    errors = onixcheck.validate('/somedir/onixfile.xml')
 
 `errors` is either a list of `Message` objects
 (INVALID file) or an empty list (VALID file)
