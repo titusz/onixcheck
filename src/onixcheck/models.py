@@ -12,6 +12,11 @@ log = get_logger()
 
 
 class OnixFile(object):
+    """Convenience file object wrapper.
+
+    :param infile: File or path to file
+    :type infile: file or str
+    """
 
     def __init__(self, infile):
         self.infile = infile
@@ -23,7 +28,7 @@ class OnixFile(object):
         """
         Parse the infile with lxml and add the proper namespace if required.
 
-        :return ElementTree: An lxml ElementTree with proper namespace
+        :return etree.ElementTree: An lxml ElementTree with proper namespace
         """
         tree = lxml.parse(self.infile)
 
@@ -51,6 +56,8 @@ class OnixFile(object):
 
     def get_validator(self):
         """
+        Create a matching validator for the ONIX file.
+
         :return etree.XMLSchema:
         """
         return etree.XMLSchema(file=self.meta.get_schema_file())
@@ -75,9 +82,13 @@ class OnixMeta(_BaseMeta):
 
     """
 
+    #: ONIX Version 2.1
     V21 = '2.1'
+    #: ONIX Version 3.0
     V30 = '3.0'
+    #: Short notation
     SHORT = 'short'
+    #: Reference notation
     REFERENCE = 'reference'
 
     ONIX_VERSIONS = (V21, V30)
@@ -92,6 +103,12 @@ class OnixMeta(_BaseMeta):
 
     @classmethod
     def from_tree(cls, tree):
+        """
+        Construct OnixMeta from an ElementTree.
+
+        :param tree etree.ElementTree: LXML Parsed ONIX data
+        :return OnixMeta: Initialized OnixMeta instance
+        """
         root = tree.getroot()
 
         if root.tag.endswith('ONIXmessage'):
@@ -125,6 +142,13 @@ class OnixMeta(_BaseMeta):
 
     @classmethod
     def from_file(cls, infile):
+        """
+        Contruct OnixMeta from an infile.
+
+        :param infile: File or Path to file
+        :type infile: file or str
+        :return OnixMeta: Initialized OnixMeta instance
+        """
         tree = lxml.parse(infile)
         return cls.from_tree(tree)
 
@@ -143,6 +167,15 @@ _BaseMessage = namedtuple('Message', 'level validator location message error_typ
 
 
 class Message(_BaseMessage):
+    """
+    A Validation message representing a single error condition.
+
+    :param str level: Error level
+    :param str validator: The validator that raised the error
+    :param str location: Location of error (filename:line:column)
+    :param str message: Description of the error condiction
+    :param str error_type: Type of error
+    """
 
     def __str__(self):
         return ' | '.join(self._asdict().values())
@@ -154,7 +187,7 @@ class Message(_BaseMessage):
 
     @classmethod
     def from_logentry(cls, logentry, filename=''):
-        """Instanciate ValidationError lxml LogEntry object
+        """Instanciate Message from lxml LogEntry object
 
         :param _LogEntry logentry: Validatation error from LXML
         :param str filename: Optional filename to prefix error location

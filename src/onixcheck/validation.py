@@ -7,10 +7,12 @@ from onixcheck.models import OnixFile, Message
 
 
 def validate(infile):
-    """Validatate python file
+    """Validate an ONIX file.
 
-    :param file or path infile: File Obj or path to file
-    :return list: List Message objs (invalid onix) or empty list (valid onix)
+    :param infile: File or path to file
+    :type infile: file or str
+    :return: List of `Message` objects (invalid ONIX) or empty list (valid ONIX)
+    :rtype: list[Message]
     """
     if hasattr(infile, 'name'):
         filename = basename(infile.name)
