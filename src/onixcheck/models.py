@@ -4,8 +4,8 @@ import re
 from collections import namedtuple
 from defusedxml import lxml
 from lxml import etree
-from .exeptions import OnixError, get_logger
-from . import schema
+from onixcheck import schema
+from onixcheck.exeptions import OnixError, get_logger
 
 
 log = get_logger()
