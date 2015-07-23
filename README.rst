@@ -33,8 +33,8 @@ onixcheck
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/onixcheck
 
-ONIX validation library and commandline tool
-============================================
+ONIX validation library and command line tool
+=============================================
 
 `ONIX for Books <http://www.editeur.org/11/Books/>`_ is an international XML
 standard for the publishing and book trade industry. Onixcheck allows you
@@ -46,9 +46,13 @@ to validate ONIX versions 2.1 and 3.0 against the official XML Schema.
 Installation
 ============
 
-::
+On Windows you can download the standalone binary command line tool:
+`onixcheck-0.8.0_win.zip <https://github.com/titusz/onixcheck/releases/download/v0.8.0/onixcheck-0.8.0_win.zip>`_
+
+If you have Python or PyPy installed on your system you can do the usual::
 
     pip install onixcheck
+
 
 Quickstart
 ==========
