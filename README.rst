@@ -71,6 +71,11 @@ Validate all .xml files in /onixdata and its subdirectories::
     onixcheck --path /onixdata --ext xml --recursive
 
 
+Show help::
+
+    onixcheck -h
+
+
 Using onixcheck as a python lib
 -------------------------------
 
