@@ -33,7 +33,7 @@ if sys.version.startswith('2.6'):
 
 setup(
     name='onixcheck',
-    version='0.6.0',
+    version='0.7.0',
     license='BSD',
     description='ONIX validation library and commandline tool',
     long_description='%s\n%s' % (read('README.rst'), re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))),
