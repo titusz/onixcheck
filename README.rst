@@ -53,15 +53,34 @@ Installation
 Quickstart
 ==========
 
-Command line usage::
+Command line usage examples
+---------------------------
+
+Validate all .xml, .onx, .onix files in current directory::
+
+    onixcheck
+
+
+Validate a single onix file::
 
     onixcheck myonixfile.xml
 
-Libary usage::
 
-    import onixcheck
+Validate all .xml files in /onixdata and its subdirectories::
 
-    errors = onixcheck.validate('/somedir/onixfile.xml')
+    onixcheck --path /onixdata --ext xml --recursive
+
+
+Using onixcheck as a python lib
+-------------------------------
+
+Simple usage with `onixcheck.validate`::
+
+    >>> import onixcheck
+    >>> errors = onixcheck.validate('/somedir/onixfile.xml')
+
+`errors` is either a list of `Message` objects
+(INVALID file) or an empty list (VALID file)
 
 Documentation
 =============
