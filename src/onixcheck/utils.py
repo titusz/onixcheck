@@ -27,7 +27,8 @@ def iter_files(root, exts=None, recursive=False):
     if exts is not None:
         exts = set((x.lower() for x in exts))
 
-    matches = lambda e: (exts is None) or (e in exts)
+    def matches(e):
+        return (exts is None) or (e in exts)
 
     if recursive is False:
         for entry in scandir(root):
