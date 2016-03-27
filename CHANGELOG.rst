@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.8.2 (2016-03-27)
+------------------
+
+* Added Python 3.5 testing / support
+* Update to ONIX to Code List Issue 32 / 2016-01-24
+
 0.8.1 (2015-07-23)
 ------------------
 
