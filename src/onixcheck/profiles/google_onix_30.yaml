@@ -1,0 +1,1002 @@
+#% ONIXFIX 0.1
+
+name: ONIX 3.0 for Google Play Books validation profile
+documentation: https://support.google.com/books/partner/answer/6374180?hl=en&ref_topic=3273107
+xml_encoding: 'UTF-8'
+onix_version: '3.0'
+onix_style: 'reference'
+
+
+//Header:
+    description: This tag encloses the below information about your file.
+    required: true
+    multiple: false
+
+    /Sender:
+        description: Information about the entity sending the file.
+        required: true
+        multiple: false
+
+        /SenderName:
+            description: The name of the entity sending the file.
+            required: true
+            multiple: false
+
+        /ContactName:
+            description: Name of contact person at sending entity.
+            required: false
+            multiple: false
+            recommended: true
+
+        /EmailAddress:
+            description: Email address of contact at sending entity.
+            required: false
+            multiple: false
+            recommended: true
+
+    /Addressee:
+        description: Information about the entity to which the ONIX file is being sent.
+        required: false
+
+        /AddresseeName:
+            description: Name of the entity to which the ONIX file is being sent.
+            required: true
+
+    /SentDateTime:
+        description: \
+            Specifies the date and time when the file is being sent -- this field
+            is used to apply the most recent metadata update to your book. Must
+            include year, month and day. May optionally include hour (on a
+            24-hour clock), minutes, and seconds, which is recommended when
+            sending more than one file per date.
+        required: true
+        multiple: false
+
+    /DefaultCurrencyCode:
+        description: \
+            Specifies the currency to use for <Price> composites when currency
+            isn't otherwise supplied. Please see the section on ONIX in the
+            article "Currency conversion for books on Google Play" for full
+            details on how to supply prices in different currencies with ONIX.
+            Fixed-length text -- 3-letter ISO 4217 currency code from Code List 96
+        required: false
+        multiple: false
+        length: 3
+
+//Product:
+    description: \
+        Required for each book in the file; at least one <Product> tag should
+        be included per file.
+    required: true
+    multiple: true
+
+    /RecordReference:
+        description: \
+            The Record Reference is a unique, permanent identifier not for the
+            Product itself, but rather for the information record about the
+            Product. The Record Reference is used to match up with previously
+            received Product records.
+        required: true
+        multiple: false
+
+
+    /NotificationType:
+        description: \
+            The type of notification being provided for the product.
+            Providing a value of 05 will deactivate the book in Google Play and
+            Google Book Search.
+            Required exactly once for each product record.
+        required: true
+        multiple: false
+        choice:
+            - '01' # Early notification
+            - '02' # Advance notification - confirmed
+            - '03' # Notification confirmed on publication
+            - '05' # Delete
+
+    /ProductIdentifier:
+        description: \
+            Required at least once for each <Product> or <RelatedProduct> composite.
+        required: true
+        multiple: true
+
+        /ProductIDType:
+            description: \
+                ONIX code specifying the Product Identifier type provided.
+                Required exactly once per <ProductIdentifier> composite.
+                Where possible, Google recommends using
+                <ProductIDType>15</ProductIDType>, and providing the product's
+                eISBN-13 value as the ID Value.
+            required: true
+            multiple: false
+            choice:
+                - '02' # ISBN-10
+                - '03' # EAN-13 / GTIN-13 (must be an ISBN)
+                - '04' # UPC (must be an ISBN)
+                - '15' # ISBN-13
+
+        /IDValue:
+            description: \
+                Required exactly once per <ProductIdentifier> composite.
+            required: true
+            multiple: false
+            type: isbn
+
+    /DescriptiveDetail:
+        description: \
+            Describes the product form and metadata such as title, content
+            description, and authorship.
+            Required exactly once per <Product> composite.
+        required: true
+        multiple: false
+
+        /ProductComposition:
+            description: \
+                Indicates when the product is composed of a single or multiple items.
+                Required exactly once per <DescriptiveDetail> composite.
+            required: true
+            multiple: false
+            choice:
+                - '00' # Single-item retail product
+                - '10' # Multiple-item retail product
+
+        /ProductForm:
+            description: \
+                Indicates the primary form of the book. Required exactly once
+                per <DescriptiveDetail> composite. If the <ProductForm> is not
+                one of EA, EB, EC, ED, the record will not be used to create an
+                entry in the Partner Center, and its prices will not be ingested.
+            required: true
+            multiple: false
+            choice:
+                - 'EA' # Digital (delivered electronically)
+                - 'EB' # Digital download and online
+                - 'EC' # Digital online
+                - 'ED' # Digital download
+
+        /ProductFormDetail:
+            description: \
+                Specifies the ebook format.
+                Required when specifying a digital <ProductForm> such as ED
+            required: false
+            recommended: true
+            choice:
+                - 'E101' # EPUB
+                - 'E102' # OEB
+                - 'E107' # PDF
+                - 'E133' # Google Edition
+
+        /TitleDetail:
+            description: \
+                This repeatable tag encloses the title information about your book.
+                Required at least once for each <DescriptiveDetail> composite.
+            required: true
+            multiple: true
+
+            # TODO validate at least one TitleType with '01'
+            /TitleType:
+                description: \
+                    Indicates the type of the title.
+                    Type 01 is required for each book in the file; other
+                    additional types (specified in separate instances of
+                    <TitleDetail> are optional.
+                required: true
+                multiple: false
+
+            /TitleElement:
+                description: \
+                    A repeatable group of elements representing the title element.
+                    Required at least once for each <TitleDetail> composite.
+                required: true
+                multiple: true
+
+                /TitleElementLevel:
+                    description: \
+                        The level of the title element. <TitleElement>
+                        composities with <TitleElementLevel> of 02 will be
+                        considered the series name.
+                        Required exactly once per <TitleElement> composite.
+                    required: true
+                    multiple: false
+                    choice:
+                        - '01' # Product
+                        - '02' # Collection level
+                        - '03' # Subcollection
+
+                /TitleText:
+                    description: \
+                        The text of the title itself.
+                        Required exactly once for each <TitleElement> composite.
+                    required: true
+                    multiple: false
+
+        /Contributor:
+            description: \
+                This repeatable composite tag encloses the contributor (author)
+                information about your book.  Required at least once for each
+                <DescriptiveDetail> composite.
+            required: true
+            multiple: true
+
+            /SequenceNumber:
+                description: \
+                    Used to determine the preferred order for displaying
+                    contributors. Required if more than one contributor
+                    provided in the same <DescriptiveDetail> composite.
+                required: false
+                multiple: false
+                recommended: true
+
+            /ContributorRole:
+                description: \
+                    Repeatable tag describing the role of the contributor.
+                    Type A01 is required for each book in the file; any other
+                    additional types are optional and may be displayed on Book
+                    detail pages. Authors are surfaced on the Google Play Store
+                    book detail page and other contributor types are displayed
+                    on the Google Books Search detail page.
+                    Required at least once for each <Contributor> composite.
+                required: true
+                multiple: true
+                choice:
+                    - 'A01' # By (author)
+                    - 'A02' # With
+                    - 'A08' # By (photographer)
+                    - 'A09' # Created by
+                    - 'A12' # Illustrated by
+                    - 'A13' # Photographs by
+                    - 'A14' # Text by
+                    - 'A15' # Preface by
+                    - 'A16' # Prologue by
+                    - 'A19' # Afterword by
+                    - 'A20' # Notes by
+                    - 'A21' # Commentaries by
+                    - 'A23' # Foreword by
+                    - 'A24' # Introduction by
+                    - 'A32' # Contributions by
+                    - 'A38' # Original author
+                    - 'A99' # Other primary creator
+                    - 'B01' # Edited by
+                    - 'B03' # Retold by
+                    - 'B04' # Abridged by
+                    - 'B05' # Adapted by
+                    - 'B06' # Translated by
+                    - 'B07' # As told by
+                    - 'B08' # Translated with commentary by
+                    - 'B09' # Series edited by
+                    - 'B11' # Editor-in-chief
+                    - 'B13' # Volume editor
+                    - 'B20' # Consultant editor
+                    - 'C01' # Compiled by
+            /PersonName:
+                description: \
+                    The name of the person who is a contributor.
+                    Required exactly once per <Contributor> composite
+                required: true
+                multiple: false
+
+            /BiographicalNote:
+                description: \
+                    Biographical note about a contributor.
+                    Recommended. Repeatable if the same biographical note is
+                    provided in multiple languages, specified by the language
+                    attribute.
+                required: false
+                multiple: true
+                recommended: true
+
+        /EditionType:
+            description: \
+                Type of edition or version; repeatable if multiple values apply.
+                Recommended if one of the values applies.
+            required: false
+            multiple: true
+            choice:
+                - 'ABR' # Abridged
+                - 'ANN' # Annotated
+                - 'BRL' # Braille
+                - 'DGO' # Digital original
+                - 'ENH' # Enhanced
+                - 'ILL' # Illustrated
+                - 'FAC' # Facsimile
+                - 'LTE' # Large type / Large print
+                - 'REV' # Revised
+                - 'UBR' # Unabridged
+
+        /Language:
+            description: \
+                Specifies the language of the text or, for translations, the
+                language of the original work.
+                Recommended for non-English books.
+            required: false
+            multiple: true
+            recommended: true
+
+            /LanguageRole:
+                description: \
+                    Required exactly once per <Language> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '01' # Language of text
+                    - '02' # Original language of a translated text
+
+            # TODO Add ISO 639-2/B validation
+            /LanguageCode:
+                description: \
+                    ISO code indicating the language.
+                    Required exactly once per <Language> composite.
+                    For acceptable values, see Code List 74 (ISO 639-2/B)
+                required: true
+                multiple: false
+
+        /Extent:
+            description: Used to supply the number of pages.
+            required: false
+            recommended: true
+
+            /ExtentTypeCode:
+                description: \
+                    Specifies the extent type.
+                     Required exactly once per <Extent> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '00' # Main content page count
+                    - '08' # Number of pages in print counterpart
+                    - '10' # Notional number of pages in digital product
+
+            /ExtentValue:
+                description: \
+                    The number of pages for this Extent Type Code.
+                    Required exactly once per <Extent> composite.
+                required: true
+                multiple: false
+                type: int
+
+            /ExtentUnit:
+                description: \
+                    Unit used for <ExtentValue>.
+                    Required exactly once per <Extent> composite.
+                required: true
+                multiple: false
+                content: '03'
+
+        /Subject:
+            description: \
+                This repeatable composite tag encloses the following subject
+                information about your book.
+            required: false
+            multiple: true
+            recommended: true
+
+            /MainSubject:
+                description: \
+                    An empty element that identifies the main subject category.
+                    Recommended for the main subject when multiple instances of
+                    <Subject> with the same subject scheme are present.
+                required: false
+
+            /SubjectSchemeIdentifier:
+                description: \
+                    The subject scheme used.
+                    Required exactly once per <Subject> composite.
+                required: true
+                multiple: false
+                choice:
+                    # The primary subject codes used on Google Play are:
+                    - '01' # Dewey
+                    - '03' # LC classification
+                    - '04' # LC subject heading
+                    - '09' # UDC
+                    - '10' # BISAC Subject Heading
+                    - '12' # BIC subject category
+                    - '13' # BIC geographical qualifier
+                    - '14' # BIC language qualifier (language as subject)
+                    - '15' # BIC time period qualifier
+                    - '16' # BIC educational purpose qualifier
+                    - '26' # Warengruppen-Systematik des deutschen Buchhandels
+                    - '29' # CLIL
+                    - '40' # Nippon Decimal Classification
+                    - '78' # Japanese book trade C-Code
+                    # Additional values which can be sent are:
+                    # - '23' # Publisher's own category code
+                    # - '24' # Proprietary subject scheme
+                    # - '33' # ECPA Christian Book Category
+                    # - '53' # Soggetto CCE
+                    # - '54' # Qualificatore geografico CCE
+                    # - '55' # Qualificatore di lingua CCE
+                    # - '56' # Qualificatore di periodo storico CCE
+                    # - '57' # Qualificatore di livello scolastico CCE
+
+            # TODO Subject Code Validation
+            /SubjectCode:
+                description: \
+                    The subject or genre of the book.
+                    Required exactly once per <Subject> composite.
+                required: true
+                multiple: false
+
+        /Audience:
+            description: \
+                Repeatable composite tag about the intended audience of the book.
+            required: false
+            multiple: true
+            recommended: true
+
+            /AudienceCodeType:
+                description: \
+                    Identifies the scheme used for specifying the audience.
+                    Required exactly once per <Audience> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '01' # ONIX audience codes
+
+            /AudienceCodeValue:
+                description: \
+                    Specifies the audience, according to the scheme in
+                    <AudienceCodeType>
+                    Required exactly once per <Audience> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '01' # General/trade
+                    - '02' # Children/juvenile
+                    - '03' # Young adult
+                    - '04' # Primary and secondary/elementary and high school
+                    - '05' # College/higher education
+                    - '06' # Professional and scholarly
+                    - '07' # ELT/ESL
+                    - '08' # Adult education
+
+            /AudienceRange:
+                description: \
+                    Composite describing the audience or readership range.
+                required: false
+                recommended: true
+
+                /AudienceRangeQualifier:
+                    description: \
+                        ONIX code specifying how <AudienceRange> is measured
+                        (e.g., by age, by school grade, etc.).
+                        Required exactly once per <AudienceRange> composite.
+                    required: true
+                    multiple: false
+                    choice:
+                        - '11' # US School Grade Range
+                        - '12' # UK School Grade Range
+                        - '17' # Interest Age Range
+                        - '18' # Reading Age Range
+                        - '26' # Canadian School Grade Range
+
+                /AudienceRangePrecision:
+                    description: \
+                        The precision of the value specified in the following
+                        <AudienceRangeValue>.
+                        Required at least once per <AudienceRange> composite.
+                        second occurrence is allowed if the <AudienceRange>
+                        contains a From value and a To value
+                    required: true
+                    multiple: true
+                    choice:
+                        - '01' # Exact
+                        - '03' # From
+                        - '04' # To
+
+                /AudienceRangeValue:
+                    description: \
+                        Value of the range of specified in the <AudienceRange>
+                        composite.  Required at least once per <AudienceRange>
+                        composite. A second occurrence is allowed if the
+                        <AudienceRange> contains a From value and a To value.
+                    required: true
+                    multiple: true
+                    type: int
+                    example: \
+                        <AudienceRange>
+                          <!-- Specify that this is an interest-based age range -->
+                          <AudienceRangeQualifier>17</AudienceRangeQualifier>
+
+                          <!-- Provide the lower end of the range ("From") -->
+                          <AudienceRangePrecision>03</AudienceRangePrecision>
+                          <AudienceRangeValue>8</AudienceRangeValue>
+
+                          <!-- Provide the upper end of the range ("To") -->
+                          <AudienceRangePrecision>04</AudienceRangePrecision>
+                          <AudienceRangeValue>12</AudienceRangeValue>
+                        </AudienceRange>
+
+    /CollateralDetail:
+        description: \
+            Provides additional marketing material for the book, including
+            summary, description, review quotes, etc.
+            Partly replaces <OtherText> in ONIX 2.1.
+        required: false
+        multiple: false
+        recommended: true
+
+        /TextContent:
+            description: \
+                Repeatable group describing a piece of textual content which
+                provides additional marketing details about the book.
+                For book descriptions, Google recommends providing a
+                <TextContent> composite with <TextType> of 02 or 03 for each
+                book. Only one description is displayed if more than one is
+                provided, prioritizing 03 (Description) over
+                02 (Short description/annotation).
+
+                Google also recommends providing a <TextContent> composite
+                with <TextType> of 12 (Biographical note) for each book.
+            required: false
+            multiple: true
+
+            /TextType:
+                description: \
+                    ONIX code specifying what type of text is provided.
+                    Required exactly once per <TextContent> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '02' # Short description/annotation
+                    - '03' # Description
+                    - '04' # Table of contents
+                    - '05' # Flap / cover copy
+                    - '06' # Review quote
+                    - '09' # Endorsement
+                    - '12' # Biographical note (attached to book, will show in Partner Center at book level)
+
+            /ContentAudience:
+                description: \
+                    ONIX code specifying the intended audience for the text.
+                    Required at least once per <TextContent> composite.
+                required: true
+                multiple: true
+                choice:
+                    - '00' # unrestricted
+
+            /Text:
+                description: \
+                    Actual text for <TextContent> composite.
+                    Required at least once for each <TextContent> composite.
+                    Repeatable when the same text is provided in multiple
+                    languages, specified by the language attribute
+                    (see Code List 74, ISO 639-2/B for language codes).
+                required: true
+                multiple: true
+
+            # TODO Optional TextAuthor, SourceTitle, ContentDate
+
+        /ContentDetail:
+            description: \
+                Used to describe chapters or other parts in a structured way.
+            required: false
+            recommended: true
+
+            /ContentItem:
+                description: \
+                    Repeatable element for each item within <ContentDetail>.
+                    Required at least once for each <ContentDetail> composite.
+                required: true
+                multiple: true
+
+                /TextItem:
+                    description: \
+                        Composite containing information for the text item.
+                        Required exactly once for each <ContentItem> composite.
+                    required: true
+                    multiple: false
+
+                    /TextItemType:
+                        description: \
+                            Required exactly once for each <TextItem> composite.
+                        required: true
+                        multiple: false
+                        choice:
+                            - '03' # Body matter
+
+                    /NumberOfPages:
+                        description: \
+                            The number of pages of text described by the
+                            enclosing <TextItem>. Optional; up to one per
+                            <TextItem> composite.
+                            Not the number of pages of the book. To specify the
+                            number of pages of the book, use <Extent>
+                        required: false
+                        multiple: false
+                        type: int
+
+    # TODO support required if ...
+    /PublishingDetail:
+        description: \
+            Composite containing publisher, imprint, and publishing status
+            details. Required for <NotificationType> values 01, 02, and 03.
+        required: true
+        multiple: false
+
+        /Imprint:
+            description: Repeatable group which carries the imprint name.
+            required: false
+            recommended: true
+            multiple: true
+
+            /ImprintName:
+                description: Required exactly once per <Imprint>.
+                required: true
+                multiple: false
+
+        /Publisher:
+            description: \
+                Repeatable group describing the entity acting as publisher for
+                this book.
+            required: false
+            multiple: true
+            recommended: true
+
+            /PublishingRole:
+                description: \
+                    ONIX code identifying the publisher's role.
+                    Required exactly once per <Publisher> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '01' #  Publisher
+
+            /PublisherName:
+                description: \
+                    Name of the publishing entity.
+                    Required eactly once per <Publisher> composite.
+                required: true
+                multiple: false
+
+        /PublishingStatus:
+            description: \
+                Denotes publishing status, not product availability; supplies
+                the global status, irrespective of geographical market.
+                When the book goes on sale is controlled by the
+                <PublishingDate> inside a <PublishingDetail> composite or a
+                territory-specific <MarketPublishingDetail> composite, rather
+                than the publishing status.
+                Required when not sending separate publishing statuses per
+                market region.
+            required: false
+            recommended: true
+            multiple: false
+            choice:
+                - '00' # Unspecified (no effect)
+                - '01' # Cancelled
+                - '02' # Forthcoming
+                - '03' # Postponed indefinitely
+                - '04' # Active
+                - '05' # No longer our product
+                - '06' # Out of stock indefinitely
+                - '07' # Out of print
+                - '08' # Inactive
+                - '09' # Unknown (no effect)
+                - '10' # Remaindered
+                - '11' # Withdrawn from sale
+
+        /PublishingDate:
+            description: \
+                Global date of publication.
+                A <PublishingDate> composite with at least <PublishingDateRole>
+                value of 01 is required. Additional market-specific publishing
+                dates can be specified in <MarketPublishingDetail>.
+            required: true
+            multiple: true
+
+            /PublishingDateRole:
+                description: \
+                    ONIX code indicating what type of publishing date is provided.
+                    Use a <PublishingDate> composite with a <PublishingDateRole>
+                    with a value of 02 (Embargo Date) to prevent your book from
+                    going on sale until the day specified in the enclosed <Date>.
+                required: true
+                multiple: false
+                choice:
+                    - '01' # Publishing Date
+                    - '02' # Embargo Date
+                example: \
+                    To prevent your book from going on sale until January 1st,
+                    2016 in any market, specify a publishing date and an embargo
+                    date.
+                    <PublishingDate>
+                       <PublishingDateRole>01</PublishingDateRole>
+                       <Date dateformat="00">20151201</Date>
+                    </PublishingDate>
+                    <PublishingDate>
+                       <PublishingDateRole>02</PublishingDateRole>
+                       <Date dateformat="00">20160101</Date>
+                    </PublishingDate>
+            # TODO validate onix conforming date type
+            /Date:
+                description: \
+                    The date specified in <PublishingDateRole>.
+                     Required exactly once per <PublishingDate> composite.
+                required: true
+                multiple: false
+
+        /SalesRights:
+            description: \
+                Repeatable group specifying sales rights per territory.
+                Required for a book to be available for sale on the Google Play
+                store.
+            required: true
+            multiple: true
+
+            /SalesRightsType:
+                description: \
+                    ONIX code indicating the type of sales rights being described.
+                    Required exactly once per <SalesRights> composite.
+                required: true
+                multiple: false
+                choice:
+                    - '01' # For sale with exclusive rights in the specified countries or territories
+                    - '02' # For sale with non-exclusive rights in the specified countries or territories
+                    - '03' # Not for sale in the specified countries or territories (reason unspecified)
+                    - '04' # Not for sale in the specified countries (but publisher holds exclusive rights in those countries or territories)
+                    - '05' # Not for sale in the specified countries (publisher holds non-exclusive rights in those countries or territories)
+                    - '06' # Not for sale in the specified countries (because publisher does not hold rights in those countries or territories)
+
+            /Territory:
+                description: \
+                    Group describing the territory for which sales rights are
+                    being specified. Required exactly once per <SalesRights>
+                    composite.
+                required: true
+                multiple: false
+                requires_one_of: ['CountriesIncluded', 'RegionsIncluded']
+
+                /CountriesIncluded:
+                    description: \
+                        List of countries included in this territory;
+                        successive countries should be separated by spaces.
+                        Either <CountriesIncluded> or <RegionsIncluded> is
+                        required exactly once per <Territory> composite.
+                        Two-letter ISO 3166-1 country codes
+                    multiple: false
+
+                /RegionsIncluded:
+                    description: \
+                        List of regions included in territory; successive
+                        regions should be separated by spaces Either
+                        <CountriesIncluded> or <RegionsIncluded> is required
+                        exactly once per <Territory> composite.
+                    multiple: false
+
+                # TODO Optional CountriesExcluded, RegionsExcluded, ROWSalesRightsType
+
+    /RelatedMaterial:
+        description: \
+            Provides references to related products (e.g. the print version of
+            a digital book). Non-repeatable.
+        required: false
+        multiple: false
+        recommended: true
+
+        /RelatedProduct:
+            description: \
+                Repeatable group which describes a single related product.
+            required: false
+            multiple: true
+            recommended: true
+
+            /ProductRelationCode:
+                description: \
+                    Repeatable ONIX code which specifies how the product is related.
+                required: true
+                multiple: true
+                choice:
+                    - '01' # Includes
+                    - '02' # Is part of
+                    - '03' # Replaces
+                    - '05' # Replaced by
+                    - '06' # Alternative format
+                    - '11' # Is other-language version of
+                    - '13' # Epublication based on (print product)
+                    - '14' # Epublication is distributed as
+                    - '15' # Epublication is a rendering of
+                    - '27' # Electronic version available as
+
+            /ProductIdentifier:
+                description: \
+                    Required at least once for each <Product> or
+                    <RelatedProduct> composite.
+                required: true
+                multiple: true
+
+                /ProductIDType:
+                    description: \
+                        ONIX code specifying the Product Identifier type provided.
+                        Where possible, Google recommends using
+                        <ProductIDType>15</ProductIDType>, and providing the
+                        product's eISBN-13 value as the ID Value.
+                    required: true
+                    multiple: false
+                    choice:
+                        - '02' # ISBN-10
+                        - '03' # EAN-13 / GTIN-13 (must be an ISBN)
+                        - '04' # UPC (must be an ISBN)
+                        - '15' # ISBN-13
+                /IDValue:
+                    description: \
+                        Required exactly once per <ProductIdentifier> composite.
+                    required: true
+                    multiple: false
+                    type: isbn
+
+
+            # TODO optional ProductForm, ProductFormDetail
+
+    /ProductSupply:
+        description:
+            Specifies product supply details per market.
+        required: true
+        multiple: true
+
+        /Market:
+            description:
+                Specifies the geographical territory where the product supply
+                details apply.
+            required: true
+            multiple: true
+
+            /Territory:
+                description: \
+                    Group describing the territory for which sales rights are
+                    being specified. Required exactly once per <SalesRights>
+                    composite.
+                required: true
+                multiple: false
+                requires_one_of: ['CountriesIncluded', 'RegionsIncluded']
+
+                /CountriesIncluded:
+                    multiple: false
+
+                /RegionsIncluded:
+                    multiple: false
+
+        /SupplyDetail:
+            description: \
+                Repeatable composite containing information about a product's
+                supply, source, availability, and price.
+                Required at least once per <ProductSupply> composite.
+            required: true
+            multiple: true
+            requires_one_of: ['Price', 'UnpricedItemType']
+
+            /Supplier:
+                description: \
+                    Information about the supplier.
+                    Required at least once per <SupplyDetail>.
+                required: true
+                multiple: true
+
+                /SupplierRole:
+                    description: \
+                        ONIX code specifying the role that the supplier plays.
+                        Required exactly once per <Supplier> composite.
+                    required: true
+                    multiple: false
+                    choice:
+                        - '00' # Unspecified
+                        - '01' # Publisher to retailers
+                        - '02' # Publisher's exclusive distributor to retailers
+                        - '03' # Publisher's non-exclusive distributor to retailers
+                        - '04' # Wholesaler
+                        - '05' # Sales agent
+                        - '06' # Publisher's distributor to retailers
+                        - '07' # POD supplier
+                        - '08' # Retailer
+                        - '09' # Publisher to end-customers
+                        - '10' # Exclusive distributor to end-customers
+                        - '11' # Non-exclusive distributor to end-customers
+                        - '12' # Distributor to end-customers
+
+                /SupplierName:
+                    required: true
+                    multiple: false
+
+            /ProductAvailability:
+                description: \
+                    ONIX code specifying the product availability from the supplier.
+                required: true
+                multiple: false
+                choice:
+                    - '01' # Cancelled
+                    - '10' # Not yet available
+                    - '11' # Awaiting stock
+                    - '12' # Not yet available, will be POD
+                    - '20' # Available
+                    - '21' # In stock
+                    - '22' # To order
+                    - '23' # POD
+                    - '30' # Temporarily unavailable
+                    - '31' # Out of stock
+                    - '32' # Reprinting
+                    - '33' # Awaiting reissue
+                    - '40' # Not available (reason unspecified)
+                    - '41' # Not available, replaced by new product
+                    - '42' # Not available, other format available
+                    - '43' # No longer supplied by us
+                    - '44' # Apply direct
+                    - '45' # Not sold separately
+                    - '46' # Withdrawn from sale
+                    - '47' # Remaindered
+                    - '48' # Not available, replaced by POD
+
+            # TODO optional SupplyDate
+
+            /Price:
+                description: \
+                    Specifies a unit price; required for a book to be available
+                    for sale. See our article on currency conversion for help
+                    with prices and currencies. Each <SupplyDetail> must contain
+                    either one or more <Price>  composites or a single
+                    <UnpricedItemType> tag.
+                multiple: true
+
+                /PriceType:
+                    description: \
+                        Required exactly once per <Price> composite.
+                        The <PriceType> value provided for a given country or
+                        territory should match the sales territory setting that
+                        you provided for that same country or territory, in the
+                        Payment Center of your account.
+                        If you have multiple sales territory settings in your
+                        Payment Center (e.g., a sales territory with the default
+                        retail-recommended price setting, and another sales
+                        territory with a fixed-price setting), you'll need to
+                        provide separate price composites matching these
+                        settings (see example). In case of mismatch, your books
+                        won't be live in that given country or territory.
+                    required: true
+                    multiple: false
+                    choice:
+                        - '01' # RRP excluding tax
+                        - '02' # RRP including tax
+                        - '03' # Fixed retail price excluding tax
+                        - '04' # Fixed retail price including tax
+                        - '41' # Publishers retail price excluding tax
+                        - '42' # Publishers retail price including tax
+
+                /PriceTypeQualifier:
+                    description: \
+                        Specify additional information about the price type.
+                    required: false
+                    choice:
+                        - '00' # Unqualified price
+                        - '05' # Consumer price
+
+                /PriceAmount:
+                    description: \
+                        Amount in specified currency; do not specify a price of 0.00.
+                        Required exactly once per <Price>.
+                    required: true
+                    multiple: false
+                    type: decimal
+                    example: \
+                        <PriceAmount>3.99</PriceAmount>
+
+                /CurrencyCode:
+                    description: \
+                        Specifies the currency for which <PriceAmount> is supplied.
+                        Required exactly once per <Price> composite, unless
+                        <DefaultCurrencyCode> is supplied.
+                        Fixed-length text -- 3-letter ISO 4217 currency code
+                        from Code List 96
+                    required: true
+                    multiple: false
+                    length: 3
+
+                /Territory:
+                    required: true
+                    requires_one_of: ['CountriesIncluded', 'RegionsIncluded']
+
+                    /CountriesIncluded:
+                        multiple: false
+
+                    /RegionsIncluded:
+                        multiple: false
+
+                # TODO optional PriceDate
