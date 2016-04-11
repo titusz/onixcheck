@@ -14,10 +14,22 @@ class OnixFix(object):
     """
     Validates Onix xml against custom yaml based subspecifications and
     provides usefull error and warning messages.
+
+    :param onixfile: File obj with onix data or path to onix file
+    :type onixfile: file or str
+    :param profile: Path to yaml profile
+    :type profile: str
     """
 
-    def __init__(self, onixfile, specfile):
-        self.basename = basename(onixfile)
+    def __init__(self, onixfile, profile):
+        if hasattr(onixfile, 'name'):
+            self.basename = basename(onixfile.name)
+        else:
+            self.basename = basename(onixfile)
+
+        if hasattr(onixfile, 'seek'):
+            onixfile.seek(0)
+
         self._onix_file = OnixFile(onixfile)
         self.onix = self._onix_file.xml_tree().getroot()
 
@@ -30,9 +42,9 @@ class OnixFix(object):
                 elem.tag = elem.tag[i + 1:]
         objectify.deannotate(self.onix, cleanup_namespaces=True)
 
-        self.spec = yaml.load(open(specfile, 'rb'))
+        self.spec = yaml.load(open(profile, 'rb'))
 
-        name, ext = splitext(basename(specfile))
+        name, ext = splitext(basename(profile))
         self.name = name.upper()
         self.urls_checked = set()
         self.errors = []

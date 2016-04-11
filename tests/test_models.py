@@ -6,6 +6,19 @@ from lxml import etree
 import pytest
 
 
+def test_onix_file_with_path():
+    ofile = OnixFile(data.VALID_ONIX3_REF)
+    assert isinstance(ofile, OnixFile)
+    assert isinstance(ofile.xml_tree(), etree._ElementTree)
+
+
+def test_onix_file_with_file_obj():
+    with open(data.VALID_ONIX3_REF, 'rb') as infile:
+        ofile = OnixFile(infile)
+        assert isinstance(ofile.xml_tree(), etree._ElementTree)
+    assert isinstance(ofile, OnixFile)
+
+
 def test_onix_meta_reference():
     meta = OnixMeta.from_file(data.VALID_ONIX3_REF)
     assert meta.xml_version == '1.0'
@@ -56,4 +69,3 @@ def test_onix_meta_from_tree_no_release():
     tree = etree.parse(data.VALID_GOOGLE_SAMPLE)
     meta = OnixMeta.from_tree(tree)
     assert meta.onix_version == OnixMeta.V21
-

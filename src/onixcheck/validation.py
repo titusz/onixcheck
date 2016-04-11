@@ -4,15 +4,18 @@ from os.path import basename
 from lxml.etree import XMLSyntaxError
 from onixcheck.exeptions import OnixError
 from onixcheck.models import OnixFile, Message
+from onixcheck.onixfix import OnixFix
 
 
-def validate(infile):
+def validate(infile, profiles=tuple()):
     """Validate an ONIX file.
 
     :param infile: File or path to file
     :type infile: file or str
     :return: List of `Message` objects (invalid ONIX) or empty list (valid ONIX)
     :rtype: list[Message]
+    :param profiles: List with custom valdation profiles
+    :rtype: list[str]
     """
     if hasattr(infile, 'name'):
         filename = basename(infile.name)
@@ -29,4 +32,11 @@ def validate(infile):
     errors = validator.error_log
     msg = Message.from_logentry
 
-    return [msg(err, filename)for err in errors]
+    messages = [msg(err, filename) for err in errors]
+
+    for profile in profiles:
+        profile_validator = OnixFix(infile, profile)
+        profile_validator.validate()
+        messages.extend(profile_validator.errors)
+
+    return messages
