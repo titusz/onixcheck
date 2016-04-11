@@ -31,12 +31,12 @@ VSVersionInfo(
         u'040904b0',
         [StringStruct(u'CompanyName', u'Craft AG http://craft.de'),
         StringStruct(u'FileDescription', u'Validate ONIX for Books XML files'),
-        StringStruct(u'FileVersion', u'0.9.1 (2016-04-14)'),
+        StringStruct(u'FileVersion', u'0.9.2 (2016-04-14)'),
         StringStruct(u'InternalName', u'onixcheck.exe'),
         StringStruct(u'LegalCopyright', u'© 2016 Titusz Pan'),
         StringStruct(u'OriginalFilename', u'onixcheck.exe'),
         StringStruct(u'ProductName', u'onixcheck'),
-        StringStruct(u'ProductVersion', u'0.9.1 (2016-04-14)')])
+        StringStruct(u'ProductVersion', u'0.9.2 (2016-04-14)')])
       ]),
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]
