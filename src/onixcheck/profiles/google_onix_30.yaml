@@ -863,7 +863,6 @@ onix_style: 'reference'
                 Required at least once per <ProductSupply> composite.
             required: true
             multiple: true
-            requires_one_of: ['Price', 'UnpricedItemType']
 
             /Supplier:
                 description: \
@@ -935,6 +934,7 @@ onix_style: 'reference'
                     either one or more <Price>  composites or a single
                     <UnpricedItemType> tag.
                 multiple: true
+                required: true
 
                 /PriceType:
                     description: \
