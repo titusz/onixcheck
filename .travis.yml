@@ -16,7 +16,6 @@ env:
     - TOXENV=3.4-nocover
     - TOXENV=3.5
     - TOXENV=3.5-nocover
-    - TOXENV=pypy
     - TOXENV=pypy-nocover
 before_install:
   - python --version
