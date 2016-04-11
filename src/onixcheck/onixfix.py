@@ -47,11 +47,11 @@ class OnixFix(object):
         assert level in ('ERROR', 'WARNING',)
 
         if el is not None and el.sourceline is not None:
-            location = '{}:{}'.format(path, el.sourceline)
+            location = '%s:%s' % (path, el.sourceline)
         else:
             location = path
 
-        location = '{}:{}'.format(self.basename, location)
+        location = '%s:%s' % (self.basename, location)
 
         msg = Message(
             level=level,
