@@ -5,7 +5,7 @@ from os.path import basename, splitext
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 import yaml
-from lxml import etree, objectify
+from lxml import objectify
 import isbnlib
 from onixcheck.models import OnixFile, Message
 
@@ -163,7 +163,7 @@ class OnixFix(object):
         invalid = [c for c in el.text if c not in string.digits]
         if invalid:
             msg = 'Not an Integer. Invalid chars %s.' % invalid
-            self.add_message(msg, path, el )
+            self.add_message(msg, path, el)
 
     def check_isbn13(self, path, el):
         if not isbnlib.is_isbn13(el.text):
@@ -178,7 +178,7 @@ class OnixFix(object):
     def check_decimal(self, path, el):
         try:
             Decimal(el.text)
-        except InvalidOperation as e:
+        except InvalidOperation:
             msg = 'Invalid decimal value %s' % el.text
             self.add_message(msg, path, el)
 
@@ -190,5 +190,3 @@ if __name__ == '__main__':
 
     for message in of.messages:
         print(message.short)
-
-
