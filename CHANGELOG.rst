@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.9.2 (2016-04-11)
+------------------
+* Fix ExtentType in custom validation profile
+* Fix false alarm with multiple Price elements in custom profile
+
 0.9.1 (2016-04-11)
 ------------------
 * Inital support for custom validation profiles
