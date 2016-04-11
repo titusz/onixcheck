@@ -12,10 +12,10 @@ def validate(infile, profiles=tuple()):
 
     :param infile: File or path to file
     :type infile: file or str
+    :param profiles: Iterable with paths to custom valdation profiles
+    :type  profiles: collections.Iterable[str]
     :return: List of `Message` objects (invalid ONIX) or empty list (valid ONIX)
     :rtype: list[Message]
-    :param profiles: List with custom valdation profiles
-    :rtype: list[str]
     """
     if hasattr(infile, 'name'):
         filename = basename(infile.name)
