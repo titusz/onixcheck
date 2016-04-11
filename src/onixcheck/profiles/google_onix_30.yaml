@@ -335,7 +335,7 @@ onix_style: 'reference'
             required: false
             recommended: true
 
-            /ExtentTypeCode:
+            /ExtentType:
                 description: \
                     Specifies the extent type.
                      Required exactly once per <Extent> composite.

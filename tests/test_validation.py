@@ -20,7 +20,7 @@ def test_validation_with_file_path_and_profile():
         data.VALID_GOOGLE_ONIX_30_SAMPLE,
         profiles=(profiles.GOOGLE_ONIX_30,)
     )
-    assert len(errors) == 3
+    assert len(errors) == 2
 
 
 def test_validation_with_file_obj_and_profile():
@@ -29,4 +29,4 @@ def test_validation_with_file_obj_and_profile():
             ofile,
             profiles=(profiles.GOOGLE_ONIX_30,)
         )
-    assert len(errors) == 3
+    assert len(errors) == 2
