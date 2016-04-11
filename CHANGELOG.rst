@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.9.1 (2016-04-11)
+------------------
+* Inital support for custom validation profiles
+* Custom Google Play Books onix 3.0 validation profile
+
 0.9.0 (2016-03-27)
 ------------------
 
