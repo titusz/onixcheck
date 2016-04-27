@@ -54,13 +54,14 @@ class OnixFile(object):
         ns_tree = lxml.fromstring(doc)
         return etree.ElementTree(ns_tree)
 
-    def get_validator(self):
+    def get_validator(self, schema_type='xsd'):
         """
         Create a matching validator for the ONIX file.
 
-        :return etree.XMLSchema:
+        :return etree._Validator:
         """
-        return etree.XMLSchema(file=self.meta.get_schema_file())
+        parser = self.meta.SCHEMA_TYPE_PARSER_MAP[schema_type]
+        return parser(file=self.meta.get_schema_file(schema_type=schema_type))
 
 
 _BaseMeta = namedtuple('OnixMeta', 'xml_version xml_encoding onix_version onix_style namespaces')
@@ -106,6 +107,13 @@ class OnixMeta(_BaseMeta):
         (V30, REFERENCE, XSD): schema.O30_XSD_REFERENCE,
         (V30, REFERENCE, RNG): schema.O30_RNG_REFERENCE,
         (V30, REFERENCE, SCH): schema.O30_SCH_REFERENCE,
+    }
+
+    SCHEMA_TYPE_PARSER_MAP = {
+        XSD: etree.XMLSchema,
+        RNG: etree.RelaxNG,
+        RNC: etree.RelaxNG,
+        SCH: etree.Schematron,
     }
 
     @classmethod
