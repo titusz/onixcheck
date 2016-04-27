@@ -7,13 +7,13 @@ from onixcheck.models import OnixFile, Message
 from onixcheck.onixfix import OnixFix
 
 
-def validate(infile, profiles=tuple()):
+def validate(infile, schemas=tuple()):
     """Validate an ONIX file.
 
     :param infile: File or path to file
     :type infile: file or str
-    :param profiles: Iterable with paths to custom valdation profiles
-    :type  profiles: collections.Iterable[str]
+    :param schemas: Iterable with paths to custom valdation profiles
+    :type  schemas: collections.Iterable[str]
     :return: List of `Message` objects (invalid ONIX) or empty list (valid ONIX)
     :rtype: list[Message]
     """
@@ -34,9 +34,9 @@ def validate(infile, profiles=tuple()):
 
     messages = [msg(err, filename) for err in errors]
 
-    for profile in profiles:
-        profile_validator = OnixFix(infile, profile)
-        profile_validator.validate()
-        messages.extend(profile_validator.errors)
+    for schema in schemas:
+        schema_validator = OnixFix(infile, schema)
+        schema_validator.validate()
+        messages.extend(schema_validator.errors)
 
     return messages

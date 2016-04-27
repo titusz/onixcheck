@@ -27,6 +27,7 @@ def create_parser():
 
     # Options
     parser.add_argument('-p', '--path', help="Path to folder with ONIX files for batch validation")
+    parser.add_argument('-s', '--schemas', nargs='*', help="Custom validation schemas")
     parser.add_argument('-e', '--ext', nargs='*', help="File Extensions to validate. Default: xml onx onix")
     parser.add_argument('-r', '--recursive', action='store_true', help='Recurse into subfolders')
     parser.add_argument('-d', '--debug', action="store_true", help='Show debug information')
@@ -44,6 +45,8 @@ def main(argv=None):
     parser = create_parser()
 
     args = parser.parse_args() if argv is None else parser.parse_args(argv)
+
+    schemas = tuple() if not args.schemas else tuple(args.schemas)
 
     if args.debug:
         logging.basicConfig(
@@ -63,7 +66,7 @@ def main(argv=None):
     if args.infile:
         log.debug('TYPE of infile.name: %s' % type(args.infile.name))
         print('Validating: %s' % args.infile.name)
-        messages = validate(args.infile)
+        messages = validate(args.infile, schemas)
         is_valid = messages == []
         if is_valid:
             print('VALID - No errors found')
@@ -82,7 +85,7 @@ def main(argv=None):
             print()
             print('Validating: %s' % onix_file_path)
             with open(onix_file_path, 'rb') as onix_file:
-                messages = validate(onix_file)
+                messages = validate(onix_file, schemas)
                 is_valid = messages == []
 
             if is_valid:

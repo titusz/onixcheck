@@ -18,7 +18,7 @@ def test_validation_with_file_obj():
 def test_validation_with_file_path_and_profile():
     errors = onixcheck.validate(
         data.VALID_GOOGLE_ONIX_30_SAMPLE,
-        profiles=(profiles.GOOGLE_ONIX_30,)
+        schemas=(profiles.GOOGLE_ONIX_30,)
     )
     assert len(errors) == 2
 
@@ -27,6 +27,6 @@ def test_validation_with_file_obj_and_profile():
     with open(data.VALID_GOOGLE_ONIX_30_SAMPLE, 'rb') as ofile:
         errors = onixcheck.validate(
             ofile,
-            profiles=(profiles.GOOGLE_ONIX_30,)
+            schemas=(profiles.GOOGLE_ONIX_30,)
         )
     assert len(errors) == 2
