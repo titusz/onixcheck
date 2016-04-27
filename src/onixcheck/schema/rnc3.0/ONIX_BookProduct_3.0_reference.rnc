@@ -1,0 +1,3626 @@
+# 
+# **************************************************
+# *                                                *
+# *               ONIX INTERNATIONAL               *
+# *                                                *
+# *     BOOK PRODUCT INFORMATION MESSAGE SCHEMA    *
+# *                                                *
+# *                STRUCTURE MODULE                *
+# *                 RELAX NG SCHEMA                *
+# *              REFERENCE TAG VERSION             *
+# *                                                *
+# *          Original author: Francis Cave         *
+# *          Recent revisions: Graham Bell         *
+# *                                                *
+# *                  Release 3.0                   *
+# *                   Revision 2                   *
+# *                Status: RELEASED                *
+# *            Release date: 2009-04-09            *
+# *              Revised: 2015-01-24               *
+# *                                                *
+# *             (c) 2000-2016 EDItEUR              *
+# *             http://www.editeur.org/            *
+# *                                                *
+# **************************************************
+# 
+# 
+# TERMS AND CONDITIONS OF USE OF THE ONIX BOOK PRODUCT INFORMATION MESSAGE SCHEMA
+# 
+# All ONIX standards and documentation are copyright materials, made available
+# free of charge for general use. If you use any version of the ONIX Book Product
+# Information Message Schema, you will be deemed to have accepted these terms and
+# conditions:
+# 
+# 1. You agree that you will not add to, delete from or amend any version of the 
+# ONIX Product Information Message Schema, or any part of the Schema except for 
+# strictly internal use within your own organisation.
+# 
+# 2. You agree that if you wish to add to, amend, or make extracts of any version 
+# of the Schema for any purpose that is not strictly internal to your own organisation, 
+# you will in the first instance notify EDItEUR and allow EDItEUR to review 
+# and comment on your proposed use, in the interest of securing an orderly 
+# development of the Schema for the benefit of other users.
+# 
+# A full licence agreement (DOI: 10.4400/nwgj) that governs use of EDItEUR’s ONIX
+# documentation, DTDs and schemas is available on the EDItEUR website.
+# 
+# If you do not accept these terms, you must not use any version of the ONIX Product 
+# Information Message Schema.
+# 
+# Full copies of all published versions of the latest release of this Schema and all 
+# associated documentation are available from the EDItEUR web site, where may also be 
+# found details of how to contact EDItEUR for advice on the use of this Schema. The URL 
+# for the EDItEUR web site is:
+# 
+# http://www.editeur.org/
+# 
+# 
+# SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+# 
+# 2016-01-24: 1. enforce positive (>= 0), strict positive (> 0) or percentage (0..100) real numbers in various fields
+#	    2. enforce positive (0, 1, 2…) or strict positive (1, 2, 3…) integers in various fields
+# 
+#	       note these changes were included in 'strict' version of schema from 2015-01-24
+# 
+# 2015-07-29: corrected Flow to dt.NonEmptyString in ConferenceName to match documentation
+# 
+# 2014-11-23: enforce 'either <ComponentTypeName> or <TitleDetail> or both' in <ContentItem>
+# 
+# 2014-01-24: ONIX for Books 3.0 revision 2
+#	    1. added <NoPrefix> within <TitleElement>
+#	    2. added <LocationName> within <ContributorPlace>
+#	    3. added <Proximity> within <Stock> - uses List 215
+#	    4. changed cardinality of <StockQuantityCoded> to 1…n to allow coded values for OnOrder and CBO etc.
+#	    5. added <Velocity> within <Stock>
+#	    6. added <VelocityMetric> within <Velocity> - uses List 216
+#	    7. added <Rate> and <Proximity> within <Velocity>
+#	    8. added <SalesRestriction> within <SalesRights>
+#	    9. added <ProductIdentifier> within <PriceCondition>
+#	   10. added <PrizeStatement> within <Prize>
+#	   11. added <PriceIdentifier> within <Price>
+#	   12. added <PriceIDType> within <PriceIdentifier> - uses list 217
+#	   13. added <NoProduct/> to support explicitly empty delta updates
+#	   14. added <EpubLicense> composite after <EpubUsageConstraint>, to support e-book licenses
+#	   15. added <EpubLicenseName> inside <EpubLicense>
+#	   16. added <EpubLicenseExpression> inside <EpubLicense>
+#	   17. added <EpubLicenseExpressionType> within <EpubLicenseExpression> - uses list 218
+#	   18. added <EpubLicenseExpressionTypeName within <EpubLicenseExpression>
+#	   19. added <EpubLicenseExpressionLink> within <EpubLicenceExpression>
+#	   20. added <CopyrightType> within <CopyrightStatement> - uses list 219
+#	   21. added <SupplierCodeTypeName> in <SupplierOwnCoding>
+#	   22. added <ToQuantity> within <Discount>
+#	   23. changed cardinality on <PromotionCampaign>, <InitialPrintRun>,<CopiesSold>, <BookClubAdoption>, <PrizeName>, <ListName>, <SourceTitle>
+#	   24. added textformat attribute to <EditionStatement> and changed data type to flow
+#	   25. added language attribute to <SourceTitle>, <PartNumber>, ImprintName>, <CityOfPublication>, <ConferencePlace> and to 12 contributor name elements
+#	   26. added textscript attribute to <PartNumber>, <TitleText>, <TitlePrefix>, <TitleWithoutPrefix>, <Subtitle>
+#	   27. enforce '<ContributorStatement> must be preceded by <Contributor>' within <Collection> (ensures P.5 matches P.7)
+#	   28. enforce '<SourceTitle> mandatory except where <ListName> is present' in <CitedContent>
+# 
+# 2013-07-19  relax URI requirements to allow relative URIs
+# 
+# 2013-04-24  1. enforce 'either <ConferenceSponsorIdentifier>, or either a personal or corporate name, or both' in <ConferenceSponsor>
+#	    2. enforce 'either <NameIdentifier> alone, or personal name or corporate name with or without <NameIdentifier>, or <UnnamedPersons>' in <Contributor>, <AlternativeName> and <NameAsSubject>
+#	    3. corrected dt.NonEmptyString to dt.Decimal in <PriceAmount>
+#	    4. enforce http or ftp protocol in <ResourceLink>, http:// can be omitted in <Weblink>
+#	    5. enforce at least one non-whitespace character in dt.NonEmptyString
+# 
+# 2013-01-25  1. corrected long-standing error in the content model of <TextContent>: <TextAuthor> is repeatable
+#	    2. enforce 'either <TaxRatePercent> or <TaxAmount>, or both' in <Tax>
+#	    3. enforce URIs cannot be empty strings (must contain '://')
+# 
+# 2012-10-25  1. enforce 'either <CopyrightOwnerIdentifier> or a personal or corporate name, or both'  in <CopyrightOwner>
+#	    2. enforce 'either <SubjectCode> or <SubjectHeadingText> or both' in <Subject>
+#	    3. enforce 'at least one of <PartNumber>, <YearOfAnnual>, or either <TitleText> or <TitlePrefix> plus <TitleWithoutPrefix>' in <TitleElement>
+#	    4. enforce '<PublishingStatusNote must be preceded by the <PublishingStatus> element'
+#	    5. enforce '<ROWSalesRightsType> must be preceded by a <SalesRights> element'
+#	    6. modify <RelatedProduct> to disallow <ProductFormDetail> without <ProductForm>
+#	    7. changed xs:token to xs:string in dt.DateOrDateTime, dt.Year, dt.YearOrYearRange, dt.MultiLevelNumber (token will validate even when there is leading or trailing whitespace)
+#	    8. changed dt.NonEmptyString to dt.Integer in ConferenceNumber, LatestReprintNumber, NumberOfPages, OrderTime, PackQuantity
+#	    9. changed dt.NonEmptyString to dt.RomanNumeralString in ExtentValueRoman
+#	   10. validation of e-mail addresses via dt.EmailString type
+# 
+#	       note all changes above enforce limitations already expressed clearly in the documentation
+# 
+# 2012-04-20: 1. corrected long-standing error in content model of <CitedContent>: <PositionOnList> is optional
+#	    2. enforce 'either <SenderIdentifier> or <SenderName>, or both' in <Sender>
+#	    3. enforce 'either <AddresseeIdentifier> or <AddresseeName>, or both' in <Addressee>
+#	    4. enforce 'if used, either <TitleText> or <TitlePrefix> with <TitleWithoutPrefix>' in <TitleElement>
+#	    5. enforce 'either <CountryCode> or <RegionCode>' in <ContributorPlace>. Note 'both' should probably not be an option, but is allowed (see change of 2009-12-22)
+#	    6. enforce 'if used, <EditionVersionNumber> must be preceded by <EditionNumber>'
+#	    7. enforce 'either <ExtentValue> or <ExtentValueRoman>, or both' in <Extent>
+#	    8. enforce 'either <ImprintIdentifier> or <ImprintName>, or both' in <Imprint>
+#	    9. enforce 'either <PublisherIdentifier> or <PublisherName>, or both' in <Publisher>
+#	   10. enforce 'either <ProductContactIdentifier> or <ProductContactName>, or both' in <ProductContact> (fixes cardinality limitation inadvertently introduced 2012-01-27)
+#	   11. enforce 'either <CountriesIncluded> or <RegionsIncluded>, or both' in <Territory>, and enforce limits on use of <CountriesExcluded> and <RegionsExcluded>
+#	   12. enforce 'either <SalesOutletIdentifier> or <SalesOutletName>, or both' in <SalesOutlet>
+#	   13. enforce 'either <AgentIdentifier> or <AgentName>, or both' in <PublisherRepresentative>
+#	   14. enforce 'either <SupplierIdentifier> or <SupplierName>, or both' in <Supplier>
+#	   15. enforce 'either <SupplierIdentifier> or <SupplierName>, or both' in <NewSupplier>
+#	   16. enforce 'either <ProfessionalPosition> or <Affiliation>, or both' in <ProfessionalAffiliation>
+#	   17. enforce 'either <NumberOfItemsOfThisForm> or <NumberOfCopies>, or both', in <ProductPart>. Note 'both' should probably not be an option, but is allowed
+#	   18. enforce 'either <DiscountPercent> or <DiscountAmount>, or both', in <Discount>
+# 
+#	       note changes 2–18 above (and 10 below) enforce limitations expressed clearly in the documentation, but make the schema a little
+#	       more complex, and may cause issues when automatically creating object classes from the schema
+# 
+# 2012-01-27: ONIX for Books 3.0 revision 1
+#	    1. added collationkey and textscript attributes
+#	    2. added <CollectionSequence> composite
+#	    3. added <SequenceNumber> within <TitleElement>
+#	    4. added <TitleStatement> within <TitleDetail>
+#	    5. added <ProductContact> composite
+#	    6. modified <ThesisYear> to take dateformat attribute
+#	    7. modified <MessageNote> and <AudienceCodeTypeName> to take language attribute
+#	    8. modified cardinality of <MessageNote>, <DeletionText>, <ProductFormFeatureDescription>, <ProductFormDescription>, <BiographicalNote>, <ContributorDescription>, <ProfessionalPosition>, <WebsiteDescription>, <ContributorStatement>, <EditionStatement>, <ReligiousTextFeatureDescription>, <IllustrationsNote>, <AncillaryContentDescription>, <SubjectHeadingText>, <AudienceDescription>, <Text>, <FeatureNote>, <CitationNote>, <PrizeJury>, <PublishingStatusNote>, <SalesRestrictionNote>, <MarketPublishingStatusNote>, <PriceTypeDescription>
+#	    9. added <ContributorStatement> within <Collection>
+#	   10. enforce 'either <Imprint> or <Publisher>, or both' to match documentation
+# 
+# 2011-11-03: corrected cardinality of <ComparisonProductPrice>
+# 
+# 2011-10-21: changed XML namespace to http://ns.editeur.org/onix/3.0/reference
+# 
+# 2011-07-15: 1. simplified DateOrDateTime format, with minor correction in line with documentation
+#	    2. corrected data type of EditionNumber to Integer in line with documentation
+# 
+# 2011-05-31: corrected cardinality of <Territory> within <SalesRights> to 1 (from 1…n) to match documentation (reverts change of 2010-05-20)
+# 
+# 2011-05-05: 1. added textformat attribute to <InitialPrintRun> to match documentation
+#	    2. added language attribute to <DeletionText> to match documentation
+#	    3. removed textformat attribute from <ConferenceName> to match documentation
+# 
+# 2010-11-25: Short tag name for element MarketPublishingStatusNote changed from x408 to x406
+# 
+# 2010-10-29: 1. new ROWSalesRightsType element added
+#	    2. cardinality of SupplyDetail and Supplier corrected
+#	    3. new CorporateNameInverted element added
+#	    4. new dateformat attribute added to date-related elements
+#	    5. DateFormat elements made optional, in favour of using new attribute
+#	    6. cardinality of NameType element changed within NameAsSubject
+#	    7. content model of RelatedProduct changed to include ProductForm and ProductFormDetail
+#	    8. cardinality of ProductRelationCode element changed
+#	    9. new MarketPublishingStatusNote element added
+#	   10. cardinality of MarketDate element changed
+#	   11. new PriceCoded composite added, as an alternative to PriceAmount
+#	   12. new ComparisonProductPrice composite added
+# 
+# 2010-05-20: 1. Content model of SalesRights corrected to make Territory repeatable
+#	    2. Content model of SupplyDate corrected to make DateFormat mandatory
+# 
+# 2009-12-22: 1. Data type 'NonEmptyString' corrected
+#	    2. Pattern 'YearOrYearMonth' corrected
+#	    3. Content model of ContributorPlace changed to allow both CountryCode and RegionCode
+# 
+# 2009-09-18: Content model of UnnamedPersons corrected
+# 
+# 2009-08-12: 1. Top-level element tag name changed to 'ONIXMessage'
+#	    2. Pattern 'CountryCodeList' corrected to allow multiple code values
+#	    3. Pattern 'RegionCodeList' corrected to allow multiple code values
+#	    4. Pattern 'DateOrDateTime' changed to allow omission of seconds
+# 
+# 2009-07-17: Mandatory 'release' attribute added to top-level element
+# 
+# 2009-05-11: Content model of MarketPublishingDetail corrected
+# 
+# 2009-04-09: Release 3.0 schema for public release
+#
+
+default namespace = "http://ns.editeur.org/onix/3.0/reference"
+
+start = ONIXMessage
+include "ONIX_BookProduct_CodeLists.rnc"
+include "ONIX_XHTML_Subset.rnc"
+Addressee =
+  element Addressee {
+    attribute refname { "Addressee" }?,
+    attribute shortname { "addressee" }?,
+    generalAttributes,
+    (((AddresseeIdentifier+, AddresseeName?) | AddresseeName),
+     ContactName?,
+     EmailAddress?)
+  }
+AddresseeIdentifier =
+  element AddresseeIdentifier {
+    attribute refname { "AddresseeIdentifier" }?,
+    attribute shortname { "addresseeidentifier" }?,
+    generalAttributes,
+    (AddresseeIDType, IDTypeName?, IDValue)
+  }
+AddresseeIDType =
+  element AddresseeIDType {
+    attribute refname { "AddresseeIDType" }?,
+    attribute shortname { "m380" }?,
+    generalAttributes,
+    List44
+  }
+AddresseeName =
+  element AddresseeName {
+    attribute refname { "AddresseeName" }?,
+    attribute shortname { "x300" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+Affiliation =
+  element Affiliation {
+    attribute refname { "Affiliation" }?,
+    attribute shortname { "b046" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+AgentIdentifier =
+  element AgentIdentifier {
+    attribute refname { "AgentIdentifier" }?,
+    attribute shortname { "agentidentifier" }?,
+    generalAttributes,
+    (AgentIDType, IDTypeName?, IDValue)
+  }
+AgentIDType =
+  element AgentIDType {
+    attribute refname { "AgentIDType" }?,
+    attribute shortname { "j400" }?,
+    generalAttributes,
+    List92
+  }
+AgentName =
+  element AgentName {
+    attribute refname { "AgentName" }?,
+    attribute shortname { "j401" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+AgentRole =
+  element AgentRole {
+    attribute refname { "AgentRole" }?,
+    attribute shortname { "j402" }?,
+    generalAttributes,
+    List69
+  }
+AlternativeName =
+  element AlternativeName {
+    attribute refname { "AlternativeName" }?,
+    attribute shortname { "alternativename" }?,
+    generalAttributes,
+    (NameType,
+     ((NameIdentifier+,
+       ((gp.unstructured_name, gp.structured_name?)
+        | gp.structured_name
+        | gp.corporate_name)?)
+      | ((gp.unstructured_name, gp.structured_name?)
+         | gp.structured_name
+         | gp.corporate_name)))
+  }
+AncillaryContent =
+  element AncillaryContent {
+    attribute refname { "AncillaryContent" }?,
+    attribute shortname { "ancillarycontent" }?,
+    generalAttributes,
+    (AncillaryContentType, AncillaryContentDescription*, Number?)
+  }
+AncillaryContentType =
+  element AncillaryContentType {
+    attribute refname { "AncillaryContentType" }?,
+    attribute shortname { "x423" }?,
+    generalAttributes,
+    List25
+  }
+AncillaryContentDescription =
+  element AncillaryContentDescription {
+    attribute refname { "AncillaryContentDescription" }?,
+    attribute shortname { "x424" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+Audience =
+  element Audience {
+    attribute refname { "Audience" }?,
+    attribute shortname { "audience" }?,
+    generalAttributes,
+    (AudienceCodeType, AudienceCodeTypeName?, AudienceCodeValue)
+  }
+AudienceCode =
+  element AudienceCode {
+    attribute refname { "AudienceCode" }?,
+    attribute shortname { "b073" }?,
+    generalAttributes,
+    List28
+  }
+AudienceCodeType =
+  element AudienceCodeType {
+    attribute refname { "AudienceCodeType" }?,
+    attribute shortname { "b204" }?,
+    generalAttributes,
+    List29
+  }
+AudienceCodeTypeName =
+  element AudienceCodeTypeName {
+    attribute refname { "AudienceCodeTypeName" }?,
+    attribute shortname { "b205" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+AudienceCodeValue =
+  element AudienceCodeValue {
+    attribute refname { "AudienceCodeValue" }?,
+    attribute shortname { "b206" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+AudienceDescription =
+  element AudienceDescription {
+    attribute refname { "AudienceDescription" }?,
+    attribute shortname { "b207" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+AudienceRange =
+  element AudienceRange {
+    attribute refname { "AudienceRange" }?,
+    attribute shortname { "audiencerange" }?,
+    generalAttributes,
+    (AudienceRangeQualifier,
+     AudienceRangePrecision,
+     AudienceRangeValue,
+     (AudienceRangePrecision, AudienceRangeValue)?)
+  }
+AudienceRangePrecision =
+  element AudienceRangePrecision {
+    attribute refname { "AudienceRangePrecision" }?,
+    attribute shortname { "b075" }?,
+    generalAttributes,
+    List31
+  }
+AudienceRangeQualifier =
+  element AudienceRangeQualifier {
+    attribute refname { "AudienceRangeQualifier" }?,
+    attribute shortname { "b074" }?,
+    generalAttributes,
+    List30
+  }
+AudienceRangeValue =
+  element AudienceRangeValue {
+    attribute refname { "AudienceRangeValue" }?,
+    attribute shortname { "b076" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+Barcode =
+  element Barcode {
+    attribute refname { "Barcode" }?,
+    attribute shortname { "barcode" }?,
+    generalAttributes,
+    (BarcodeType, PositionOnProduct?)
+  }
+BarcodeType =
+  element BarcodeType {
+    attribute refname { "BarcodeType" }?,
+    attribute shortname { "x312" }?,
+    generalAttributes,
+    List141
+  }
+BatchBonus =
+  element BatchBonus {
+    attribute refname { "BatchBonus" }?,
+    attribute shortname { "batchbonus" }?,
+    generalAttributes,
+    (BatchQuantity, FreeQuantity)
+  }
+BatchQuantity =
+  element BatchQuantity {
+    attribute refname { "BatchQuantity" }?,
+    attribute shortname { "j264" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+Bible =
+  element Bible {
+    attribute refname { "Bible" }?,
+    attribute shortname { "bible" }?,
+    generalAttributes,
+    (BibleContents+,
+     BibleVersion+,
+     StudyBibleType?,
+     BiblePurpose*,
+     BibleTextOrganization?,
+     BibleReferenceLocation?,
+     BibleTextFeature*)
+  }
+BibleContents =
+  element BibleContents {
+    attribute refname { "BibleContents" }?,
+    attribute shortname { "b352" }?,
+    generalAttributes,
+    List82
+  }
+BiblePurpose =
+  element BiblePurpose {
+    attribute refname { "BiblePurpose" }?,
+    attribute shortname { "b354" }?,
+    generalAttributes,
+    List85
+  }
+BibleReferenceLocation =
+  element BibleReferenceLocation {
+    attribute refname { "BibleReferenceLocation" }?,
+    attribute shortname { "b356" }?,
+    generalAttributes,
+    List87
+  }
+BibleTextFeature =
+  element BibleTextFeature {
+    attribute refname { "BibleTextFeature" }?,
+    attribute shortname { "b357" }?,
+    generalAttributes,
+    List97
+  }
+BibleTextOrganization =
+  element BibleTextOrganization {
+    attribute refname { "BibleTextOrganization" }?,
+    attribute shortname { "b355" }?,
+    generalAttributes,
+    List86
+  }
+BibleVersion =
+  element BibleVersion {
+    attribute refname { "BibleVersion" }?,
+    attribute shortname { "b353" }?,
+    generalAttributes,
+    List83
+  }
+BiographicalNote =
+  element BiographicalNote {
+    attribute refname { "BiographicalNote" }?,
+    attribute shortname { "b044" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+BookClubAdoption =
+  element BookClubAdoption {
+    attribute refname { "BookClubAdoption" }?,
+    attribute shortname { "k169" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+CBO =
+  element CBO {
+    attribute refname { "CBO" }?,
+    attribute shortname { "j375" }?,
+    generalAttributes,
+    dt.PositiveInteger
+  }
+CitationNote =
+  element CitationNote {
+    attribute refname { "CitationNote" }?,
+    attribute shortname { "x434" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+CitedContent =
+  element CitedContent {
+    attribute refname { "CitedContent" }?,
+    attribute shortname { "citedcontent" }?,
+    generalAttributes,
+    (CitedContentType,
+     ContentAudience*,
+     SourceType?,
+     ((SourceTitle+, ListName*, PositionOnList?)
+      | (ListName+, PositionOnList?)),
+     CitationNote*,
+     ResourceLink*,
+     ContentDate*)
+  }
+CitedContentType =
+  element CitedContentType {
+    attribute refname { "CitedContentType" }?,
+    attribute shortname { "x430" }?,
+    generalAttributes,
+    List156
+  }
+CityOfPublication =
+  element CityOfPublication {
+    attribute refname { "CityOfPublication" }?,
+    attribute shortname { "b209" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+CollateralDetail =
+  element CollateralDetail {
+    attribute refname { "CollateralDetail" }?,
+    attribute shortname { "collateraldetail" }?,
+    generalAttributes,
+    (gp.descriptions, gp.prizes)
+  }
+Collection =
+  element Collection {
+    attribute refname { "Collection" }?,
+    attribute shortname { "collection" }?,
+    generalAttributes,
+    (CollectionType,
+     SourceName?,
+     CollectionIdentifier*,
+     CollectionSequence*,
+     TitleDetail*,
+     (Contributor+, ContributorStatement*)?)
+  }
+CollectionIdentifier =
+  element CollectionIdentifier {
+    attribute refname { "CollectionIdentifier" }?,
+    attribute shortname { "collectionidentifier" }?,
+    generalAttributes,
+    (CollectionIDType, IDTypeName?, IDValue)
+  }
+CollectionIDType =
+  element CollectionIDType {
+    attribute refname { "CollectionIDType" }?,
+    attribute shortname { "x344" }?,
+    generalAttributes,
+    List13
+  }
+CollectionSequence =
+  element CollectionSequence {
+    attribute refname { "CollectionSequence" }?,
+    attribute shortname { "collectionsequence" }?,
+    generalAttributes,
+    (CollectionSequenceType,
+     CollectionSequenceTypeName?,
+     CollectionSequenceNumber)
+  }
+CollectionSequenceNumber =
+  element CollectionSequenceNumber {
+    attribute refname { "CollectionSequenceNumber" }?,
+    attribute shortname { "x481" }?,
+    generalAttributes,
+    dt.MultiLevelNumber
+  }
+CollectionSequenceType =
+  element CollectionSequenceType {
+    attribute refname { "CollectionSequenceType" }?,
+    attribute shortname { "x479" }?,
+    generalAttributes,
+    List197
+  }
+CollectionSequenceTypeName =
+  element CollectionSequenceTypeName {
+    attribute refname { "CollectionSequenceTypeName" }?,
+    attribute shortname { "x480" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+CollectionType =
+  element CollectionType {
+    attribute refname { "CollectionType" }?,
+    attribute shortname { "x329" }?,
+    generalAttributes,
+    List148
+  }
+ComparisonProductPrice =
+  element ComparisonProductPrice {
+    attribute refname { "ComparisonProductPrice" }?,
+    attribute shortname { "comparisonproductprice" }?,
+    generalAttributes,
+    (ProductIdentifier+, PriceType?, PriceAmount, CurrencyCode?)
+  }
+Complexity =
+  element Complexity {
+    attribute refname { "Complexity" }?,
+    attribute shortname { "complexity" }?,
+    generalAttributes,
+    (ComplexitySchemeIdentifier, ComplexityCode)
+  }
+ComplexityCode =
+  element ComplexityCode {
+    attribute refname { "ComplexityCode" }?,
+    attribute shortname { "b078" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ComplexitySchemeIdentifier =
+  element ComplexitySchemeIdentifier {
+    attribute refname { "ComplexitySchemeIdentifier" }?,
+    attribute shortname { "b077" }?,
+    generalAttributes,
+    List32
+  }
+ComponentNumber =
+  element ComponentNumber {
+    attribute refname { "ComponentNumber" }?,
+    attribute shortname { "b289" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ComponentTypeName =
+  element ComponentTypeName {
+    attribute refname { "ComponentTypeName" }?,
+    attribute shortname { "b288" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+Conference =
+  element Conference {
+    attribute refname { "Conference" }?,
+    attribute shortname { "conference" }?,
+    generalAttributes,
+    (ConferenceRole?,
+     ConferenceName,
+     ConferenceAcronym?,
+     ConferenceNumber?,
+     ConferenceTheme?,
+     ConferenceDate?,
+     ConferencePlace?,
+     ConferenceSponsor*,
+     Website*)
+  }
+ConferenceAcronym =
+  element ConferenceAcronym {
+    attribute refname { "ConferenceAcronym" }?,
+    attribute shortname { "b341" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ConferenceDate =
+  element ConferenceDate {
+    attribute refname { "ConferenceDate" }?,
+    attribute shortname { "b054" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+ConferenceName =
+  element ConferenceName {
+    attribute refname { "ConferenceName" }?,
+    attribute shortname { "b052" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+ConferenceNumber =
+  element ConferenceNumber {
+    attribute refname { "ConferenceNumber" }?,
+    attribute shortname { "b053" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+ConferencePlace =
+  element ConferencePlace {
+    attribute refname { "ConferencePlace" }?,
+    attribute shortname { "b055" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+ConferenceRole =
+  element ConferenceRole {
+    attribute refname { "ConferenceRole" }?,
+    attribute shortname { "b051" }?,
+    generalAttributes,
+    List20
+  }
+ConferenceSponsor =
+  element ConferenceSponsor {
+    attribute refname { "ConferenceSponsor" }?,
+    attribute shortname { "conferencesponsor" }?,
+    generalAttributes,
+    ((ConferenceSponsorIdentifier, (PersonName | CorporateName)?)
+     | PersonName
+     | CorporateName)
+  }
+ConferenceSponsorIDType =
+  element ConferenceSponsorIDType {
+    attribute refname { "ConferenceSponsorIDType" }?,
+    attribute shortname { "b391" }?,
+    generalAttributes,
+    List44
+  }
+ConferenceSponsorIdentifier =
+  element ConferenceSponsorIdentifier {
+    attribute refname { "ConferenceSponsorIdentifier" }?,
+    attribute shortname { "conferencesponsoridentifier" }?,
+    generalAttributes,
+    (ConferenceSponsorIDType, IDTypeName?, IDValue)
+  }
+ConferenceTheme =
+  element ConferenceTheme {
+    attribute refname { "ConferenceTheme" }?,
+    attribute shortname { "b342" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+ContactName =
+  element ContactName {
+    attribute refname { "ContactName" }?,
+    attribute shortname { "x299" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ContentAudience =
+  element ContentAudience {
+    attribute refname { "ContentAudience" }?,
+    attribute shortname { "x427" }?,
+    generalAttributes,
+    List154
+  }
+ContentDate =
+  element ContentDate {
+    attribute refname { "ContentDate" }?,
+    attribute shortname { "contentdate" }?,
+    generalAttributes,
+    (ContentDateRole, DateFormat?, Date)
+  }
+ContentDateRole =
+  element ContentDateRole {
+    attribute refname { "ContentDateRole" }?,
+    attribute shortname { "x429" }?,
+    generalAttributes,
+    List155
+  }
+ContentDetail =
+  element ContentDetail {
+    attribute refname { "ContentDetail" }?,
+    attribute shortname { "contentdetail" }?,
+    generalAttributes,
+    ContentItem+
+  }
+ContentItem =
+  element ContentItem {
+    attribute refname { "ContentItem" }?,
+    attribute shortname { "contentitem" }?,
+    generalAttributes,
+    (LevelSequenceNumber?,
+     TextItem,
+     ((ComponentTypeName, ComponentNumber?, TitleDetail*)
+      | (ComponentNumber?, TitleDetail+)),
+     Contributor*,
+     Subject*,
+     NameAsSubject*,
+     TextContent*,
+     CitedContent*,
+     SupportingResource*,
+     RelatedWork*)
+  }
+Contributor =
+  element Contributor {
+    attribute refname { "Contributor" }?,
+    attribute shortname { "contributor" }?,
+    generalAttributes,
+    (SequenceNumber?,
+     ContributorRole+,
+     FromLanguage*,
+     ToLanguage*,
+     NameType?,
+     ((((NameIdentifier+,
+         ((gp.unstructured_name, gp.structured_name?)
+          | gp.structured_name
+          | gp.corporate_name)?)
+        | ((gp.unstructured_name, gp.structured_name?)
+           | gp.structured_name
+           | gp.corporate_name)),
+       AlternativeName*,
+       ContributorDate*,
+       ProfessionalAffiliation*,
+       BiographicalNote*,
+       Website*,
+       ContributorDescription*)
+      | (ContributorDate*,
+         ProfessionalAffiliation*,
+         BiographicalNote*,
+         Website*,
+         ContributorDescription*,
+         UnnamedPersons)),
+     ContributorPlace*)
+  }
+ContributorDate =
+  element ContributorDate {
+    attribute refname { "ContributorDate" }?,
+    attribute shortname { "contributordate" }?,
+    generalAttributes,
+    (ContributorDateRole, DateFormat?, Date)
+  }
+ContributorDateRole =
+  element ContributorDateRole {
+    attribute refname { "ContributorDateRole" }?,
+    attribute shortname { "x417" }?,
+    generalAttributes,
+    List177
+  }
+ContributorDescription =
+  element ContributorDescription {
+    attribute refname { "ContributorDescription" }?,
+    attribute shortname { "b048" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+ContributorPlace =
+  element ContributorPlace {
+    attribute refname { "ContributorPlace" }?,
+    attribute shortname { "contributorplace" }?,
+    generalAttributes,
+    (ContributorPlaceRelator,
+     ((CountryCode, RegionCode?) | RegionCode),
+     LocationName*)
+  }
+ContributorPlaceRelator =
+  element ContributorPlaceRelator {
+    attribute refname { "ContributorPlaceRelator" }?,
+    attribute shortname { "x418" }?,
+    generalAttributes,
+    List151
+  }
+ContributorRole =
+  element ContributorRole {
+    attribute refname { "ContributorRole" }?,
+    attribute shortname { "b035" }?,
+    generalAttributes,
+    List17
+  }
+ContributorStatement =
+  element ContributorStatement {
+    attribute refname { "ContributorStatement" }?,
+    attribute shortname { "b049" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+CopiesSold =
+  element CopiesSold {
+    attribute refname { "CopiesSold" }?,
+    attribute shortname { "k168" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+CopyrightOwner =
+  element CopyrightOwner {
+    attribute refname { "CopyrightOwner" }?,
+    attribute shortname { "copyrightowner" }?,
+    generalAttributes,
+    ((CopyrightOwnerIdentifier+, (PersonName | CorporateName)?)
+     | PersonName
+     | CorporateName)
+  }
+CopyrightOwnerIDType =
+  element CopyrightOwnerIDType {
+    attribute refname { "CopyrightOwnerIDType" }?,
+    attribute shortname { "b392" }?,
+    generalAttributes,
+    List44
+  }
+CopyrightOwnerIdentifier =
+  element CopyrightOwnerIdentifier {
+    attribute refname { "CopyrightOwnerIdentifier" }?,
+    attribute shortname { "copyrightowneridentifier" }?,
+    generalAttributes,
+    (CopyrightOwnerIDType, IDTypeName?, IDValue)
+  }
+CopyrightStatement =
+  element CopyrightStatement {
+    attribute refname { "CopyrightStatement" }?,
+    attribute shortname { "copyrightstatement" }?,
+    generalAttributes,
+    (CopyrightType?, CopyrightYear+, CopyrightOwner*)
+  }
+CopyrightType =
+  element CopyrightType {
+    attribute refname { "CopyrightType" }?,
+    attribute shortname { "x512" }?,
+    generalAttributes,
+    List219
+  }
+CopyrightYear =
+  element CopyrightYear {
+    attribute refname { "CopyrightYear" }?,
+    attribute shortname { "b087" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+CorporateName =
+  element CorporateName {
+    attribute refname { "CorporateName" }?,
+    attribute shortname { "b047" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+CorporateNameInverted =
+  element CorporateNameInverted {
+    attribute refname { "CorporateNameInverted" }?,
+    attribute shortname { "x443" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+CountriesIncluded =
+  element CountriesIncluded {
+    attribute refname { "CountriesIncluded" }?,
+    attribute shortname { "x449" }?,
+    generalAttributes,
+    CountryCodeList
+  }
+CountriesExcluded =
+  element CountriesExcluded {
+    attribute refname { "CountriesExcluded" }?,
+    attribute shortname { "x451" }?,
+    generalAttributes,
+    CountryCodeList
+  }
+CountryCode =
+  element CountryCode {
+    attribute refname { "CountryCode" }?,
+    attribute shortname { "b251" }?,
+    generalAttributes,
+    List91
+  }
+CountryCodeList = list { List91+ }
+CountryOfManufacture =
+  element CountryOfManufacture {
+    attribute refname { "CountryOfManufacture" }?,
+    attribute shortname { "x316" }?,
+    generalAttributes,
+    List91
+  }
+CountryOfPublication =
+  element CountryOfPublication {
+    attribute refname { "CountryOfPublication" }?,
+    attribute shortname { "b083" }?,
+    generalAttributes,
+    List91
+  }
+CurrencyCode =
+  element CurrencyCode {
+    attribute refname { "CurrencyCode" }?,
+    attribute shortname { "j152" }?,
+    generalAttributes,
+    List96
+  }
+CurrencyZone =
+  element CurrencyZone {
+    attribute refname { "CurrencyZone" }?,
+    attribute shortname { "x475" }?,
+    generalAttributes,
+    List172
+  }
+Date =
+  element Date {
+    attribute refname { "Date" }?,
+    attribute shortname { "b306" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+DateFormat =
+  element DateFormat {
+    attribute refname { "DateFormat" }?,
+    attribute shortname { "j260" }?,
+    generalAttributes,
+    List55
+  }
+DefaultCurrencyCode =
+  element DefaultCurrencyCode {
+    attribute refname { "DefaultCurrencyCode" }?,
+    attribute shortname { "m186" }?,
+    generalAttributes,
+    List96
+  }
+DefaultLanguageOfText =
+  element DefaultLanguageOfText {
+    attribute refname { "DefaultLanguageOfText" }?,
+    attribute shortname { "m184" }?,
+    generalAttributes,
+    List74
+  }
+DefaultPriceType =
+  element DefaultPriceType {
+    attribute refname { "DefaultPriceType" }?,
+    attribute shortname { "x310" }?,
+    generalAttributes,
+    List58
+  }
+DeletionText =
+  element DeletionText {
+    attribute refname { "DeletionText" }?,
+    attribute shortname { "a199" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+DescriptiveDetail =
+  element DescriptiveDetail {
+    attribute refname { "DescriptiveDetail" }?,
+    attribute shortname { "descriptivedetail" }?,
+    generalAttributes,
+    (gp.product_form,
+     gp.collections,
+     gp.title,
+     gp.authorship,
+     gp.conference,
+     gp.edition,
+     gp.language,
+     gp.extents,
+     gp.subject,
+     gp.audience)
+  }
+Discount =
+  element Discount {
+    attribute refname { "Discount" }?,
+    attribute shortname { "discount" }?,
+    generalAttributes,
+    (DiscountType?,
+     (Quantity, ToQuantity?)?,
+     ((DiscountPercent, DiscountAmount?) | DiscountAmount))
+  }
+DiscountAmount =
+  element DiscountAmount {
+    attribute refname { "DiscountAmount" }?,
+    attribute shortname { "x469" }?,
+    generalAttributes,
+    dt.PositiveDecimal
+  }
+DiscountCode =
+  element DiscountCode {
+    attribute refname { "DiscountCode" }?,
+    attribute shortname { "j364" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+DiscountCodeType =
+  element DiscountCodeType {
+    attribute refname { "DiscountCodeType" }?,
+    attribute shortname { "j363" }?,
+    generalAttributes,
+    List100
+  }
+DiscountCodeTypeName =
+  element DiscountCodeTypeName {
+    attribute refname { "DiscountCodeTypeName" }?,
+    attribute shortname { "j378" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+DiscountCoded =
+  element DiscountCoded {
+    attribute refname { "DiscountCoded" }?,
+    attribute shortname { "discountcoded" }?,
+    generalAttributes,
+    (DiscountCodeType, DiscountCodeTypeName?, DiscountCode)
+  }
+DiscountType =
+  element DiscountType {
+    attribute refname { "DiscountType" }?,
+    attribute shortname { "x467" }?,
+    generalAttributes,
+    List170
+  }
+EpubTechnicalProtection =
+  element EpubTechnicalProtection {
+    attribute refname { "EpubTechnicalProtection" }?,
+    attribute shortname { "x317" }?,
+    generalAttributes,
+    List144
+  }
+EditionNumber =
+  element EditionNumber {
+    attribute refname { "EditionNumber" }?,
+    attribute shortname { "b057" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+EditionStatement =
+  element EditionStatement {
+    attribute refname { "EditionStatement" }?,
+    attribute shortname { "b058" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+EditionType =
+  element EditionType {
+    attribute refname { "EditionType" }?,
+    attribute shortname { "x419" }?,
+    generalAttributes,
+    List21
+  }
+EditionVersionNumber =
+  element EditionVersionNumber {
+    attribute refname { "EditionVersionNumber" }?,
+    attribute shortname { "b217" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+EmailAddress =
+  element EmailAddress {
+    attribute refname { "EmailAddress" }?,
+    attribute shortname { "j272" }?,
+    generalAttributes,
+    dt.EmailString
+  }
+EndDate =
+  element EndDate {
+    attribute refname { "EndDate" }?,
+    attribute shortname { "b325" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+EpubLicense =
+  element EpubLicense {
+    attribute refname { "EpubLicense" }?,
+    attribute shortname { "epublicense" }?,
+    generalAttributes,
+    (EpubLicenseName+, EpubLicenseExpression*)
+  }
+EpubLicenseExpression =
+  element EpubLicenseExpression {
+    attribute refname { "EpubLicenseExpression" }?,
+    attribute shortname { "epublicenseexpression" }?,
+    generalAttributes,
+    (EpubLicenseExpressionType,
+     EpubLicenseExpressionTypeName?,
+     EpubLicenseExpressionLink)
+  }
+EpubLicenseExpressionLink =
+  element EpubLicenseExpressionLink {
+    attribute refname { "EpubLicenseExpressionLink" }?,
+    attribute shortname { "x510" }?,
+    generalAttributes,
+    dt.NonEmptyURI
+  }
+EpubLicenseExpressionType =
+  element EpubLicenseExpressionType {
+    attribute refname { "EpubLicenseExpressionType" }?,
+    attribute shortname { "x508" }?,
+    generalAttributes,
+    List218
+  }
+EpubLicenseExpressionTypeName =
+  element EpubLicenseExpressionTypeName {
+    attribute refname { "EpubLicenseExpressionTypeName" }?,
+    attribute shortname { "x509" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+EpubLicenseName =
+  element EpubLicenseName {
+    attribute refname { "EpubLicenseName" }?,
+    attribute shortname { "x511" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+EpubUsageConstraint =
+  element EpubUsageConstraint {
+    attribute refname { "EpubUsageConstraint" }?,
+    attribute shortname { "epubusageconstraint" }?,
+    generalAttributes,
+    (EpubUsageType, EpubUsageStatus, EpubUsageLimit*)
+  }
+EpubUsageLimit =
+  element EpubUsageLimit {
+    attribute refname { "EpubUsageLimit" }?,
+    attribute shortname { "epubusagelimit" }?,
+    generalAttributes,
+    (Quantity, EpubUsageUnit)
+  }
+EpubUsageStatus =
+  element EpubUsageStatus {
+    attribute refname { "EpubUsageStatus" }?,
+    attribute shortname { "x319" }?,
+    generalAttributes,
+    List146
+  }
+EpubUsageType =
+  element EpubUsageType {
+    attribute refname { "EpubUsageType" }?,
+    attribute shortname { "x318" }?,
+    generalAttributes,
+    List145
+  }
+EpubUsageUnit =
+  element EpubUsageUnit {
+    attribute refname { "EpubUsageUnit" }?,
+    attribute shortname { "x321" }?,
+    generalAttributes,
+    List147
+  }
+ExpectedDate =
+  element ExpectedDate {
+    attribute refname { "ExpectedDate" }?,
+    attribute shortname { "j302" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+Extent =
+  element Extent {
+    attribute refname { "Extent" }?,
+    attribute shortname { "extent" }?,
+    generalAttributes,
+    (ExtentType,
+     ((ExtentValue, ExtentValueRoman?) | ExtentValueRoman),
+     ExtentUnit)
+  }
+ExtentType =
+  element ExtentType {
+    attribute refname { "ExtentType" }?,
+    attribute shortname { "b218" }?,
+    generalAttributes,
+    List23
+  }
+ExtentUnit =
+  element ExtentUnit {
+    attribute refname { "ExtentUnit" }?,
+    attribute shortname { "b220" }?,
+    generalAttributes,
+    List24
+  }
+ExtentValue =
+  element ExtentValue {
+    attribute refname { "ExtentValue" }?,
+    attribute shortname { "b219" }?,
+    generalAttributes,
+    dt.StrictPositiveDecimal
+  }
+ExtentValueRoman =
+  element ExtentValueRoman {
+    attribute refname { "ExtentValueRoman" }?,
+    attribute shortname { "x421" }?,
+    generalAttributes,
+    dt.RomanNumeralString
+  }
+FaxNumber =
+  element FaxNumber {
+    attribute refname { "FaxNumber" }?,
+    attribute shortname { "j271" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+FeatureNote =
+  element FeatureNote {
+    attribute refname { "FeatureNote" }?,
+    attribute shortname { "x440" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+FeatureValue =
+  element FeatureValue {
+    attribute refname { "FeatureValue" }?,
+    attribute shortname { "x439" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+FirstPageNumber =
+  element FirstPageNumber {
+    attribute refname { "FirstPageNumber" }?,
+    attribute shortname { "b286" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+FreeQuantity =
+  element FreeQuantity {
+    attribute refname { "FreeQuantity" }?,
+    attribute shortname { "j265" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+FromLanguage =
+  element FromLanguage {
+    attribute refname { "FromLanguage" }?,
+    attribute shortname { "x412" }?,
+    generalAttributes,
+    List74
+  }
+Header =
+  element Header {
+    attribute refname { "Header" }?,
+    attribute shortname { "header" }?,
+    generalAttributes,
+    (Sender,
+     Addressee*,
+     MessageNumber?,
+     MessageRepeat?,
+     SentDateTime,
+     MessageNote*,
+     DefaultLanguageOfText?,
+     DefaultPriceType?,
+     DefaultCurrencyCode?)
+  }
+IDTypeName =
+  element IDTypeName {
+    attribute refname { "IDTypeName" }?,
+    attribute shortname { "b233" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+IDValue =
+  element IDValue {
+    attribute refname { "IDValue" }?,
+    attribute shortname { "b244" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+Illustrated =
+  element Illustrated {
+    attribute refname { "Illustrated" }?,
+    attribute shortname { "x422" }?,
+    generalAttributes,
+    List152
+  }
+IllustrationsNote =
+  element IllustrationsNote {
+    attribute refname { "IllustrationsNote" }?,
+    attribute shortname { "b062" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+Imprint =
+  element Imprint {
+    attribute refname { "Imprint" }?,
+    attribute shortname { "imprint" }?,
+    generalAttributes,
+    ((ImprintIdentifier+, ImprintName?) | ImprintName)
+  }
+ImprintIdentifier =
+  element ImprintIdentifier {
+    attribute refname { "ImprintIdentifier" }?,
+    attribute shortname { "imprintidentifier" }?,
+    generalAttributes,
+    (ImprintIDType, IDTypeName?, IDValue)
+  }
+ImprintIDType =
+  element ImprintIDType {
+    attribute refname { "ImprintIDType" }?,
+    attribute shortname { "x445" }?,
+    generalAttributes,
+    List44
+  }
+ImprintName =
+  element ImprintName {
+    attribute refname { "ImprintName" }?,
+    attribute shortname { "b079" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+InitialPrintRun =
+  element InitialPrintRun {
+    attribute refname { "InitialPrintRun" }?,
+    attribute shortname { "k167" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    dt.NonEmptyString
+  }
+KeyNames =
+  element KeyNames {
+    attribute refname { "KeyNames" }?,
+    attribute shortname { "b040" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+Language =
+  element Language {
+    attribute refname { "Language" }?,
+    attribute shortname { "language" }?,
+    generalAttributes,
+    (LanguageRole, LanguageCode, CountryCode?, ScriptCode?)
+  }
+LanguageCode =
+  element LanguageCode {
+    attribute refname { "LanguageCode" }?,
+    attribute shortname { "b252" }?,
+    generalAttributes,
+    List74
+  }
+LanguageRole =
+  element LanguageRole {
+    attribute refname { "LanguageRole" }?,
+    attribute shortname { "b253" }?,
+    generalAttributes,
+    List22
+  }
+LastPageNumber =
+  element LastPageNumber {
+    attribute refname { "LastPageNumber" }?,
+    attribute shortname { "b287" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+LatestReprintNumber =
+  element LatestReprintNumber {
+    attribute refname { "LatestReprintNumber" }?,
+    attribute shortname { "x446" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+LettersAfterNames =
+  element LettersAfterNames {
+    attribute refname { "LettersAfterNames" }?,
+    attribute shortname { "b042" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+LevelSequenceNumber =
+  element LevelSequenceNumber {
+    attribute refname { "LevelSequenceNumber" }?,
+    attribute shortname { "b284" }?,
+    generalAttributes,
+    dt.MultiLevelNumber
+  }
+ListName =
+  element ListName {
+    attribute refname { "ListName" }?,
+    attribute shortname { "x432" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+LocationIdentifier =
+  element LocationIdentifier {
+    attribute refname { "LocationIdentifier" }?,
+    attribute shortname { "locationidentifier" }?,
+    generalAttributes,
+    (LocationIDType, IDTypeName?, IDValue)
+  }
+LocationIDType =
+  element LocationIDType {
+    attribute refname { "LocationIDType" }?,
+    attribute shortname { "j377" }?,
+    generalAttributes,
+    List92
+  }
+LocationName =
+  element LocationName {
+    attribute refname { "LocationName" }?,
+    attribute shortname { "j349" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+MainSubject =
+  element MainSubject {
+    attribute refname { "MainSubject" }?,
+    attribute shortname { "x425" }?,
+    generalAttributes,
+    empty
+  }
+MapScale =
+  element MapScale {
+    attribute refname { "MapScale" }?,
+    attribute shortname { "b063" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+Market =
+  element Market {
+    attribute refname { "Market" }?,
+    attribute shortname { "market" }?,
+    generalAttributes,
+    (Territory, SalesRestriction*)
+  }
+MarketDate =
+  element MarketDate {
+    attribute refname { "MarketDate" }?,
+    attribute shortname { "marketdate" }?,
+    generalAttributes,
+    (MarketDateRole, DateFormat?, Date)
+  }
+MarketDateRole =
+  element MarketDateRole {
+    attribute refname { "MarketDateRole" }?,
+    attribute shortname { "j408" }?,
+    generalAttributes,
+    List163
+  }
+MarketPublishingDetail =
+  element MarketPublishingDetail {
+    attribute refname { "MarketPublishingDetail" }?,
+    attribute shortname { "marketpublishingdetail" }?,
+    generalAttributes,
+    (PublisherRepresentative*,
+     ProductContact*,
+     MarketPublishingStatus,
+     MarketPublishingStatusNote*,
+     MarketDate*,
+     PromotionCampaign*,
+     PromotionContact?,
+     InitialPrintRun*,
+     ReprintDetail*,
+     CopiesSold*,
+     BookClubAdoption*)
+  }
+MarketPublishingStatus =
+  element MarketPublishingStatus {
+    attribute refname { "MarketPublishingStatus" }?,
+    attribute shortname { "j407" }?,
+    generalAttributes,
+    List68
+  }
+MarketPublishingStatusNote =
+  element MarketPublishingStatusNote {
+    attribute refname { "MarketPublishingStatusNote" }?,
+    attribute shortname { "x406" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+Measure =
+  element Measure {
+    attribute refname { "Measure" }?,
+    attribute shortname { "measure" }?,
+    generalAttributes,
+    (MeasureType, Measurement, MeasureUnitCode)
+  }
+Measurement =
+  element Measurement {
+    attribute refname { "Measurement" }?,
+    attribute shortname { "c094" }?,
+    generalAttributes,
+    dt.StrictPositiveDecimal
+  }
+MeasureType =
+  element MeasureType {
+    attribute refname { "MeasureType" }?,
+    attribute shortname { "x315" }?,
+    generalAttributes,
+    List48
+  }
+MeasureUnitCode =
+  element MeasureUnitCode {
+    attribute refname { "MeasureUnitCode" }?,
+    attribute shortname { "c095" }?,
+    generalAttributes,
+    List50
+  }
+MessageNote =
+  element MessageNote {
+    attribute refname { "MessageNote" }?,
+    attribute shortname { "m183" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+MessageNumber =
+  element MessageNumber {
+    attribute refname { "MessageNumber" }?,
+    attribute shortname { "m180" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+MessageRepeat =
+  element MessageRepeat {
+    attribute refname { "MessageRepeat" }?,
+    attribute shortname { "m181" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+MinimumOrderQuantity =
+  element MinimumOrderQuantity {
+    attribute refname { "MinimumOrderQuantity" }?,
+    attribute shortname { "j263" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+NameAsSubject =
+  element NameAsSubject {
+    attribute refname { "NameAsSubject" }?,
+    attribute shortname { "nameassubject" }?,
+    generalAttributes,
+    (NameType?,
+     ((NameIdentifier+,
+       ((gp.unstructured_name, gp.structured_name?)
+        | gp.structured_name
+        | gp.corporate_name)?)
+      | ((gp.unstructured_name, gp.structured_name?)
+         | gp.structured_name
+         | gp.corporate_name)))
+  }
+NameIdentifier =
+  element NameIdentifier {
+    attribute refname { "NameIdentifier" }?,
+    attribute shortname { "nameidentifier" }?,
+    generalAttributes,
+    NameIDType,
+    IDTypeName?,
+    IDValue
+  }
+NameIDType =
+  element NameIDType {
+    attribute refname { "NameIDType" }?,
+    attribute shortname { "x415" }?,
+    generalAttributes,
+    List44
+  }
+NamesAfterKey =
+  element NamesAfterKey {
+    attribute refname { "NamesAfterKey" }?,
+    attribute shortname { "b041" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+NamesBeforeKey =
+  element NamesBeforeKey {
+    attribute refname { "NamesBeforeKey" }?,
+    attribute shortname { "b039" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+NameType =
+  element NameType {
+    attribute refname { "NameType" }?,
+    attribute shortname { "x414" }?,
+    generalAttributes,
+    List18
+  }
+NewSupplier =
+  element NewSupplier {
+    attribute refname { "NewSupplier" }?,
+    attribute shortname { "newsupplier" }?,
+    generalAttributes,
+    (((SupplierIdentifier+, SupplierName?) | SupplierName),
+     TelephoneNumber*,
+     FaxNumber*,
+     EmailAddress*)
+  }
+NoCollection =
+  element NoCollection {
+    attribute refname { "NoCollection" }?,
+    attribute shortname { "x411" }?,
+    generalAttributes,
+    empty
+  }
+NoContributor =
+  element NoContributor {
+    attribute refname { "NoContributor" }?,
+    attribute shortname { "n339" }?,
+    generalAttributes,
+    empty
+  }
+NoEdition =
+  element NoEdition {
+    attribute refname { "NoEdition" }?,
+    attribute shortname { "n386" }?,
+    generalAttributes,
+    empty
+  }
+NoPrefix =
+  element NoPrefix {
+    attribute refname { "NoPrefix" }?,
+    attribute shortname { "x501" }?,
+    generalAttributes,
+    empty
+  }
+NoProduct =
+  element NoProduct {
+    attribute refname { "NoProduct" }?,
+    attribute shortname { "x507" }?,
+    generalAttributes,
+    empty
+  }
+NotificationType =
+  element NotificationType {
+    attribute refname { "NotificationType" }?,
+    attribute shortname { "a002" }?,
+    generalAttributes,
+    List1
+  }
+Number =
+  element Number {
+    attribute refname { "Number" }?,
+    attribute shortname { "b257" }?,
+    generalAttributes,
+    dt.PositiveInteger
+  }
+NumberOfCopies =
+  element NumberOfCopies {
+    attribute refname { "NumberOfCopies" }?,
+    attribute shortname { "x323" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+NumberOfIllustrations =
+  element NumberOfIllustrations {
+    attribute refname { "NumberOfIllustrations" }?,
+    attribute shortname { "b125" }?,
+    generalAttributes,
+    dt.PositiveInteger
+  }
+NumberOfItemsOfThisForm =
+  element NumberOfItemsOfThisForm {
+    attribute refname { "NumberOfItemsOfThisForm" }?,
+    attribute shortname { "x322" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+NumberOfPages =
+  element NumberOfPages {
+    attribute refname { "NumberOfPages" }?,
+    attribute shortname { "b061" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+ONIXMessage =
+  element ONIXMessage {
+    attribute refname { "ONIXMessage" }?,
+    attribute shortname { "ONIXmessage" }?,
+    generalAttributes,
+    releaseAttribute,
+    (Header, (NoProduct | Product+))
+  }
+OnHand =
+  element OnHand {
+    attribute refname { "OnHand" }?,
+    attribute shortname { "j350" }?,
+    generalAttributes,
+    dt.Integer
+  }
+OnOrder =
+  element OnOrder {
+    attribute refname { "OnOrder" }?,
+    attribute shortname { "j351" }?,
+    generalAttributes,
+    dt.PositiveInteger
+  }
+OnOrderDetail =
+  element OnOrderDetail {
+    attribute refname { "OnOrderDetail" }?,
+    attribute shortname { "onorderdetail" }?,
+    generalAttributes,
+    (OnOrder, ExpectedDate)
+  }
+OrderTime =
+  element OrderTime {
+    attribute refname { "OrderTime" }?,
+    attribute shortname { "j144" }?,
+    generalAttributes,
+    dt.PositiveInteger
+  }
+PackQuantity =
+  element PackQuantity {
+    attribute refname { "PackQuantity" }?,
+    attribute shortname { "j145" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+PageRun =
+  element PageRun {
+    attribute refname { "PageRun" }?,
+    attribute shortname { "pagerun" }?,
+    generalAttributes,
+    (FirstPageNumber, LastPageNumber?)
+  }
+PartNumber =
+  element PartNumber {
+    attribute refname { "PartNumber" }?,
+    attribute shortname { "x410" }?,
+    generalAttributes,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+Percent =
+  element Percent {
+    attribute refname { "Percent" }?,
+    attribute shortname { "b337" }?,
+    generalAttributes,
+    dt.PercentDecimal
+  }
+DiscountPercent =
+  element DiscountPercent {
+    attribute refname { "DiscountPercent" }?,
+    attribute shortname { "j267" }?,
+    generalAttributes,
+    dt.PercentDecimal
+  }
+PersonName =
+  element PersonName {
+    attribute refname { "PersonName" }?,
+    attribute shortname { "b036" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+PersonNameInverted =
+  element PersonNameInverted {
+    attribute refname { "PersonNameInverted" }?,
+    attribute shortname { "b037" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+PositionOnList =
+  element PositionOnList {
+    attribute refname { "PositionOnList" }?,
+    attribute shortname { "x433" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+PositionOnProduct =
+  element PositionOnProduct {
+    attribute refname { "PositionOnProduct" }?,
+    attribute shortname { "x313" }?,
+    generalAttributes,
+    List142
+  }
+PrefixToKey =
+  element PrefixToKey {
+    attribute refname { "PrefixToKey" }?,
+    attribute shortname { "b247" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+Price =
+  element Price {
+    attribute refname { "Price" }?,
+    attribute shortname { "price" }?,
+    generalAttributes,
+    (PriceIdentifier*,
+     PriceType?,
+     PriceQualifier?,
+     PriceTypeDescription*,
+     PricePer?,
+     PriceCondition*,
+     MinimumOrderQuantity?,
+     BatchBonus*,
+     DiscountCoded*,
+     Discount*,
+     PriceStatus?,
+     (PriceAmount | PriceCoded),
+     Tax*,
+     CurrencyCode?,
+     Territory?,
+     CurrencyZone?,
+     ComparisonProductPrice*,
+     PriceDate*,
+     PrintedOnProduct?,
+     PositionOnProduct?)
+  }
+PriceAmount =
+  element PriceAmount {
+    attribute refname { "PriceAmount" }?,
+    attribute shortname { "j151" }?,
+    generalAttributes,
+    dt.StrictPositiveDecimal
+  }
+PriceCode =
+  element PriceCode {
+    attribute refname { "PriceCode" }?,
+    attribute shortname { "x468" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+PriceCoded =
+  element PriceCoded {
+    attribute refname { "PriceCoded" }?,
+    attribute shortname { "pricecoded" }?,
+    generalAttributes,
+    (PriceCodeType, PriceCodeTypeName?, PriceCode)
+  }
+PriceCodeType =
+  element PriceCodeType {
+    attribute refname { "PriceCodeType" }?,
+    attribute shortname { "x465" }?,
+    generalAttributes,
+    List179
+  }
+PriceCodeTypeName =
+  element PriceCodeTypeName {
+    attribute refname { "PriceCodeTypeName" }?,
+    attribute shortname { "x477" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+PriceCondition =
+  element PriceCondition {
+    attribute refname { "PriceCondition" }?,
+    attribute shortname { "pricecondition" }?,
+    generalAttributes,
+    (PriceConditionType, PriceConditionQuantity*, ProductIdentifier*)
+  }
+PriceConditionQuantity =
+  element PriceConditionQuantity {
+    attribute refname { "PriceConditionQuantity" }?,
+    attribute shortname { "priceconditionquantity" }?,
+    generalAttributes,
+    (PriceConditionQuantityType, Quantity, QuantityUnit)
+  }
+PriceConditionQuantityType =
+  element PriceConditionQuantityType {
+    attribute refname { "PriceConditionQuantityType" }?,
+    attribute shortname { "x464" }?,
+    generalAttributes,
+    List168
+  }
+PriceConditionType =
+  element PriceConditionType {
+    attribute refname { "PriceConditionType" }?,
+    attribute shortname { "x463" }?,
+    generalAttributes,
+    List167
+  }
+PriceDate =
+  element PriceDate {
+    attribute refname { "PriceDate" }?,
+    attribute shortname { "pricedate" }?,
+    generalAttributes,
+    (PriceDateRole, DateFormat?, Date)
+  }
+PriceDateRole =
+  element PriceDateRole {
+    attribute refname { "PriceDateRole" }?,
+    attribute shortname { "x476" }?,
+    generalAttributes,
+    List173
+  }
+PriceIdentifier =
+  element PriceIdentifier {
+    attribute refname { "PriceIdentifier" }?,
+    attribute shortname { "priceidentifier" }?,
+    generalAttributes,
+    (PriceIDType, IDTypeName?, IDValue)
+  }
+PriceIDType =
+  element PriceIDType {
+    attribute refname { "PriceIDType" }?,
+    attribute shortname { "x506" }?,
+    generalAttributes,
+    List217
+  }
+PricePer =
+  element PricePer {
+    attribute refname { "PricePer" }?,
+    attribute shortname { "j239" }?,
+    generalAttributes,
+    List60
+  }
+PriceQualifier =
+  element PriceQualifier {
+    attribute refname { "PriceQualifier" }?,
+    attribute shortname { "j261" }?,
+    generalAttributes,
+    List59
+  }
+PriceStatus =
+  element PriceStatus {
+    attribute refname { "PriceStatus" }?,
+    attribute shortname { "j266" }?,
+    generalAttributes,
+    List61
+  }
+PriceType =
+  element PriceType {
+    attribute refname { "PriceType" }?,
+    attribute shortname { "x462" }?,
+    generalAttributes,
+    List58
+  }
+PriceTypeDescription =
+  element PriceTypeDescription {
+    attribute refname { "PriceTypeDescription" }?,
+    attribute shortname { "j262" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+PrimaryContentType =
+  element PrimaryContentType {
+    attribute refname { "PrimaryContentType" }?,
+    attribute shortname { "x416" }?,
+    generalAttributes,
+    List81
+  }
+PrimaryPart =
+  element PrimaryPart {
+    attribute refname { "PrimaryPart" }?,
+    attribute shortname { "x457" }?,
+    generalAttributes,
+    empty
+  }
+PrintedOnProduct =
+  element PrintedOnProduct {
+    attribute refname { "PrintedOnProduct" }?,
+    attribute shortname { "x301" }?,
+    generalAttributes,
+    List174
+  }
+Prize =
+  element Prize {
+    attribute refname { "Prize" }?,
+    attribute shortname { "prize" }?,
+    generalAttributes,
+    (PrizeName+,
+     PrizeYear?,
+     PrizeCountry?,
+     PrizeCode?,
+     PrizeStatement*,
+     PrizeJury*)
+  }
+PrizeCode =
+  element PrizeCode {
+    attribute refname { "PrizeCode" }?,
+    attribute shortname { "g129" }?,
+    generalAttributes,
+    List41
+  }
+PrizeCountry =
+  element PrizeCountry {
+    attribute refname { "PrizeCountry" }?,
+    attribute shortname { "g128" }?,
+    generalAttributes,
+    List91
+  }
+PrizeJury =
+  element PrizeJury {
+    attribute refname { "PrizeJury" }?,
+    attribute shortname { "g343" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+PrizeName =
+  element PrizeName {
+    attribute refname { "PrizeName" }?,
+    attribute shortname { "g126" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+PrizeStatement =
+  element PrizeStatement {
+    attribute refname { "PrizeStatement" }?,
+    attribute shortname { "x503" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+PrizeYear =
+  element PrizeYear {
+    attribute refname { "PrizeYear" }?,
+    attribute shortname { "g127" }?,
+    generalAttributes,
+    dt.Year
+  }
+Product =
+  element Product {
+    attribute refname { "Product" }?,
+    attribute shortname { "product" }?,
+    generalAttributes,
+    (gp.record_metadata,
+     gp.product_numbers,
+     DescriptiveDetail?,
+     CollateralDetail?,
+     ContentDetail?,
+     PublishingDetail?,
+     RelatedMaterial?,
+     ProductSupply*)
+  }
+ProductAvailability =
+  element ProductAvailability {
+    attribute refname { "ProductAvailability" }?,
+    attribute shortname { "j396" }?,
+    generalAttributes,
+    List65
+  }
+ProductClassification =
+  element ProductClassification {
+    attribute refname { "ProductClassification" }?,
+    attribute shortname { "productclassification" }?,
+    generalAttributes,
+    (ProductClassificationType, ProductClassificationCode, Percent?)
+  }
+ProductClassificationCode =
+  element ProductClassificationCode {
+    attribute refname { "ProductClassificationCode" }?,
+    attribute shortname { "b275" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ProductClassificationType =
+  element ProductClassificationType {
+    attribute refname { "ProductClassificationType" }?,
+    attribute shortname { "b274" }?,
+    generalAttributes,
+    List9
+  }
+ProductComposition =
+  element ProductComposition {
+    attribute refname { "ProductComposition" }?,
+    attribute shortname { "x314" }?,
+    generalAttributes,
+    List2
+  }
+ProductContact =
+  element ProductContact {
+    attribute refname { "ProductContact" }?,
+    attribute shortname { "productcontact" }?,
+    generalAttributes,
+    (ProductContactRole,
+     ((ProductContactIdentifier+, ProductContactName?)
+      | ProductContactName),
+     ContactName?,
+     EmailAddress?)
+  }
+ProductContactIdentifier =
+  element ProductContactIdentifier {
+    attribute refname { "ProductContactIdentifier" }?,
+    attribute shortname { "productcontactidentifier" }?,
+    generalAttributes,
+    (ProductContactIDType, IDTypeName?, IDValue)
+  }
+ProductContactIDType =
+  element ProductContactIDType {
+    attribute refname { "ProductContactIDType" }?,
+    attribute shortname { "x483" }?,
+    generalAttributes,
+    List44
+  }
+ProductContactName =
+  element ProductContactName {
+    attribute refname { "ProductContactName" }?,
+    attribute shortname { "x484" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ProductContactRole =
+  element ProductContactRole {
+    attribute refname { "ProductContactRole" }?,
+    attribute shortname { "x482" }?,
+    generalAttributes,
+    List198
+  }
+ProductContentType =
+  element ProductContentType {
+    attribute refname { "ProductContentType" }?,
+    attribute shortname { "b385" }?,
+    generalAttributes,
+    List81
+  }
+ProductForm =
+  element ProductForm {
+    attribute refname { "ProductForm" }?,
+    attribute shortname { "b012" }?,
+    generalAttributes,
+    List150
+  }
+ProductFormDescription =
+  element ProductFormDescription {
+    attribute refname { "ProductFormDescription" }?,
+    attribute shortname { "b014" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+ProductFormDetail =
+  element ProductFormDetail {
+    attribute refname { "ProductFormDetail" }?,
+    attribute shortname { "b333" }?,
+    generalAttributes,
+    List175
+  }
+ProductFormFeature =
+  element ProductFormFeature {
+    attribute refname { "ProductFormFeature" }?,
+    attribute shortname { "productformfeature" }?,
+    generalAttributes,
+    (ProductFormFeatureType,
+     ProductFormFeatureValue?,
+     ProductFormFeatureDescription*)
+  }
+ProductFormFeatureDescription =
+  element ProductFormFeatureDescription {
+    attribute refname { "ProductFormFeatureDescription" }?,
+    attribute shortname { "b336" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+ProductFormFeatureType =
+  element ProductFormFeatureType {
+    attribute refname { "ProductFormFeatureType" }?,
+    attribute shortname { "b334" }?,
+    generalAttributes,
+    List79
+  }
+ProductFormFeatureValue =
+  element ProductFormFeatureValue {
+    attribute refname { "ProductFormFeatureValue" }?,
+    attribute shortname { "b335" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ProductIDType =
+  element ProductIDType {
+    attribute refname { "ProductIDType" }?,
+    attribute shortname { "b221" }?,
+    generalAttributes,
+    List5
+  }
+ProductIdentifier =
+  element ProductIdentifier {
+    attribute refname { "ProductIdentifier" }?,
+    attribute shortname { "productidentifier" }?,
+    generalAttributes,
+    (ProductIDType, IDTypeName?, IDValue)
+  }
+ProductPackaging =
+  element ProductPackaging {
+    attribute refname { "ProductPackaging" }?,
+    attribute shortname { "b225" }?,
+    generalAttributes,
+    List80
+  }
+ProductPart =
+  element ProductPart {
+    attribute refname { "ProductPart" }?,
+    attribute shortname { "productpart" }?,
+    generalAttributes,
+    (PrimaryPart?,
+     ProductIdentifier*,
+     ProductForm,
+     ProductFormDetail*,
+     ProductFormFeature*,
+     ProductFormDescription*,
+     ProductContentType*,
+     ((NumberOfItemsOfThisForm, NumberOfCopies?) | NumberOfCopies),
+     CountryOfManufacture?)
+  }
+ProductRelationCode =
+  element ProductRelationCode {
+    attribute refname { "ProductRelationCode" }?,
+    attribute shortname { "x455" }?,
+    generalAttributes,
+    List51
+  }
+ProductSupply =
+  element ProductSupply {
+    attribute refname { "ProductSupply" }?,
+    attribute shortname { "productsupply" }?,
+    generalAttributes,
+    (Market*, MarketPublishingDetail?, SupplyDetail+)
+  }
+ProfessionalAffiliation =
+  element ProfessionalAffiliation {
+    attribute refname { "ProfessionalAffiliation" }?,
+    attribute shortname { "professionalaffiliation" }?,
+    generalAttributes,
+    ((ProfessionalPosition+, Affiliation?) | Affiliation)
+  }
+ProfessionalPosition =
+  element ProfessionalPosition {
+    attribute refname { "ProfessionalPosition" }?,
+    attribute shortname { "b045" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+PromotionCampaign =
+  element PromotionCampaign {
+    attribute refname { "PromotionCampaign" }?,
+    attribute shortname { "k165" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+PromotionContact =
+  element PromotionContact {
+    attribute refname { "PromotionContact" }?,
+    attribute shortname { "k166" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+Proximity =
+  element Proximity {
+    attribute refname { "Proximity" }?,
+    attribute shortname { "x502" }?,
+    generalAttributes,
+    List215
+  }
+Publisher =
+  element Publisher {
+    attribute refname { "Publisher" }?,
+    attribute shortname { "publisher" }?,
+    generalAttributes,
+    PublishingRole,
+    ((PublisherIdentifier+, PublisherName?) | PublisherName),
+    Website*
+  }
+PublisherIdentifier =
+  element PublisherIdentifier {
+    attribute refname { "PublisherIdentifier" }?,
+    attribute shortname { "publisheridentifier" }?,
+    generalAttributes,
+    (PublisherIDType, IDTypeName?, IDValue)
+  }
+PublisherIDType =
+  element PublisherIDType {
+    attribute refname { "PublisherIDType" }?,
+    attribute shortname { "x447" }?,
+    generalAttributes,
+    List44
+  }
+PublisherName =
+  element PublisherName {
+    attribute refname { "PublisherName" }?,
+    attribute shortname { "b081" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+PublisherRepresentative =
+  element PublisherRepresentative {
+    attribute refname { "PublisherRepresentative" }?,
+    attribute shortname { "publisherrepresentative" }?,
+    generalAttributes,
+    (AgentRole,
+     ((AgentIdentifier+, AgentName?) | AgentName),
+     TelephoneNumber*,
+     FaxNumber*,
+     EmailAddress*,
+     Website*)
+  }
+PublishingDate =
+  element PublishingDate {
+    attribute refname { "PublishingDate" }?,
+    attribute shortname { "publishingdate" }?,
+    generalAttributes,
+    (PublishingDateRole, DateFormat?, Date)
+  }
+PublishingDateRole =
+  element PublishingDateRole {
+    attribute refname { "PublishingDateRole" }?,
+    attribute shortname { "x448" }?,
+    generalAttributes,
+    List163
+  }
+PublishingDetail =
+  element PublishingDetail {
+    attribute refname { "PublishingDetail" }?,
+    attribute shortname { "publishingdetail" }?,
+    generalAttributes,
+    (gp.publisher, gp.publishing_status, gp.rights_restrictions)
+  }
+PublishingRole =
+  element PublishingRole {
+    attribute refname { "PublishingRole" }?,
+    attribute shortname { "b291" }?,
+    generalAttributes,
+    List45
+  }
+PublishingStatus =
+  element PublishingStatus {
+    attribute refname { "PublishingStatus" }?,
+    attribute shortname { "b394" }?,
+    generalAttributes,
+    List64
+  }
+PublishingStatusNote =
+  element PublishingStatusNote {
+    attribute refname { "PublishingStatusNote" }?,
+    attribute shortname { "b395" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+Quantity =
+  element Quantity {
+    attribute refname { "Quantity" }?,
+    attribute shortname { "x320" }?,
+    generalAttributes,
+    dt.PositiveDecimal
+  }
+QuantityUnit =
+  element QuantityUnit {
+    attribute refname { "QuantityUnit" }?,
+    attribute shortname { "x466" }?,
+    generalAttributes,
+    List169
+  }
+Rate =
+  element Rate {
+    attribute refname { "Rate" }?,
+    attribute shortname { "x505" }?,
+    generalAttributes,
+    dt.Integer
+  }
+RecordReference =
+  element RecordReference {
+    attribute refname { "RecordReference" }?,
+    attribute shortname { "a001" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+RecordSourceIdentifier =
+  element RecordSourceIdentifier {
+    attribute refname { "RecordSourceIdentifier" }?,
+    attribute shortname { "recordsourceidentifier" }?,
+    generalAttributes,
+    (RecordSourceIDType, IDTypeName?, IDValue)
+  }
+RecordSourceIDType =
+  element RecordSourceIDType {
+    attribute refname { "RecordSourceIDType" }?,
+    attribute shortname { "x311" }?,
+    generalAttributes,
+    List44
+  }
+RecordSourceName =
+  element RecordSourceName {
+    attribute refname { "RecordSourceName" }?,
+    attribute shortname { "a197" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+RecordSourceType =
+  element RecordSourceType {
+    attribute refname { "RecordSourceType" }?,
+    attribute shortname { "a194" }?,
+    generalAttributes,
+    List3
+  }
+RegionCode =
+  element RegionCode {
+    attribute refname { "RegionCode" }?,
+    attribute shortname { "b398" }?,
+    generalAttributes,
+    List49
+  }
+RegionCodeList = list { List49+ }
+RegionsIncluded =
+  element RegionsIncluded {
+    attribute refname { "RegionsIncluded" }?,
+    attribute shortname { "x450" }?,
+    generalAttributes,
+    RegionCodeList
+  }
+RegionsExcluded =
+  element RegionsExcluded {
+    attribute refname { "RegionsExcluded" }?,
+    attribute shortname { "x452" }?,
+    generalAttributes,
+    RegionCodeList
+  }
+Reissue =
+  element Reissue {
+    attribute refname { "Reissue" }?,
+    attribute shortname { "reissue" }?,
+    generalAttributes,
+    (ReissueDate, ReissueDescription?, Price*, SupportingResource*)
+  }
+ReissueDate =
+  element ReissueDate {
+    attribute refname { "ReissueDate" }?,
+    attribute shortname { "j365" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+ReissueDescription =
+  element ReissueDescription {
+    attribute refname { "ReissueDescription" }?,
+    attribute shortname { "j366" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+RelatedMaterial =
+  element RelatedMaterial {
+    attribute refname { "RelatedMaterial" }?,
+    attribute shortname { "relatedmaterial" }?,
+    generalAttributes,
+    (RelatedWork*, RelatedProduct*)
+  }
+RelatedProduct =
+  element RelatedProduct {
+    attribute refname { "RelatedProduct" }?,
+    attribute shortname { "relatedproduct" }?,
+    generalAttributes,
+    (ProductRelationCode+,
+     ProductIdentifier+,
+     (ProductForm, ProductFormDetail*)?)
+  }
+RelatedWork =
+  element RelatedWork {
+    attribute refname { "RelatedWork" }?,
+    attribute shortname { "relatedwork" }?,
+    generalAttributes,
+    (WorkRelationCode, WorkIdentifier+)
+  }
+ReligiousText =
+  element ReligiousText {
+    attribute refname { "ReligiousText" }?,
+    attribute shortname { "religioustext" }?,
+    generalAttributes,
+    (Bible | (ReligiousTextIdentifier, ReligiousTextFeature+))
+  }
+ReligiousTextFeature =
+  element ReligiousTextFeature {
+    attribute refname { "ReligiousTextFeature" }?,
+    attribute shortname { "religioustextfeature" }?,
+    generalAttributes,
+    (ReligiousTextFeatureType,
+     ReligiousTextFeatureCode,
+     ReligiousTextFeatureDescription*)
+  }
+ReligiousTextFeatureCode =
+  element ReligiousTextFeatureCode {
+    attribute refname { "ReligiousTextFeatureCode" }?,
+    attribute shortname { "b359" }?,
+    generalAttributes,
+    List90
+  }
+ReligiousTextFeatureDescription =
+  element ReligiousTextFeatureDescription {
+    attribute refname { "ReligiousTextFeatureDescription" }?,
+    attribute shortname { "b360" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+ReligiousTextFeatureType =
+  element ReligiousTextFeatureType {
+    attribute refname { "ReligiousTextFeatureType" }?,
+    attribute shortname { "b358" }?,
+    generalAttributes,
+    List89
+  }
+ReligiousTextIdentifier =
+  element ReligiousTextIdentifier {
+    attribute refname { "ReligiousTextIdentifier" }?,
+    attribute shortname { "b376" }?,
+    generalAttributes,
+    List88
+  }
+ReprintDetail =
+  element ReprintDetail {
+    attribute refname { "ReprintDetail" }?,
+    attribute shortname { "k309" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+ResourceContentType =
+  element ResourceContentType {
+    attribute refname { "ResourceContentType" }?,
+    attribute shortname { "x436" }?,
+    generalAttributes,
+    List158
+  }
+ResourceFeature =
+  element ResourceFeature {
+    attribute refname { "ResourceFeature" }?,
+    attribute shortname { "resourcefeature" }?,
+    generalAttributes,
+    ResourceFeatureType,
+    FeatureValue?,
+    FeatureNote*
+  }
+ResourceFeatureType =
+  element ResourceFeatureType {
+    attribute refname { "ResourceFeatureType" }?,
+    attribute shortname { "x438" }?,
+    generalAttributes,
+    List160
+  }
+ResourceForm =
+  element ResourceForm {
+    attribute refname { "ResourceForm" }?,
+    attribute shortname { "x441" }?,
+    generalAttributes,
+    List161
+  }
+ResourceLink =
+  element ResourceLink {
+    attribute refname { "ResourceLink" }?,
+    attribute shortname { "x435" }?,
+    generalAttributes,
+    dt.NonEmptyURI
+  }
+ResourceMode =
+  element ResourceMode {
+    attribute refname { "ResourceMode" }?,
+    attribute shortname { "x437" }?,
+    generalAttributes,
+    List159
+  }
+ResourceVersion =
+  element ResourceVersion {
+    attribute refname { "ResourceVersion" }?,
+    attribute shortname { "resourceversion" }?,
+    generalAttributes,
+    ResourceForm,
+    ResourceVersionFeature*,
+    ResourceLink+,
+    ContentDate*
+  }
+ResourceVersionFeature =
+  element ResourceVersionFeature {
+    attribute refname { "ResourceVersionFeature" }?,
+    attribute shortname { "resourceversionfeature" }?,
+    generalAttributes,
+    (ResourceVersionFeatureType, FeatureValue?, FeatureNote*)
+  }
+ResourceVersionFeatureType =
+  element ResourceVersionFeatureType {
+    attribute refname { "ResourceVersionFeatureType" }?,
+    attribute shortname { "x442" }?,
+    generalAttributes,
+    List162
+  }
+ROWSalesRightsType =
+  element ROWSalesRightsType {
+    attribute refname { "ROWSalesRightsType" }?,
+    attribute shortname { "x456" }?,
+    generalAttributes,
+    List46
+  }
+ReturnsCode =
+  element ReturnsCode {
+    attribute refname { "ReturnsCode" }?,
+    attribute shortname { "j269" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+ReturnsCodeType =
+  element ReturnsCodeType {
+    attribute refname { "ReturnsCodeType" }?,
+    attribute shortname { "j268" }?,
+    generalAttributes,
+    List53
+  }
+ReturnsCodeTypeName =
+  element ReturnsCodeTypeName {
+    attribute refname { "ReturnsCodeTypeName" }?,
+    attribute shortname { "x460" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+ReturnsConditions =
+  element ReturnsConditions {
+    attribute refname { "ReturnsConditions" }?,
+    attribute shortname { "returnsconditions" }?,
+    generalAttributes,
+    (ReturnsCodeType, ReturnsCodeTypeName?, ReturnsCode)
+  }
+SalesRights =
+  element SalesRights {
+    attribute refname { "SalesRights" }?,
+    attribute shortname { "salesrights" }?,
+    generalAttributes,
+    (SalesRightsType,
+     Territory,
+     SalesRestriction*,
+     ProductIdentifier*,
+     PublisherName?)
+  }
+SalesRightsType =
+  element SalesRightsType {
+    attribute refname { "SalesRightsType" }?,
+    attribute shortname { "b089" }?,
+    generalAttributes,
+    List46
+  }
+SalesOutlet =
+  element SalesOutlet {
+    attribute refname { "SalesOutlet" }?,
+    attribute shortname { "salesoutlet" }?,
+    generalAttributes,
+    ((SalesOutletIdentifier+, SalesOutletName?) | SalesOutletName)
+  }
+SalesOutletIdentifier =
+  element SalesOutletIdentifier {
+    attribute refname { "SalesOutletIdentifier" }?,
+    attribute shortname { "salesoutletidentifier" }?,
+    generalAttributes,
+    (SalesOutletIDType, IDTypeName?, IDValue)
+  }
+SalesOutletIDType =
+  element SalesOutletIDType {
+    attribute refname { "SalesOutletIDType" }?,
+    attribute shortname { "b393" }?,
+    generalAttributes,
+    List102
+  }
+SalesOutletName =
+  element SalesOutletName {
+    attribute refname { "SalesOutletName" }?,
+    attribute shortname { "b382" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+SalesRestriction =
+  element SalesRestriction {
+    attribute refname { "SalesRestriction" }?,
+    attribute shortname { "salesrestriction" }?,
+    generalAttributes,
+    (SalesRestrictionType,
+     SalesOutlet*,
+     SalesRestrictionNote*,
+     StartDate?,
+     EndDate?)
+  }
+SalesRestrictionNote =
+  element SalesRestrictionNote {
+    attribute refname { "SalesRestrictionNote" }?,
+    attribute shortname { "x453" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+SalesRestrictionType =
+  element SalesRestrictionType {
+    attribute refname { "SalesRestrictionType" }?,
+    attribute shortname { "b381" }?,
+    generalAttributes,
+    List71
+  }
+ScriptCode =
+  element ScriptCode {
+    attribute refname { "ScriptCode" }?,
+    attribute shortname { "x420" }?,
+    generalAttributes,
+    List121
+  }
+Sender =
+  element Sender {
+    attribute refname { "Sender" }?,
+    attribute shortname { "sender" }?,
+    generalAttributes,
+    (((SenderIdentifier+, SenderName?) | SenderName),
+     ContactName?,
+     EmailAddress?)
+  }
+SenderIDType =
+  element SenderIDType {
+    attribute refname { "SenderIDType" }?,
+    attribute shortname { "m379" }?,
+    generalAttributes,
+    List44
+  }
+SenderIdentifier =
+  element SenderIdentifier {
+    attribute refname { "SenderIdentifier" }?,
+    attribute shortname { "senderidentifier" }?,
+    generalAttributes,
+    (SenderIDType, IDTypeName?, IDValue)
+  }
+SenderName =
+  element SenderName {
+    attribute refname { "SenderName" }?,
+    attribute shortname { "x298" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+SentDateTime =
+  element SentDateTime {
+    attribute refname { "SentDateTime" }?,
+    attribute shortname { "x307" }?,
+    generalAttributes,
+    dt.DateOrDateTime
+  }
+SequenceNumber =
+  element SequenceNumber {
+    attribute refname { "SequenceNumber" }?,
+    attribute shortname { "b034" }?,
+    generalAttributes,
+    dt.StrictPositiveInteger
+  }
+SourceName =
+  element SourceName {
+    attribute refname { "SourceName" }?,
+    attribute shortname { "x330" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+SourceTitle =
+  element SourceTitle {
+    attribute refname { "SourceTitle" }?,
+    attribute shortname { "x428" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+SourceType =
+  element SourceType {
+    attribute refname { "SourceType" }?,
+    attribute shortname { "x431" }?,
+    generalAttributes,
+    List157
+  }
+StartDate =
+  element StartDate {
+    attribute refname { "StartDate" }?,
+    attribute shortname { "b324" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+Stock =
+  element Stock {
+    attribute refname { "Stock" }?,
+    attribute shortname { "stock" }?,
+    generalAttributes,
+    (LocationIdentifier?,
+     LocationName?,
+     (StockQuantityCoded+
+      | (OnHand,
+         Proximity?,
+         (OnOrder, Proximity?)?,
+         (CBO, Proximity?)?)),
+     OnOrderDetail*,
+     Velocity*)
+  }
+StockQuantityCode =
+  element StockQuantityCode {
+    attribute refname { "StockQuantityCode" }?,
+    attribute shortname { "j297" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+StockQuantityCodeType =
+  element StockQuantityCodeType {
+    attribute refname { "StockQuantityCodeType" }?,
+    attribute shortname { "j293" }?,
+    generalAttributes,
+    List70
+  }
+StockQuantityCodeTypeName =
+  element StockQuantityCodeTypeName {
+    attribute refname { "StockQuantityCodeTypeName" }?,
+    attribute shortname { "j296" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+StockQuantityCoded =
+  element StockQuantityCoded {
+    attribute refname { "StockQuantityCoded" }?,
+    attribute shortname { "stockquantitycoded" }?,
+    generalAttributes,
+    (StockQuantityCodeType,
+     StockQuantityCodeTypeName?,
+     StockQuantityCode)
+  }
+StudyBibleType =
+  element StudyBibleType {
+    attribute refname { "StudyBibleType" }?,
+    attribute shortname { "b389" }?,
+    generalAttributes,
+    List84
+  }
+Subject =
+  element Subject {
+    attribute refname { "Subject" }?,
+    attribute shortname { "subject" }?,
+    generalAttributes,
+    (MainSubject?,
+     SubjectSchemeIdentifier,
+     SubjectSchemeName?,
+     SubjectSchemeVersion?,
+     ((SubjectCode, SubjectHeadingText*) | SubjectHeadingText+))
+  }
+SubjectCode =
+  element SubjectCode {
+    attribute refname { "SubjectCode" }?,
+    attribute shortname { "b069" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+SubjectHeadingText =
+  element SubjectHeadingText {
+    attribute refname { "SubjectHeadingText" }?,
+    attribute shortname { "b070" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+SubjectSchemeIdentifier =
+  element SubjectSchemeIdentifier {
+    attribute refname { "SubjectSchemeIdentifier" }?,
+    attribute shortname { "b067" }?,
+    generalAttributes,
+    List27
+  }
+SubjectSchemeName =
+  element SubjectSchemeName {
+    attribute refname { "SubjectSchemeName" }?,
+    attribute shortname { "b171" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+SubjectSchemeVersion =
+  element SubjectSchemeVersion {
+    attribute refname { "SubjectSchemeVersion" }?,
+    attribute shortname { "b068" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+Subtitle =
+  element Subtitle {
+    attribute refname { "Subtitle" }?,
+    attribute shortname { "b029" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    textcaseAttribute,
+    dt.NonEmptyString
+  }
+SuffixToKey =
+  element SuffixToKey {
+    attribute refname { "SuffixToKey" }?,
+    attribute shortname { "b248" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+Supplier =
+  element Supplier {
+    attribute refname { "Supplier" }?,
+    attribute shortname { "supplier" }?,
+    generalAttributes,
+    (SupplierRole,
+     ((SupplierIdentifier+, SupplierName?) | SupplierName),
+     TelephoneNumber*,
+     FaxNumber*,
+     EmailAddress*,
+     Website*)
+  }
+SupplierCodeType =
+  element SupplierCodeType {
+    attribute refname { "SupplierCodeType" }?,
+    attribute shortname { "x458" }?,
+    generalAttributes,
+    List165
+  }
+SupplierCodeTypeName =
+  element SupplierCodeTypeName {
+    attribute refname { "SupplierCodeTypeName" }?,
+    attribute shortname { "x513" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+SupplierCodeValue =
+  element SupplierCodeValue {
+    attribute refname { "SupplierCodeValue" }?,
+    attribute shortname { "x459" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+SupplierIdentifier =
+  element SupplierIdentifier {
+    attribute refname { "SupplierIdentifier" }?,
+    attribute shortname { "supplieridentifier" }?,
+    generalAttributes,
+    (SupplierIDType, IDTypeName?, IDValue)
+  }
+SupplierIDType =
+  element SupplierIDType {
+    attribute refname { "SupplierIDType" }?,
+    attribute shortname { "j345" }?,
+    generalAttributes,
+    List92
+  }
+SupplierName =
+  element SupplierName {
+    attribute refname { "SupplierName" }?,
+    attribute shortname { "j137" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+SupplierOwnCoding =
+  element SupplierOwnCoding {
+    attribute refname { "SupplierOwnCoding" }?,
+    attribute shortname { "supplierowncoding" }?,
+    generalAttributes,
+    (SupplierCodeType, SupplierCodeTypeName?, SupplierCodeValue)
+  }
+SupplierRole =
+  element SupplierRole {
+    attribute refname { "SupplierRole" }?,
+    attribute shortname { "j292" }?,
+    generalAttributes,
+    List93
+  }
+SupplyDate =
+  element SupplyDate {
+    attribute refname { "SupplyDate" }?,
+    attribute shortname { "supplydate" }?,
+    generalAttributes,
+    (SupplyDateRole, DateFormat?, Date)
+  }
+SupplyDateRole =
+  element SupplyDateRole {
+    attribute refname { "SupplyDateRole" }?,
+    attribute shortname { "x461" }?,
+    generalAttributes,
+    List166
+  }
+SupplyDetail =
+  element SupplyDetail {
+    attribute refname { "SupplyDetail" }?,
+    attribute shortname { "supplydetail" }?,
+    generalAttributes,
+    (Supplier,
+     SupplierOwnCoding*,
+     ReturnsConditions*,
+     ProductAvailability,
+     SupplyDate*,
+     OrderTime?,
+     NewSupplier?,
+     Stock*,
+     PackQuantity?,
+     (UnpricedItemType | Price+),
+     Reissue?)
+  }
+SupportingResource =
+  element SupportingResource {
+    attribute refname { "SupportingResource" }?,
+    attribute shortname { "supportingresource" }?,
+    generalAttributes,
+    (ResourceContentType,
+     ContentAudience+,
+     ResourceMode,
+     ResourceFeature*,
+     ResourceVersion+)
+  }
+Tax =
+  element Tax {
+    attribute refname { "Tax" }?,
+    attribute shortname { "tax" }?,
+    generalAttributes,
+    (TaxType?,
+     TaxRateCode?,
+     ((TaxRatePercent, TaxableAmount?, TaxAmount?)
+      | (TaxableAmount?, TaxAmount)))
+  }
+TaxAmount =
+  element TaxAmount {
+    attribute refname { "TaxAmount" }?,
+    attribute shortname { "x474" }?,
+    generalAttributes,
+    dt.PositiveDecimal
+  }
+TaxRateCode =
+  element TaxRateCode {
+    attribute refname { "TaxRateCode" }?,
+    attribute shortname { "x471" }?,
+    generalAttributes,
+    List62
+  }
+TaxRatePercent =
+  element TaxRatePercent {
+    attribute refname { "TaxRatePercent" }?,
+    attribute shortname { "x472" }?,
+    generalAttributes,
+    dt.PercentDecimal
+  }
+TaxableAmount =
+  element TaxableAmount {
+    attribute refname { "TaxableAmount" }?,
+    attribute shortname { "x473" }?,
+    generalAttributes,
+    dt.StrictPositiveDecimal
+  }
+TaxType =
+  element TaxType {
+    attribute refname { "TaxType" }?,
+    attribute shortname { "x470" }?,
+    generalAttributes,
+    List171
+  }
+TelephoneNumber =
+  element TelephoneNumber {
+    attribute refname { "TelephoneNumber" }?,
+    attribute shortname { "j270" }?,
+    generalAttributes,
+    dt.NonEmptyString
+  }
+Territory =
+  element Territory {
+    attribute refname { "Territory" }?,
+    attribute shortname { "territory" }?,
+    generalAttributes,
+    (((CountriesIncluded, (RegionsIncluded, CountriesExcluded?)?)
+      | (RegionsIncluded, CountriesExcluded?)),
+     RegionsExcluded?)
+  }
+Text =
+  element Text {
+    attribute refname { "Text" }?,
+    attribute shortname { "d104" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+TextAuthor =
+  element TextAuthor {
+    attribute refname { "TextAuthor" }?,
+    attribute shortname { "d107" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+TextContent =
+  element TextContent {
+    attribute refname { "TextContent" }?,
+    attribute shortname { "textcontent" }?,
+    generalAttributes,
+    (TextType,
+     ContentAudience+,
+     Text+,
+     TextAuthor*,
+     TextSourceCorporate?,
+     SourceTitle*,
+     ContentDate*)
+  }
+TextItem =
+  element TextItem {
+    attribute refname { "TextItem" }?,
+    attribute shortname { "textitem" }?,
+    generalAttributes,
+    (TextItemType, TextItemIdentifier*, PageRun*, NumberOfPages?)
+  }
+TextItemIDType =
+  element TextItemIDType {
+    attribute refname { "TextItemIDType" }?,
+    attribute shortname { "b285" }?,
+    generalAttributes,
+    List43
+  }
+TextItemIdentifier =
+  element TextItemIdentifier {
+    attribute refname { "TextItemIdentifier" }?,
+    attribute shortname { "textitemidentifier" }?,
+    generalAttributes,
+    (TextItemIDType, IDTypeName?, IDValue)
+  }
+TextItemType =
+  element TextItemType {
+    attribute refname { "TextItemType" }?,
+    attribute shortname { "b290" }?,
+    generalAttributes,
+    List42
+  }
+TextSourceCorporate =
+  element TextSourceCorporate {
+    attribute refname { "TextSourceCorporate" }?,
+    attribute shortname { "b374" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+TextType =
+  element TextType {
+    attribute refname { "TextType" }?,
+    attribute shortname { "x426" }?,
+    generalAttributes,
+    List153
+  }
+ThesisPresentedTo =
+  element ThesisPresentedTo {
+    attribute refname { "ThesisPresentedTo" }?,
+    attribute shortname { "b369" }?,
+    generalAttributes,
+    languageAttribute,
+    dt.NonEmptyString
+  }
+ThesisType =
+  element ThesisType {
+    attribute refname { "ThesisType" }?,
+    attribute shortname { "b368" }?,
+    generalAttributes,
+    List72
+  }
+ThesisYear =
+  element ThesisYear {
+    attribute refname { "ThesisYear" }?,
+    attribute shortname { "b370" }?,
+    generalAttributes,
+    dateformatAttribute,
+    dt.NonEmptyString
+  }
+TitleDetail =
+  element TitleDetail {
+    attribute refname { "TitleDetail" }?,
+    attribute shortname { "titledetail" }?,
+    generalAttributes,
+    (TitleType, TitleElement+, TitleStatement?)
+  }
+TitleElement =
+  element TitleElement {
+    attribute refname { "TitleElement" }?,
+    attribute shortname { "titleelement" }?,
+    generalAttributes,
+    (SequenceNumber?,
+     TitleElementLevel,
+     ((PartNumber,
+       YearOfAnnual?,
+       (TitleText
+        | ((TitlePrefix | NoPrefix), TitleWithoutPrefix))?)
+      | (YearOfAnnual,
+         (TitleText
+          | ((TitlePrefix | NoPrefix), TitleWithoutPrefix))?)
+      | ((TitlePrefix | NoPrefix), TitleWithoutPrefix)
+      | TitleText),
+     Subtitle?)
+  }
+TitleElementLevel =
+  element TitleElementLevel {
+    attribute refname { "TitleElementLevel" }?,
+    attribute shortname { "x409" }?,
+    generalAttributes,
+    List149
+  }
+TitlePrefix =
+  element TitlePrefix {
+    attribute refname { "TitlePrefix" }?,
+    attribute shortname { "b030" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    textcaseAttribute,
+    dt.NonEmptyString
+  }
+TitlesAfterNames =
+  element TitlesAfterNames {
+    attribute refname { "TitlesAfterNames" }?,
+    attribute shortname { "b043" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+TitlesBeforeNames =
+  element TitlesBeforeNames {
+    attribute refname { "TitlesBeforeNames" }?,
+    attribute shortname { "b038" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    dt.NonEmptyString
+  }
+TitleStatement =
+  element TitleStatement {
+    attribute refname { "TitleStatement" }?,
+    attribute shortname { "x478" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+TitleText =
+  element TitleText {
+    attribute refname { "TitleText" }?,
+    attribute shortname { "b203" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    textcaseAttribute,
+    dt.NonEmptyString
+  }
+TitleType =
+  element TitleType {
+    attribute refname { "TitleType" }?,
+    attribute shortname { "b202" }?,
+    generalAttributes,
+    List15
+  }
+TitleWithoutPrefix =
+  element TitleWithoutPrefix {
+    attribute refname { "TitleWithoutPrefix" }?,
+    attribute shortname { "b031" }?,
+    generalAttributes,
+    collationkeyAttribute,
+    languageAttribute,
+    textscriptAttribute,
+    textcaseAttribute,
+    dt.NonEmptyString
+  }
+ToLanguage =
+  element ToLanguage {
+    attribute refname { "ToLanguage" }?,
+    attribute shortname { "x413" }?,
+    generalAttributes,
+    List74
+  }
+ToQuantity =
+  element ToQuantity {
+    attribute refname { "ToQuantity" }?,
+    attribute shortname { "x514" }?,
+    generalAttributes,
+    dt.PositiveDecimal
+  }
+TradeCategory =
+  element TradeCategory {
+    attribute refname { "TradeCategory" }?,
+    attribute shortname { "b384" }?,
+    generalAttributes,
+    List12
+  }
+UnnamedPersons =
+  element UnnamedPersons {
+    attribute refname { "UnnamedPersons" }?,
+    attribute shortname { "b249" }?,
+    generalAttributes,
+    List19
+  }
+UnpricedItemType =
+  element UnpricedItemType {
+    attribute refname { "UnpricedItemType" }?,
+    attribute shortname { "j192" }?,
+    generalAttributes,
+    List57
+  }
+Velocity =
+  element Velocity {
+    attribute refname { "Velocity" }?,
+    attribute shortname { "velocity" }?,
+    generalAttributes,
+    (VelocityMetric, Rate, Proximity?)
+  }
+VelocityMetric =
+  element VelocityMetric {
+    attribute refname { "VelocityMetric" }?,
+    attribute shortname { "x504" }?,
+    generalAttributes,
+    List216
+  }
+Website =
+  element Website {
+    attribute refname { "Website" }?,
+    attribute shortname { "website" }?,
+    generalAttributes,
+    (WebsiteRole?, WebsiteDescription*, WebsiteLink)
+  }
+WebsiteDescription =
+  element WebsiteDescription {
+    attribute refname { "WebsiteDescription" }?,
+    attribute shortname { "b294" }?,
+    generalAttributes,
+    languageAttribute,
+    textformatAttribute,
+    Flow
+  }
+WebsiteLink =
+  element WebsiteLink {
+    attribute refname { "WebsiteLink" }?,
+    attribute shortname { "b295" }?,
+    generalAttributes,
+    dt.NonEmptyURI
+  }
+WebsiteRole =
+  element WebsiteRole {
+    attribute refname { "WebsiteRole" }?,
+    attribute shortname { "b367" }?,
+    generalAttributes,
+    List73
+  }
+WorkIdentifier =
+  element WorkIdentifier {
+    attribute refname { "WorkIdentifier" }?,
+    attribute shortname { "workidentifier" }?,
+    generalAttributes,
+    (WorkIDType, IDTypeName?, IDValue)
+  }
+WorkIDType =
+  element WorkIDType {
+    attribute refname { "WorkIDType" }?,
+    attribute shortname { "b201" }?,
+    generalAttributes,
+    List16
+  }
+WorkRelationCode =
+  element WorkRelationCode {
+    attribute refname { "WorkRelationCode" }?,
+    attribute shortname { "x454" }?,
+    generalAttributes,
+    List164
+  }
+YearOfAnnual =
+  element YearOfAnnual {
+    attribute refname { "YearOfAnnual" }?,
+    attribute shortname { "b020" }?,
+    generalAttributes,
+    dt.YearOrYearRange
+  }
+gp.record_metadata =
+  RecordReference,
+  NotificationType,
+  DeletionText*,
+  RecordSourceType?,
+  RecordSourceIdentifier*,
+  RecordSourceName?
+gp.product_numbers = ProductIdentifier+, Barcode*
+gp.unstructured_name =
+  (PersonName, PersonNameInverted?) | PersonNameInverted
+gp.structured_name =
+  TitlesBeforeNames?,
+  NamesBeforeKey?,
+  PrefixToKey?,
+  KeyNames,
+  NamesAfterKey?,
+  SuffixToKey?,
+  LettersAfterNames?,
+  TitlesAfterNames?
+gp.corporate_name =
+  (CorporateName, CorporateNameInverted?) | CorporateNameInverted
+gp.product_form =
+  ProductComposition,
+  ProductForm,
+  ProductFormDetail*,
+  ProductFormFeature*,
+  ProductPackaging?,
+  ProductFormDescription*,
+  TradeCategory?,
+  PrimaryContentType?,
+  ProductContentType*,
+  Measure*,
+  CountryOfManufacture?,
+  EpubTechnicalProtection*,
+  EpubUsageConstraint*,
+  EpubLicense?,
+  MapScale*,
+  ProductClassification*,
+  ProductPart*
+gp.collections = (Collection+ | NoCollection)?
+gp.title = TitleDetail+, (ThesisType, ThesisPresentedTo?, ThesisYear?)?
+gp.authorship = (Contributor+, ContributorStatement*) | NoContributor?
+gp.conference = Conference*
+gp.edition =
+  ((EditionType*,
+    (EditionNumber, EditionVersionNumber?)?,
+    EditionStatement*)
+   | NoEdition?),
+  ReligiousText?
+gp.language = Language*
+gp.extents =
+  Extent*,
+  Illustrated?,
+  NumberOfIllustrations?,
+  IllustrationsNote*,
+  AncillaryContent*
+gp.subject = Subject*, NameAsSubject*
+gp.audience =
+  AudienceCode*,
+  Audience*,
+  AudienceRange*,
+  AudienceDescription*,
+  Complexity*
+gp.descriptions = TextContent*, CitedContent*, SupportingResource*
+gp.prizes = Prize*
+gp.publisher =
+  ((Imprint+, Publisher*) | Publisher+),
+  CityOfPublication*,
+  CountryOfPublication?,
+  ProductContact*
+gp.publishing_status =
+  (PublishingStatus, PublishingStatusNote*)?,
+  PublishingDate*,
+  LatestReprintNumber?,
+  CopyrightStatement*
+gp.rights_restrictions =
+  (SalesRights+, ROWSalesRightsType?)?, SalesRestriction*
+dt.DateOrDateTime =
+  xsd:string {
+    pattern =
+      "2\d\d\d(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-8])(T([01][0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?(Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"
+  }
+  | xsd:string {
+      pattern =
+        "2\d\d\d(0[13-9]|1[0-2])(29|30)(T([01][0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?(Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"
+    }
+  | xsd:string {
+      pattern =
+        "2\d\d\d(0[13578]|1[02])31(T([01][0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?(Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"
+    }
+  | xsd:string {
+      pattern =
+        "2[048](0[048]|[13579][26]|[2468][048])0229(T([01][0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?(Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"
+    }
+  | xsd:string {
+      pattern =
+        "2[1235679](0[48]|[13579][26]|[2468][048])0229(T([01][0-9]|2[0-3])[0-5][0-9]([0-5][0-9])?(Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"
+    }
+dt.Decimal = xsd:decimal
+dt.PositiveDecimal = xsd:decimal { minInclusive = "0" }
+dt.StrictPositiveDecimal = xsd:decimal { minExclusive = "0" }
+dt.PercentDecimal =
+  xsd:decimal { minInclusive = "0" maxInclusive = "100" }
+dt.Integer = xsd:int
+dt.PositiveInteger = xsd:nonNegativeInteger
+dt.StrictPositiveInteger = xsd:positiveInteger
+dt.NonEmptyString = xsd:string { pattern = "\s*\S.*" }
+dt.EmailString =
+  xsd:string {
+    pattern =
+      "[A-Za-z0-9_]+([\-+.'][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([\-.][A-Za-z0-9_]+)*\.[A-Za-z0-9_]+([\-.][A-Za-z0-9_]+)*"
+  }
+dt.RomanNumeralString =
+  xsd:string { pattern = "([MDCLXVI]+|[mdclxvi]+)" }
+dt.NonEmptyURI = xsd:anyURI { pattern = "\S+" }
+dt.Year = xsd:string { pattern = "[12]\d\d\d" }
+dt.YearOrYearRange = xsd:string { pattern = "[12]\d\d\d(-[12]\d\d\d)?" }
+dt.MultiLevelNumber = xsd:string { pattern = "\d+(\.\d+)?" }
+releaseAttribute = attribute release { "3.0" }
+collationkeyAttribute = attribute collationkey { text }?
+generalAttributes =
+  attribute datestamp { dt.DateOrDateTime }?,
+  attribute sourcetype { SourceTypeCode }?,
+  attribute sourcename { text }?
+dateformatAttribute = attribute dateformat { List55 }?
+languageAttribute = attribute language { List74 }?
+textcaseAttribute = attribute textcase { TextCaseCode }?
+textformatAttribute = attribute textformat { TextFormatCode }?
+textscriptAttribute = attribute textscript { List121 }?
