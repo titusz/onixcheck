@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from onixcheck import data, profiles
+from onixcheck import data, schema
 from onixcheck.onixfix import OnixFix
 
-v = OnixFix(data.INVALID_GOOGLE_ONIX_30_SAMPLE, profiles.GOOGLE_ONIX_30)
+v = OnixFix(data.INVALID_GOOGLE_ONIX_30_SAMPLE, schema.GOOGLE_O30_YML_REFERENCE)
 v.validate()
 
 
