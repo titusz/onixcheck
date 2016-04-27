@@ -1,0 +1,27 @@
+#% ONIXFIX 0.1
+name: Generic ONIX 2.1 Export from biblon.de
+xml_encoding: 'UTF-8'
+onix_version: '2.1'
+onix_style: 'reference'
+
+//Header:
+    required: true
+    multiple: false
+    /FromCompany:
+        required: true
+    /FromEmail:
+        required: true
+    /SendDate:
+        required: true
+        dateformat: "%Y%m%d%H%M"
+
+//Product:
+    /RecordReference:
+        required: true
+    /NotificationType:
+        description: \
+        required: true
+        choice:
+            - '03' # Notification confirmed on publication
+            - '04' # Update (partial)
+            - '05' # Delete

@@ -1,0 +1,35 @@
+#% ONIXFIX 0.1
+name: Generic ONIX 2.1 Export from biblon.de
+xml_encoding: 'UTF-8'
+onix_version: '3.0'
+onix_style: 'reference'
+
+//Product:
+    /ProductIdentifier/ProductIDType:
+        description: One ISBN-13 per Product
+        required: true
+        multiple: false
+        content: '15'
+
+    /DescriptiveDetail/TitleDetail:
+        /TitleType:
+            description: One Titledetail with Districtive Title
+            required: true
+            multiple: false
+            content: '01'
+
+        /TitleElement/TitleElementLevel:
+            description: One main Title
+            required: true
+            multiple: false
+            content: '01'
+
+//Product:
+    required: True
+    multiple: True
+    /RecordReference:
+        required: true
+        multiple: false
+
+
+
