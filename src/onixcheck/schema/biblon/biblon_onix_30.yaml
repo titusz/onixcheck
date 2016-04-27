@@ -25,11 +25,19 @@ onix_style: 'reference'
             content: '01'
 
 //Product:
-    required: True
-    multiple: True
+    required: true
+    multiple: true
     /RecordReference:
         required: true
         multiple: false
+
+    /DescriptiveDetail:
+        /Language:
+            required: true
+
+    /CollateralDetail:
+        /TextContent:
+            required: true
 
 
 
