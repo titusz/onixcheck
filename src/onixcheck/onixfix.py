@@ -59,7 +59,7 @@ class OnixFix(object):
         assert level in ('ERROR', 'WARNING',)
 
         if el is not None and el.sourceline is not None:
-            location = '%s:%s' % (path, el.sourceline)
+            location = '%s' % el.sourceline
         else:
             location = path
 
@@ -114,7 +114,7 @@ class OnixFix(object):
             result = el.xpath(path)
             if len(result) == 0:
                 msg = 'Missing element %s within %s' % (path, el.tag)
-                self.add_message(msg, path)
+                self.add_message(msg, path, el)
 
     def handle_requires_one_of(self, path, el, val):
         if val:
