@@ -31,8 +31,7 @@ def validate(infile, schemas=('xsd',)):
     messages = []
 
     for s in schemas:
-        if s in ('xsd', 'rng'):
-
+        if s in ('xsd', 'rng', 'biblon',):
             validator = onix_file.get_validator(s)
             validator(onix_file.xml_tree())
             errors = validator.error_log

@@ -1,0 +1,17 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" ns="http://ns.editeur.org/onix/3.0/reference">
+    <include href="../rng3.0/ONIX_BookProduct_3.0_reference.rng">
+
+        <define name="gp.language">
+            <oneOrMore><ref name="Language"/></oneOrMore>
+        </define>
+        <define name="gp.descriptions">
+            <group>
+                <!-- Make sales text mandatory-->
+                <oneOrMore><ref name="TextContent"/></oneOrMore>
+                <zeroOrMore><ref name="CitedContent"/></zeroOrMore>
+                <zeroOrMore><ref name="SupportingResource"/></zeroOrMore>
+            </group>
+        </define>
+
+    </include>
+</grammar>

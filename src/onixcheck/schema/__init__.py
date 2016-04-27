@@ -20,3 +20,5 @@ O30_RNG_SHORT = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_short.rng'
 O30_RNG_REFERENCE = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_reference.rng')
 
 GOOGLE_O30_YML_REFERENCE = os.path.join(basedir, 'google', 'google_onix_30.yaml')
+
+BIBLON_O30_RNG_REFERENCE = os.path.join(basedir, 'biblon', 'biblon_onix_30.rng')
