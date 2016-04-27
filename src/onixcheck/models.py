@@ -113,7 +113,6 @@ class OnixMeta(_BaseMeta):
         XSD: etree.XMLSchema,
         RNG: etree.RelaxNG,
         RNC: etree.RelaxNG,
-        SCH: etree.Schematron,
     }
 
     @classmethod
@@ -198,7 +197,7 @@ class Message(_BaseMessage):
     @property
     def short(self):
         """Short string representation of message"""
-        return "{m.level} - {m.location} - {m.message}".format(m=self)
+        return "{m.level} - {m.validator} - {m.location} - {m.message}".format(m=self)
 
     @classmethod
     def from_logentry(cls, logentry, filename=''):
