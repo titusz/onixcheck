@@ -12,5 +12,9 @@ else:
 
 O21_XSD_SHORT = os.path.join(basedir, 'xsd2.1', 'ONIX_BookProduct_Release2.1_short.xsd')
 O21_XSD_REFERENCE = os.path.join(basedir, 'xsd2.1', 'ONIX_BookProduct_Release2.1_reference.xsd')
+
 O30_XSD_SHORT = os.path.join(basedir, 'xsd3.0', 'ONIX_BookProduct_3.0_short.xsd')
 O30_XSD_REFERENCE = os.path.join(basedir, 'xsd3.0', 'ONIX_BookProduct_3.0_reference.xsd')
+
+O30_RNG_SHORT = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_short.rng')
+O30_RNG_REFERENCE = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_reference.rng')
