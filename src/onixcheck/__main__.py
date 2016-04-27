@@ -46,7 +46,7 @@ def main(argv=None):
 
     args = parser.parse_args() if argv is None else parser.parse_args(argv)
 
-    schemas = tuple() if not args.schemas else tuple(args.schemas)
+    schemas = ('xsd',) if not args.schemas else tuple(args.schemas)
 
     if args.debug:
         logging.basicConfig(
@@ -74,7 +74,10 @@ def main(argv=None):
             print('INVALID - errors found:', file=sys.stderr)
             all_valid = False
             for msg in messages:
-                print(msg.short, file=sys.stderr)
+                if args.debug:
+                    print(msg, file=sys.stderr)
+                else:
+                    print(msg.short, file=sys.stderr)
 
     if args.path:
         tree_or_dir = 'tree' if args.recursive else 'dir'
@@ -94,7 +97,10 @@ def main(argv=None):
                 print('INVALID - errors found:', file=sys.stderr)
                 all_valid = False
                 for msg in messages:
-                    print(msg.short, file=sys.stderr)
+                    if args.debug:
+                        print(msg.short, file=sys.stderr)
+                    else:
+                        print(msg, file=sys.stderr)
     if all_valid:
         return 0
     else:
