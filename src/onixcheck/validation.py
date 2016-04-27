@@ -31,7 +31,7 @@ def validate(infile, schemas=('xsd',)):
     messages = []
 
     for s in schemas:
-        if s in ('xsd', 'rng', 'biblon',):
+        if s in ('xsd', 'rng',):
             validator = onix_file.get_validator(s)
             validator(onix_file.xml_tree())
             errors = validator.error_log
@@ -39,8 +39,12 @@ def validate(infile, schemas=('xsd',)):
             messages.extend([msg(err, filename) for err in errors])
 
     for s in schemas:
-        if s in ('google', ):
-            profile = schema.GOOGLE_O30_YML_REFERENCE
+        if s in ('google', 'biblon'):
+            if s == 'google':
+                profile = schema.GOOGLE_O30_YML_REFERENCE
+            elif s == 'biblon':
+                profile = schema.BIBLON_O30_YML_REFERENCE
+
             validator = OnixFix(infile, profile)
             validator.validate()
             messages.extend(validator.errors)
