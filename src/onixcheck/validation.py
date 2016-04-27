@@ -5,9 +5,10 @@ from lxml.etree import XMLSyntaxError
 from onixcheck.exeptions import OnixError
 from onixcheck.models import OnixFile, Message
 from onixcheck.onixfix import OnixFix
+from onixcheck import schema as schema_const
 
 
-def validate(infile, schemas=tuple()):
+def validate(infile, schemas=('xsd',)):
     """Validate an ONIX file.
 
     :param infile: File or path to file
@@ -27,16 +28,22 @@ def validate(infile, schemas=tuple()):
     except (OnixError, XMLSyntaxError) as e:
         return [Message.from_exception(e, filename)]
 
-    validator = onix_file.get_validator()
-    validator(onix_file.xml_tree())
-    errors = validator.error_log
-    msg = Message.from_logentry
-
-    messages = [msg(err, filename) for err in errors]
+    messages = []
 
     for schema in schemas:
-        schema_validator = OnixFix(infile, schema)
-        schema_validator.validate()
-        messages.extend(schema_validator.errors)
+        if schema in ('xsd', 'rng'):
+
+            validator = onix_file.get_validator(schema)
+            validator(onix_file.xml_tree())
+            errors = validator.error_log
+            msg = Message.from_logentry
+            messages.extend([msg(err, filename) for err in errors])
+
+    for schema in schemas:
+        if schema in ('google', ):
+            profile = schema_const.GOOGLE_O30_YML_REFERENCE
+            schema_validator = OnixFix(infile, profile)
+            schema_validator.validate()
+            messages.extend(schema_validator.errors)
 
     return messages
