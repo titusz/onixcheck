@@ -30,7 +30,9 @@ class OnixFile(object):
 
         :return etree.ElementTree: An lxml ElementTree with proper namespace
         """
-        self.infile.seek(0)
+        if hasattr(self.infile, 'seek'):
+            self.infile.seek(0)
+
         tree = lxml.parse(self.infile)
 
         if self.meta.namespaces:
