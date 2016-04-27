@@ -15,18 +15,18 @@ def test_validation_with_file_obj():
     assert not errors
 
 
-def test_validation_with_file_path_and_schema():
+def test_validation_with_file_path_and_schema_name():
     errors = onixcheck.validate(
         data.VALID_GOOGLE_ONIX_30_SAMPLE,
-        schemas=(schema.GOOGLE_O30_YML_REFERENCE,)
+        schemas=('google',)
     )
     assert len(errors) == 2
 
 
-def test_validation_with_file_obj_and_profile():
+def test_validation_with_file_obj_and_schema_name():
     with open(data.VALID_GOOGLE_ONIX_30_SAMPLE, 'rb') as ofile:
         errors = onixcheck.validate(
             ofile,
-            schemas=(schema.GOOGLE_O30_YML_REFERENCE,)
+            schemas=('google',)
         )
     assert len(errors) == 2
