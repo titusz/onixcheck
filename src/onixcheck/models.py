@@ -90,15 +90,22 @@ class OnixMeta(_BaseMeta):
     SHORT = 'short'
     #: Reference notation
     REFERENCE = 'reference'
+    #: Schema Types
+    XSD = 'xsd'
+    RNG = 'rng'
+    RNC = 'rnc'
+    SCH = 'sch'
 
     ONIX_VERSIONS = (V21, V30)
     ONIX_STYLES = (SHORT, REFERENCE)
 
     SCHEMA_MAP = {
-        (V21, SHORT): schema.O21_XSD_SHORT,
-        (V21, REFERENCE): schema.O21_XSD_REFERENCE,
-        (V30, SHORT): schema.O30_XSD_SHORT,
-        (V30, REFERENCE): schema.O30_XSD_REFERENCE
+        (V21, SHORT, XSD): schema.O21_XSD_SHORT,
+        (V21, REFERENCE, XSD): schema.O21_XSD_REFERENCE,
+        (V30, SHORT, XSD): schema.O30_XSD_SHORT,
+        (V30, REFERENCE, XSD): schema.O30_XSD_REFERENCE,
+        (V30, REFERENCE, RNG): schema.O30_RNG_REFERENCE,
+        (V30, REFERENCE, SCH): schema.O30_SCH_REFERENCE,
     }
 
     @classmethod
@@ -159,8 +166,8 @@ class OnixMeta(_BaseMeta):
             tpl = 'http://ns.editeur.org/onix/3.0/%s'
         return tpl % self.onix_style
 
-    def get_schema_file(self):
-        return self.SCHEMA_MAP[(self.onix_version, self.onix_style)]
+    def get_schema_file(self, schema_type=XSD):
+        return self.SCHEMA_MAP[(self.onix_version, self.onix_style, schema_type)]
 
 
 _BaseMessage = namedtuple('Message', 'level validator location message error_type')
