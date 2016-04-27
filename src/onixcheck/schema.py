@@ -18,3 +18,6 @@ O30_XSD_REFERENCE = os.path.join(basedir, 'xsd3.0', 'ONIX_BookProduct_3.0_refere
 
 O30_RNG_SHORT = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_short.rng')
 O30_RNG_REFERENCE = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_reference.rng')
+
+O30_SCH_SHORT = os.path.join(basedir, 'sch3.0', 'Short_2.51.sch')
+O30_SCH_REFERENCE = os.path.join(basedir, 'sch3.0', 'Reference_2.51.sch')
