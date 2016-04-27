@@ -109,7 +109,6 @@ class OnixMeta(_BaseMeta):
         (V30, SHORT, XSD): schema.O30_XSD_SHORT,
         (V30, REFERENCE, XSD): schema.O30_XSD_REFERENCE,
         (V30, REFERENCE, RNG): schema.O30_RNG_REFERENCE,
-        (V30, REFERENCE, SCH): schema.O30_SCH_REFERENCE,
     }
 
     SCHEMA_TYPE_PARSER_MAP = {
