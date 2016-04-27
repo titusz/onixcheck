@@ -23,7 +23,7 @@ def read(*names, **kwargs):
     ).read()
 
 
-dependencies = ['lxml>=3.6', 'defusedxml', 'isbnlib', 'PyYAML', 'rnc2rng']
+dependencies = ['lxml', 'defusedxml', 'isbnlib', 'PyYAML']
 
 if platform.python_implementation() != 'PyPy':
     dependencies.append('scandir')

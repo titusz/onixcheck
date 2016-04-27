@@ -19,6 +19,4 @@ O30_XSD_REFERENCE = os.path.join(basedir, 'xsd3.0', 'ONIX_BookProduct_3.0_refere
 O30_RNG_SHORT = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_short.rng')
 O30_RNG_REFERENCE = os.path.join(basedir, 'rng3.0', 'ONIX_BookProduct_3.0_reference.rng')
 
-O30_RNC_REFERENCE = os.path.join(basedir, 'rnc3.0', 'ONIX_BookProduct_3.0_reference.rnc')
-
 GOOGLE_O30_YML_REFERENCE = os.path.join(basedir, 'google', 'google_onix_30.yaml')
