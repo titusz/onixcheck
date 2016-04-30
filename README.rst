@@ -90,7 +90,7 @@ Simple usage with `onixcheck.validate`:
     >>> import onixcheck
     >>> errors = onixcheck.validate('src/onixcheck/data/invalid_onix3_ref.xml')
     >>> print(errors[0].short)
-    ERROR - invalid_onix3_ref.xml:4:0 - Element 'SentDateTime': This element is not expected. Expected is ( Sender ).
+    ERROR - SCHEMASV - invalid_onix3_ref.xml:4:0 - Element 'SentDateTime': This element is not expected. Expected is ( Sender ).
 
 `errors` is either a list of `Message` objects (INVALID file) or an empty list (VALID file)
 
