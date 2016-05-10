@@ -32,7 +32,11 @@ def validate(infile, schemas=('xsd',)):
 
     for s in schemas:
         if s in ('xsd', 'rng',):
-            validator = onix_file.get_validator(s)
+            try:
+                validator = onix_file.get_validator(s)
+            except OnixError as e:
+                messages.append(Message.from_exception(e, filename))
+                continue
             validator(onix_file.xml_tree())
             errors = validator.error_log
             msg = Message.from_logentry
