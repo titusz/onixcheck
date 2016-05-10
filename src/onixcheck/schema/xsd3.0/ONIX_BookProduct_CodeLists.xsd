@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+
 	**************************************************
 	*                                                *
 	*               ONIX INTERNATIONAL               *
@@ -7,12 +8,12 @@
 	*     BOOK PRODUCT INFORMATION MESSAGE SCHEMA    *
 	*                                                *
 	*           CODE LIST DATA TYPES MODULE          *
-	*               XML SCHEMA VERSION               *
+	*             W3C XSD SCHEMA VERSION             *
 	*                                                *
-	*                    ISSUE: 32                   *
+	*                    ISSUE: 33                   *
 	*                                                *
 	*                 Status: RELEASED               *
-	*            Release date: 2016-01-24            *
+	*            Release date: 2016-04-25            *
 	*                                                *
 	*  Orig filename ONIX_BookProduct_CodeLists.XSD  *
 	*                                                *
@@ -25,28 +26,29 @@
 
 	N.B. PRIMARILY DESIGNED FOR USE WITH ONIX SCHEMAS
 
-	TERMS AND CONDITIONS OF USE OF THE ONIX PRODUCT INFORMATION MESSAGE XML SCHEMA
 
-	All ONIX standards and documentation are copyright materials, made available 
-	free of charge for general use.  If you use the ONIX International Code Lists, 
-	you will be deemed to have accepted these terms and conditions:
+	TERMS AND CONDITIONS OF USE OF THE ONIX for Books PRODUCT INFORMATION FORMAT AND 
+	ASSOCIATED XML SCHEMAS
 
-	1.  You agree that you will not add to, delete from or amend any version of the 
-	ONIX Product Information Message Schema, or any part of the Schema except for 
-	strictly internal use in your own organisation.
+	All ONIX standards and documentation – including this document – are copyright 
+	materials, made available free of charge for general use. A full license agreement 
+	(DOI: 10.4400/nwgj) that governs their use is available on the EDItEUR website. In 
+	particular, if you use any of the ONIX for Books Product Information Format schemas 
+	(RNG, XSD or DTD) (‘the schemas’), you will be deemed to have accepted these terms 
+	and conditions:
 
-	2.  You agree that if you wish to add to, amend, or make extracts of any version 
-	of the Schema for any purpose that is not strictly internal to your own organisation, 
-	you will in the first instance notify EDItEUR and allow EDItEUR to review 
+	1. You agree that you will not add to, delete from, amend or copy for use outside of 
+	the schemas any part thereof except for strictly internal use in your own organization.
+
+	2. You agree that if your business would benefit from future additions or amendments 
+	to or extracts of the schemas for any purpose that is not strictly internal to your own 
+	organisation, you will in the first instance notify EDItEUR and allow EDItEUR to review 
 	and comment on your proposed use, in the interest of securing an orderly 
 	development of the Schema for the benefit of other users.
 
-	A full licence agreement (DOI: 10.4400/nwgj) that governs use of EDItEUR’s ONIX
-	documentation, DTDs and schemas is available on the EDItEUR website.
-
 	If you do not accept these terms, you must not use any version of the ONIX Product 
-	Information Message Schema.
-	
+	Information Message Schemas.
+
 	Full copies of all published versions of the latest release of this Schema and all 
 	associated documentation are available from the EDItEUR web site, where may also be 
 	found details of how to contact EDItEUR for advice on the use of this Schema. The URL 
@@ -55,8 +57,10 @@
 	http://www.editeur.org/
 
 
-
 	MODULE REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+
+	2016-04-25: Module for public release based upon the ONIX International 
+	            Code lists Issue 33 (April 2016)
 
 	2016-01-23: Module for public release based upon the ONIX International 
 	            Code lists Issue 32 (January 2016)
@@ -162,7 +166,6 @@
 
 	2003-12-30: First Draft Module based upon the ONIX International 
 	            Code Lists Issue 2 (December 2003)
-
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:simpleType name="List1">
@@ -1863,6 +1866,12 @@
 					<xs:documentation>Mercosur/Mercosul Common Nomenclature, based on the Harmonised System</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="11">
+				<xs:annotation>
+					<xs:documentation>CPV</xs:documentation>
+					<xs:documentation>Common Procurement Vocabulary, uses to describe requirements for tender for public tendering and procurement within the EU. Code is a nine digit number (including the check digit). See http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=URISERV:l22008</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="50">
 				<xs:annotation>
 					<xs:documentation>Electre genre</xs:documentation>
@@ -3237,7 +3246,7 @@
 			<xs:enumeration value="03">
 				<xs:annotation>
 					<xs:documentation>Earlier name</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Use only within &lt;AlternativeName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="04">
@@ -3250,6 +3259,12 @@
 				<xs:annotation>
 					<xs:documentation>Transliterated form of primary name</xs:documentation>
 					<xs:documentation>Use only within &lt;AlternativeName&gt;, when the primary name type is unspecified</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="06">
+				<xs:annotation>
+					<xs:documentation>Later name</xs:documentation>
+					<xs:documentation>Use only within &lt;AlternativeName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -3305,9 +3320,64 @@
 	</xs:simpleType>
 	<xs:simpleType name="List20">
 		<xs:annotation>
-			<xs:documentation source="ONIX Code List 20">Conference role</xs:documentation>
+			<xs:documentation source="ONIX Code List 20">Conference / Event role</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string"/>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="01">
+				<xs:annotation>
+					<xs:documentation>Publication linked to conference</xs:documentation>
+					<xs:documentation>For example an academic, professional or political conference</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="02">
+				<xs:annotation>
+					<xs:documentation>Complete proceedings of conference</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="03">
+				<xs:annotation>
+					<xs:documentation>Selected papers from conference</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="11">
+				<xs:annotation>
+					<xs:documentation>Publication linked to sporting event</xs:documentation>
+					<xs:documentation>For example a competitive match, fixture series or championship</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="12">
+				<xs:annotation>
+					<xs:documentation>Programme or guide for sporting event</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="21">
+				<xs:annotation>
+					<xs:documentation>Publication linked to artistic event</xs:documentation>
+					<xs:documentation>For example a theatrical or musical event or performance, a season of events or performances, or an exhibition of art</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="22">
+				<xs:annotation>
+					<xs:documentation>Programme or guide for artistic event</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="31">
+				<xs:annotation>
+					<xs:documentation>Publication linked to exposition</xs:documentation>
+					<xs:documentation>For example a commercial exposition</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="32">
+				<xs:annotation>
+					<xs:documentation>Programme or guide for exposition</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="List21">
 		<xs:annotation>
@@ -3470,6 +3540,12 @@
 					<xs:documentation>An edition intended specifically for use in schools</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="SIG">
+				<xs:annotation>
+					<xs:documentation>Signed edition</xs:documentation>
+					<xs:documentation>Individually autographed by the author(s)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="SMP">
 				<xs:annotation>
 					<xs:documentation>Simplified language edition</xs:documentation>
@@ -3479,7 +3555,7 @@
 			<xs:enumeration value="SPE">
 				<xs:annotation>
 					<xs:documentation>Special edition</xs:documentation>
-					<xs:documentation>Use for anniversary, collectors’, de luxe, gift, limited (but prefer codes NUM or UNN as appropriate), autographed edition. Use &lt;EditionStatement&gt; to describe the exact nature of the special edition</xs:documentation>
+					<xs:documentation>Use for anniversary, collectors’, de luxe, gift, limited (but prefer codes NUM or UNN as appropriate), autographed (but prefer code SIG as appropriate) edition. Use &lt;EditionStatement&gt; to describe the exact nature of the special edition</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="STU">
@@ -3613,7 +3689,7 @@
 			<xs:enumeration value="04">
 				<xs:annotation>
 					<xs:documentation>Back matter page count</xs:documentation>
-					<xs:documentation>The total number of numbered (often Roman-numbered) pages that follow the main content of a book. This usually consists of an afterword, appendices, endnotes, index, etc. It excludes blank (or advertising) pages that are present only for convenience of printing and binding</xs:documentation>
+					<xs:documentation>The total number of numbered (often Roman-numbered) pages that follow the main content of a book. This usually consists of an afterword, appendices, endnotes, index, etc. It excludes extracts or ‘teaser’ material from other works, and blank (or advertising) pages that are present only for convenience of printing and binding</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="05">
@@ -4420,7 +4496,7 @@
 			<xs:enumeration value="78">
 				<xs:annotation>
 					<xs:documentation>Japanese book trade C-Code</xs:documentation>
-					<xs:documentation>See ‘http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html’ (in Japanese)</xs:documentation>
+					<xs:documentation>See http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html (in Japanese)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="79">
@@ -4540,7 +4616,7 @@
 			<xs:enumeration value="A7">
 				<xs:annotation>
 					<xs:documentation>ISIC</xs:documentation>
-					<xs:documentation>International Standard Industry Classification, a classification of economic activities. Use for books that are about a particular industry or economic activity. See ‘http://unstats.un.org/unsd/cr/registry/isic-4.asp’. &lt;SubjectCode&gt; should be a single letter denoting an ISIC section OR a 2-, 3- or 4-digit number denoting an ISIC division, group or class</xs:documentation>
+					<xs:documentation>International Standard Industry Classification, a classification of economic activities. Use for books that are about a particular industry or economic activity. &lt;SubjectCode&gt; should be a single letter denoting an ISIC section OR a 2-, 3- or 4-digit number denoting an ISIC division, group or class. See http://unstats.un.org/unsd/cr/registry/isic-4.asp</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="A8">
@@ -5039,7 +5115,7 @@
 			<xs:enumeration value="78">
 				<xs:annotation>
 					<xs:documentation>Japanese book trade C-Code</xs:documentation>
-					<xs:documentation>See ‘http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html’ (in Japanese)</xs:documentation>
+					<xs:documentation>See http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html (in Japanese)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="79">
@@ -5226,6 +5302,12 @@
 				<xs:annotation>
 					<xs:documentation>BISG Educational Taxonomy</xs:documentation>
 					<xs:documentation>Controlled vocabulary for educational objectives. See https://www.bisg.org/educational-taxonomy</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="B2">
+				<xs:annotation>
+					<xs:documentation>Keywords (not for display)</xs:documentation>
+					<xs:documentation>Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons. Use code B2 in preference to code 20 where it is important to show the keyword list is specifically NOT intended for display to purchasers, but is intended for use solely in indexing or by search engines</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -6631,7 +6713,7 @@
 			<xs:enumeration value="07">
 				<xs:annotation>
 					<xs:documentation>Nominated</xs:documentation>
-					<xs:documentation>Selected by judging panel or an official nominating process for final consideration for a prize, award or honor for which no ‘short-list’ or ‘long list’ exists</xs:documentation>
+					<xs:documentation>Selected by judging panel or an official nominating process for final consideration for a prize, award or honour for which no ‘short-list’ or ‘long list’ exists</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -6958,7 +7040,7 @@
 			<xs:enumeration value="32">
 				<xs:annotation>
 					<xs:documentation>FundRef DOI</xs:documentation>
-					<xs:documentation>DOI used in CrossRef’s Fundref list of academic research funding bodies, for example ‘10.13039/100004440’ (Wellcome Trust). See http://www.crossref.org/fundref/fundref_registry.html</xs:documentation>
+					<xs:documentation>DOI used in CrossRef’s Open Funder Registry list of academic research funding bodies, for example ‘10.13039/100004440’ (Wellcome Trust). See http://www.crossref.org/fundingdata/registry.html</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -9311,7 +9393,7 @@
 			<xs:enumeration value="18">
 				<xs:annotation>
 					<xs:documentation>Is special edition of</xs:documentation>
-					<xs:documentation>&lt;Product&gt; is a special edition of &lt;RelatedProduct&gt;. Used for a special edition (German: Sonderausgabe) with different cover, binding etc – more than ‘alternative format’ – which may be available in limited quantity and for a limited time</xs:documentation>
+					<xs:documentation>&lt;Product&gt; is a special edition of &lt;RelatedProduct&gt;. Used for a special edition (German: Sonderausgabe) with different cover, binding, premium content etc – more than ‘alternative format’ – which may be available in limited quantity and for a limited time</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="19">
@@ -9420,6 +9502,18 @@
 				<xs:annotation>
 					<xs:documentation>Sales expectation</xs:documentation>
 					<xs:documentation>Use to give the ISBN of another book that had sales (both in terms of copy numbers and customer profile) comparable to that the publisher or distributor estimates for the product. Use in ONIX 2.1 ONLY</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="37">
+				<xs:annotation>
+					<xs:documentation>Is signed version of</xs:documentation>
+					<xs:documentation>&lt;Product&gt; is a signed copy of &lt;RelatedProduct&gt;. Use where signed copies are given a distinct product identifier and can be ordered separately, but are otherwise identical</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="38">
+				<xs:annotation>
+					<xs:documentation>Has signed version</xs:documentation>
+					<xs:documentation>&lt;Product&gt; is an unsigned copy of &lt;RelatedProduct&gt;. Use where signed copies are given a distinct product identifier and can be ordered separately, but are otherwise identical</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -11061,7 +11155,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="List74">
 		<xs:annotation>
-			<xs:documentation source="ONIX Code List 74">Language code – based on ISO 639-2/B</xs:documentation>
+			<xs:documentation source="ONIX Code List 74">Language code – ISO 639-2/B</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="aar">
@@ -19355,7 +19449,7 @@
 			</xs:enumeration>
 			<xs:enumeration value="MWK">
 				<xs:annotation>
-					<xs:documentation>Kwacha</xs:documentation>
+					<xs:documentation>Malawi Kwacha</xs:documentation>
 					<xs:documentation>Malawi</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -19433,8 +19527,8 @@
 			</xs:enumeration>
 			<xs:enumeration value="PEN">
 				<xs:annotation>
-					<xs:documentation>Nuevo Sol</xs:documentation>
-					<xs:documentation>Peru</xs:documentation>
+					<xs:documentation>Sol</xs:documentation>
+					<xs:documentation>Peru (formerluy Nuevo Sol)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="PGK">
@@ -19733,8 +19827,8 @@
 			</xs:enumeration>
 			<xs:enumeration value="VEF">
 				<xs:annotation>
-					<xs:documentation>Bolivar fuerte</xs:documentation>
-					<xs:documentation>Venezuela</xs:documentation>
+					<xs:documentation>Bolívar</xs:documentation>
+					<xs:documentation>Venezuela (formerly Bolívar fuerte)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="VND">
@@ -21606,6 +21700,12 @@
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="EPC">
+				<xs:annotation>
+					<xs:documentation>Epic!</xs:documentation>
+					<xs:documentation>www.getepic.com</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="FDB">
 				<xs:annotation>
 					<xs:documentation>FeedBooks</xs:documentation>
@@ -21792,6 +21892,12 @@
 					<xs:documentation>Also known as Media World</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="ADP">
+				<xs:annotation>
+					<xs:documentation>Messageries ADP</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="MCR">
 				<xs:annotation>
 					<xs:documentation>Microcenter</xs:documentation>
@@ -21856,12 +21962,6 @@
 				<xs:annotation>
 					<xs:documentation>OLF</xs:documentation>
 					<xs:documentation/>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration value="ZZZ">
-				<xs:annotation>
-					<xs:documentation>Other</xs:documentation>
-					<xs:documentation>Include retailer name in &lt;SalesOutletName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="OVD">
@@ -22102,6 +22202,12 @@
 				<xs:annotation>
 					<xs:documentation>Zavvi</xs:documentation>
 					<xs:documentation>Formerly Virgin Megastores (UK)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZZZ">
+				<xs:annotation>
+					<xs:documentation>Other</xs:documentation>
+					<xs:documentation>Include retailer name in &lt;SalesOutletName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -22407,7 +22513,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Preview</xs:documentation>
-					<xs:documentation>Preview before purchase</xs:documentation>
+					<xs:documentation>Preview before purchase. Allows a retail customer, account holder or patron to view a proportion of the book before purchase. Also applies to borrowers making use of ‘acquisition on demand’ models in libraries, and to ‘subscription’ models where the purchase is made on behalf of the reader</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -22425,7 +22531,7 @@
 			<xs:enumeration value="04">
 				<xs:annotation>
 					<xs:documentation>Share</xs:documentation>
-					<xs:documentation>Share product across multiple concurrent devices</xs:documentation>
+					<xs:documentation>Share product across multiple concurrent devices. Allows a retail customer, account holder or patron to read the book across multiple devices linked to the same account. Also applies to readers in library borrowing and ‘subscription’ models</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="05">
@@ -22437,13 +22543,13 @@
 			<xs:enumeration value="06">
 				<xs:annotation>
 					<xs:documentation>Lend</xs:documentation>
-					<xs:documentation>Lendable to other device owner or account holder, eg ‘Lend-to-a-friend’, library lending. The ‘primary’ copy becomes unusable while the secondary copy is ‘on loan’ unless a number of concurrent borrowers is also specified)</xs:documentation>
+					<xs:documentation>Lendable by the purchaser to other device owner or account holder or patron, eg ‘Lend-to-a-friend’, library lending (where the library product has a separate &lt;ProductIdentifier&gt; from the consumer product). The ‘primary’ copy becomes unusable while the secondary copy is ‘on loan’ unless a number of concurrent borrowers is also specified</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="07">
 				<xs:annotation>
 					<xs:documentation>Time-limited license</xs:documentation>
-					<xs:documentation>E-publication license is time limited. Use with 02 from List 146 and a number of days in &lt;EpubUsageLimit&gt;</xs:documentation>
+					<xs:documentation>E-publication license is time limited. Use with 02 from List 146 and a number of days in &lt;EpubUsageLimit&gt;. The purchased copy becomes unusable when the license expires</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="08">
@@ -23487,7 +23593,7 @@
 			<xs:enumeration value="07">
 				<xs:annotation>
 					<xs:documentation>Flourished in</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>(‘Floruit’)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="08">
@@ -26294,6 +26400,12 @@
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="56">
+				<xs:annotation>
+					<xs:documentation>Flourished around</xs:documentation>
+					<xs:documentation>(‘Floruit’). To date the height of or most productive period during a career</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="List178">
@@ -26646,6 +26758,12 @@
 					<xs:documentation>The language of the text has been specified (eg via the HTML or XML lang attribute) to optimise text-to-speech (and other alternative renderings), both at whole document level and, where appropriate, for individual words, phrases or passages in a different language</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="24">
+				<xs:annotation>
+					<xs:documentation>Dyslexia readability</xs:documentation>
+					<xs:documentation>Specialised font, character and line spacing, justification and paragraph spacing, colouring and other options provided specifically to improve readbility for dyslexic readers. Details, including the name of the font, should be listed in &lt;ProductFormFeatureDescription&gt;</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="94">
 				<xs:annotation>
 					<xs:documentation>Compliance web page for detailed accessibility information</xs:documentation>
@@ -26977,6 +27095,30 @@
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="02">
+				<xs:annotation>
+					<xs:documentation>Proprietary price point identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier uniquely identifies price amount and currency. Two unrelated products with the same price amount carry the same identifier</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="03">
+				<xs:annotation>
+					<xs:documentation>Proprietary price type identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier uniquely identifies price type, qualifier and any constraints and conditions, but two products carrying the same identififer may carry differing price amounts, currencies</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="04">
+				<xs:annotation>
+					<xs:documentation>Proprietary price point and type identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier identifies a unique combination of price point and type, though two unrelated products may carry the same identifier if all details of their prices are identical</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="05">
+				<xs:annotation>
+					<xs:documentation>Proprietary unique price identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier is unique to a single price point, price type and product. No two products can carry the same identifier, even if all details of the price are identical</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="List218">
@@ -27049,6 +27191,12 @@
 			<xs:enumeration value="101C">
 				<xs:annotation>
 					<xs:documentation>EPUB 3.0.1</xs:documentation>
+					<xs:documentation>Use only with &lt;ProductFormDetail&gt; code E101</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="101D">
+				<xs:annotation>
+					<xs:documentation>EPUB 3.1</xs:documentation>
 					<xs:documentation>Use only with &lt;ProductFormDetail&gt; code E101</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -27351,6 +27499,69 @@
 				<xs:annotation>
 					<xs:documentation>Graduate level</xs:documentation>
 					<xs:documentation>Typical age 22+</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="List228">
+		<xs:annotation>
+			<xs:documentation source="ONIX Code List 228">Grant identifier type code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="01">
+				<xs:annotation>
+					<xs:documentation>Proprietary</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="List229">
+		<xs:annotation>
+			<xs:documentation source="ONIX Code List 229">Gender code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="u">
+				<xs:annotation>
+					<xs:documentation>Unknown or unspecified</xs:documentation>
+					<xs:documentation>Provides positive indication that the gender is not known or is not specified by the sender for any reason</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="f">
+				<xs:annotation>
+					<xs:documentation>Female</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="m">
+				<xs:annotation>
+					<xs:documentation>Male</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="List230">
+		<xs:annotation>
+			<xs:documentation source="ONIX Code List 230">Price constraint type</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="06">
+				<xs:annotation>
+					<xs:documentation>Lend</xs:documentation>
+					<xs:documentation>Lendable by the purchaser to other device owner, account holder or patron, eg library lending (use where the library product is not identified with a separate &lt;ProductIdentifier&gt; from the consumer product). The ‘primary’ copy becomes unusable while the secondary copy is on loan, unless a number of concurrent borrowers is also specified</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="07">
+				<xs:annotation>
+					<xs:documentation>Time-limited license</xs:documentation>
+					<xs:documentation>E-publication license is time-limited. Use with code 02 from List 146 and a number of days in &lt;PriceConstraintLimit&gt;. The purchased copy becomes unusable when the license expires</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="08">
+				<xs:annotation>
+					<xs:documentation>Loan renewal</xs:documentation>
+					<xs:documentation>Maximum number of consecutive loans (eg from a library) to a single device owner, account holder or patron. Note that a limit of 1 indicates that a loan cannot be renewed</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
