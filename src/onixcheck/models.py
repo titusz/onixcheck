@@ -105,6 +105,7 @@ class OnixMeta(_BaseMeta):
         (V21, SHORT, XSD): schema.O21_XSD_SHORT,
         (V21, REFERENCE, XSD): schema.O21_XSD_REFERENCE,
         (V30, SHORT, XSD): schema.O30_XSD_SHORT,
+        (V30, SHORT, RNG): schema.O30_RNG_SHORT,
         (V30, REFERENCE, XSD): schema.O30_XSD_REFERENCE,
         (V30, REFERENCE, RNG): schema.O30_RNG_REFERENCE,
     }
@@ -173,8 +174,11 @@ class OnixMeta(_BaseMeta):
         return tpl % self.onix_style
 
     def get_schema_file(self, schema_type=XSD):
-        return self.SCHEMA_MAP[(self.onix_version, self.onix_style, schema_type)]
-
+        key = self.onix_version, self.onix_style, schema_type
+        try:
+            return self.SCHEMA_MAP[key]
+        except KeyError:
+            raise OnixError('Found no {2} schema for ONIX {0} {1}'.format(*key))
 
 _BaseMessage = namedtuple('Message', 'level validator location message error_type')
 
