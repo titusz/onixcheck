@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+
 	**************************************************
 	*                                                *
 	*               ONIX INTERNATIONAL               *
@@ -9,10 +10,10 @@
 	*           CODE LIST DATA TYPES MODULE          *
 	*                RELAX NG VERSION                *
 	*                                                *
-	*                    ISSUE: 32                   *
+	*                    ISSUE: 33                   *
 	*                                                *
 	*                 Status: RELEASED               *
-	*            Release date: 2016-01-24            *
+	*            Release date: 2016-04-25            *
 	*                                                *
 	*  Orig filename ONIX_BookProduct_CodeLists.RNG  *
 	*                                                *
@@ -25,27 +26,28 @@
 
 	N.B. PRIMARILY DESIGNED FOR USE WITH ONIX SCHEMAS
 
-	TERMS AND CONDITIONS OF USE OF THE ONIX PRODUCT INFORMATION MESSAGE XML SCHEMA
 
-	All ONIX standards and documentation are copyright materials, made available 
-	free of charge for general use.  If you use the ONIX International Code Lists, 
-	you will be deemed to have accepted these terms and conditions:
+	TERMS AND CONDITIONS OF USE OF THE ONIX for Books PRODUCT INFORMATION FORMAT AND 
+	ASSOCIATED XML SCHEMAS
 
-	1.  You agree that you will not add to, delete from or amend any version of the 
-	ONIX Product Information Message Schema, or any part of the Schema except for 
-	strictly internal use in your own organisation.
+	All ONIX standards and documentation – including this document – are copyright 
+	materials, made available free of charge for general use. A full license agreement 
+	(DOI: 10.4400/nwgj) that governs their use is available on the EDItEUR website. In 
+	particular, if you use any of the ONIX for Books Product Information Format schemas 
+	(RNG, XSD or DTD) (‘the schemas’), you will be deemed to have accepted these terms 
+	and conditions:
 
-	2.  You agree that if you wish to add to, amend, or make extracts of any version 
-	of the Schema for any purpose that is not strictly internal to your own organisation, 
-	you will in the first instance notify EDItEUR and allow EDItEUR to review 
+	1. You agree that you will not add to, delete from, amend or copy for use outside of 
+	the schemas any part thereof except for strictly internal use in your own organization.
+
+	2. You agree that if your business would benefit from future additions or amendments 
+	to or extracts of the schemas for any purpose that is not strictly internal to your own 
+	organisation, you will in the first instance notify EDItEUR and allow EDItEUR to review 
 	and comment on your proposed use, in the interest of securing an orderly 
 	development of the Schema for the benefit of other users.
 
-	A full licence agreement (DOI: 10.4400/nwgj) that governs use of EDItEUR’s ONIX
-	documentation, DTDs and schemas is available on the EDItEUR website.
-
 	If you do not accept these terms, you must not use any version of the ONIX Product 
-	Information Message Schema.
+	Information Message Schemas.
 
 	Full copies of all published versions of the latest release of this Schema and all 
 	associated documentation are available from the EDItEUR web site, where may also be 
@@ -55,8 +57,10 @@
 	http://www.editeur.org/
 
 
-
 	MODULE REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+
+	2016-04-25: Module for public release based upon the ONIX International 
+	            Code lists Issue 33 (April 2016)
 
 	2016-01-23: Module for public release based upon the ONIX International 
 	            Code lists Issue 32 (January 2016)
@@ -1032,6 +1036,9 @@
 			<value>10</value>
 			<a:documentation>NCM</a:documentation>
 			<a:documentation>Mercosur/Mercosul Common Nomenclature, based on the Harmonised System</a:documentation>
+			<value>11</value>
+			<a:documentation>CPV</a:documentation>
+			<a:documentation>Common Procurement Vocabulary, uses to describe requirements for tender for public tendering and procurement within the EU. Code is a nine digit number (including the check digit). See http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=URISERV:l22008</a:documentation>
 			<value>50</value>
 			<a:documentation>Electre genre</a:documentation>
 			<a:documentation>Typologie de marché géré par Electre (Market segment code maintained by Electre)</a:documentation>
@@ -1742,13 +1749,16 @@
 			<a:documentation/>
 			<value>03</value>
 			<a:documentation>Earlier name</a:documentation>
-			<a:documentation/>
+			<a:documentation>Use only within &lt;AlternativeName&gt;</a:documentation>
 			<value>04</value>
 			<a:documentation>‘Real’ name</a:documentation>
 			<a:documentation>May be used to identify a well-known real name, where the primary name is a pseudonym</a:documentation>
 			<value>05</value>
 			<a:documentation>Transliterated form of primary name</a:documentation>
 			<a:documentation>Use only within &lt;AlternativeName&gt;, when the primary name type is unspecified</a:documentation>
+			<value>06</value>
+			<a:documentation>Later name</a:documentation>
+			<a:documentation>Use only within &lt;AlternativeName&gt;</a:documentation>
 		</choice>
 	</define>
 	<define name="List19">
@@ -1779,9 +1789,37 @@
 		</choice>
 	</define>
 	<define name="List20">
-		<a:documentation>Conference role</a:documentation>
+		<a:documentation>Conference / Event role</a:documentation>
 		<a:documentation>Source: ONIX Code List 20</a:documentation>
-		<value/>
+		<choice>
+			<value>01</value>
+			<a:documentation>Publication linked to conference</a:documentation>
+			<a:documentation>For example an academic, professional or political conference</a:documentation>
+			<value>02</value>
+			<a:documentation>Complete proceedings of conference</a:documentation>
+			<a:documentation/>
+			<value>03</value>
+			<a:documentation>Selected papers from conference</a:documentation>
+			<a:documentation/>
+			<value>11</value>
+			<a:documentation>Publication linked to sporting event</a:documentation>
+			<a:documentation>For example a competitive match, fixture series or championship</a:documentation>
+			<value>12</value>
+			<a:documentation>Programme or guide for sporting event</a:documentation>
+			<a:documentation/>
+			<value>21</value>
+			<a:documentation>Publication linked to artistic event</a:documentation>
+			<a:documentation>For example a theatrical or musical event or performance, a season of events or performances, or an exhibition of art</a:documentation>
+			<value>22</value>
+			<a:documentation>Programme or guide for artistic event</a:documentation>
+			<a:documentation/>
+			<value>31</value>
+			<a:documentation>Publication linked to exposition</a:documentation>
+			<a:documentation>For example a commercial exposition</a:documentation>
+			<value>32</value>
+			<a:documentation>Programme or guide for exposition</a:documentation>
+			<a:documentation/>
+		</choice>
 	</define>
 	<define name="List21">
 		<a:documentation>Edition type code</a:documentation>
@@ -1865,12 +1903,15 @@
 			<value>SCH</value>
 			<a:documentation>School edition</a:documentation>
 			<a:documentation>An edition intended specifically for use in schools</a:documentation>
+			<value>SIG</value>
+			<a:documentation>Signed edition</a:documentation>
+			<a:documentation>Individually autographed by the author(s)</a:documentation>
 			<value>SMP</value>
 			<a:documentation>Simplified language edition</a:documentation>
 			<a:documentation>An edition that uses simplified language (Finnish ‘Selkokirja’)</a:documentation>
 			<value>SPE</value>
 			<a:documentation>Special edition</a:documentation>
-			<a:documentation>Use for anniversary, collectors’, de luxe, gift, limited (but prefer codes NUM or UNN as appropriate), autographed edition. Use &lt;EditionStatement&gt; to describe the exact nature of the special edition</a:documentation>
+			<a:documentation>Use for anniversary, collectors’, de luxe, gift, limited (but prefer codes NUM or UNN as appropriate), autographed (but prefer code SIG as appropriate) edition. Use &lt;EditionStatement&gt; to describe the exact nature of the special edition</a:documentation>
 			<value>STU</value>
 			<a:documentation>Student edition</a:documentation>
 			<a:documentation>Where a text is available in both student and teacher’s editions</a:documentation>
@@ -1942,7 +1983,7 @@
 			<a:documentation>The total number of numbered (usually Roman-numbered) pages that precede the main content of a book. This usually consists of various title and imprint pages, table of contents, an introduction, preface, foreword, etc</a:documentation>
 			<value>04</value>
 			<a:documentation>Back matter page count</a:documentation>
-			<a:documentation>The total number of numbered (often Roman-numbered) pages that follow the main content of a book. This usually consists of an afterword, appendices, endnotes, index, etc. It excludes blank (or advertising) pages that are present only for convenience of printing and binding</a:documentation>
+			<a:documentation>The total number of numbered (often Roman-numbered) pages that follow the main content of a book. This usually consists of an afterword, appendices, endnotes, index, etc. It excludes extracts or ‘teaser’ material from other works, and blank (or advertising) pages that are present only for convenience of printing and binding</a:documentation>
 			<value>05</value>
 			<a:documentation>Total numbered pages</a:documentation>
 			<a:documentation>The sum of all Roman- and Arabic-numbered pages. Note that this may include numbered but otherwise blank pages (eg pages inserted to ensure chapters start on a recto page) and may exclude unnumbered (but contentful) pages such as those in inserts/plate sections. It is the sum of the main content (00), front matter (03) and back matter (04) page counts</a:documentation>
@@ -2353,7 +2394,7 @@
 			<a:documentation>Finnish school subject categories</a:documentation>
 			<value>78</value>
 			<a:documentation>Japanese book trade C-Code</a:documentation>
-			<a:documentation>See ‘http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html’ (in Japanese)</a:documentation>
+			<a:documentation>See http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html (in Japanese)</a:documentation>
 			<value>79</value>
 			<a:documentation>Japanese book trade Genre Code</a:documentation>
 			<a:documentation/>
@@ -2413,7 +2454,7 @@
 			<a:documentation>French educational subject classification scolomfr-voc-015, used for example on WizWiz.fr. See http://www.lom-fr.fr/scolomfr/vocabulaires/consultation-des-vocabulaires.html</a:documentation>
 			<value>A7</value>
 			<a:documentation>ISIC</a:documentation>
-			<a:documentation>International Standard Industry Classification, a classification of economic activities. Use for books that are about a particular industry or economic activity. See ‘http://unstats.un.org/unsd/cr/registry/isic-4.asp’. &lt;SubjectCode&gt; should be a single letter denoting an ISIC section OR a 2-, 3- or 4-digit number denoting an ISIC division, group or class</a:documentation>
+			<a:documentation>International Standard Industry Classification, a classification of economic activities. Use for books that are about a particular industry or economic activity. &lt;SubjectCode&gt; should be a single letter denoting an ISIC section OR a 2-, 3- or 4-digit number denoting an ISIC division, group or class. See http://unstats.un.org/unsd/cr/registry/isic-4.asp</a:documentation>
 			<value>A8</value>
 			<a:documentation>LC Children’s Subject Headings</a:documentation>
 			<a:documentation>Library of Congress Children’s Subject Headings: LCSHAC supplementary headings for Children’s books</a:documentation>
@@ -2665,7 +2706,7 @@
 			<a:documentation>Finnish school subject categories</a:documentation>
 			<value>78</value>
 			<a:documentation>Japanese book trade C-Code</a:documentation>
-			<a:documentation>See ‘http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html’ (in Japanese)</a:documentation>
+			<a:documentation>See http://www.asahi-net.or.jp/~ax2s-kmtn/ref/ccode.html (in Japanese)</a:documentation>
 			<value>79</value>
 			<a:documentation>Japanese book trade Genre Code</a:documentation>
 			<a:documentation/>
@@ -2759,6 +2800,9 @@
 			<value>B1</value>
 			<a:documentation>BISG Educational Taxonomy</a:documentation>
 			<a:documentation>Controlled vocabulary for educational objectives. See https://www.bisg.org/educational-taxonomy</a:documentation>
+			<value>B2</value>
+			<a:documentation>Keywords (not for display)</a:documentation>
+			<a:documentation>Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons. Use code B2 in preference to code 20 where it is important to show the keyword list is specifically NOT intended for display to purchasers, but is intended for use solely in indexing or by search engines</a:documentation>
 		</choice>
 	</define>
 	<define name="List28">
@@ -3496,7 +3540,7 @@
 			<a:documentation>Or co-winner</a:documentation>
 			<value>07</value>
 			<a:documentation>Nominated</a:documentation>
-			<a:documentation>Selected by judging panel or an official nominating process for final consideration for a prize, award or honor for which no ‘short-list’ or ‘long list’ exists</a:documentation>
+			<a:documentation>Selected by judging panel or an official nominating process for final consideration for a prize, award or honour for which no ‘short-list’ or ‘long list’ exists</a:documentation>
 		</choice>
 	</define>
 	<define name="List42">
@@ -3667,7 +3711,7 @@
 			<a:documentation>Virtual Internet Authority File. &lt;IDValue&gt; should be a number. The URI form of the identifier can be created by prefixing the number with ‘https://viaf.org/viaf/’. See https://viaf.org</a:documentation>
 			<value>32</value>
 			<a:documentation>FundRef DOI</a:documentation>
-			<a:documentation>DOI used in CrossRef’s Fundref list of academic research funding bodies, for example ‘10.13039/100004440’ (Wellcome Trust). See http://www.crossref.org/fundref/fundref_registry.html</a:documentation>
+			<a:documentation>DOI used in CrossRef’s Open Funder Registry list of academic research funding bodies, for example ‘10.13039/100004440’ (Wellcome Trust). See http://www.crossref.org/fundingdata/registry.html</a:documentation>
 		</choice>
 	</define>
 	<define name="List45">
@@ -4861,7 +4905,7 @@
 			<a:documentation>&lt;Product&gt; is replaced by POD &lt;RelatedProduct&gt;. &lt;RelatedProduct&gt; is a print-on-demand replacement, under a new ISBN, for an out-of-print &lt;Product&gt; (reciprocal of code 16)</a:documentation>
 			<value>18</value>
 			<a:documentation>Is special edition of</a:documentation>
-			<a:documentation>&lt;Product&gt; is a special edition of &lt;RelatedProduct&gt;. Used for a special edition (German: Sonderausgabe) with different cover, binding etc – more than ‘alternative format’ – which may be available in limited quantity and for a limited time</a:documentation>
+			<a:documentation>&lt;Product&gt; is a special edition of &lt;RelatedProduct&gt;. Used for a special edition (German: Sonderausgabe) with different cover, binding, premium content etc – more than ‘alternative format’ – which may be available in limited quantity and for a limited time</a:documentation>
 			<value>19</value>
 			<a:documentation>Has special edition</a:documentation>
 			<a:documentation>&lt;Product&gt; has a special edition &lt;RelatedProduct&gt; (reciprocal of code 18)</a:documentation>
@@ -4916,6 +4960,12 @@
 			<value>36</value>
 			<a:documentation>Sales expectation</a:documentation>
 			<a:documentation>Use to give the ISBN of another book that had sales (both in terms of copy numbers and customer profile) comparable to that the publisher or distributor estimates for the product. Use in ONIX 2.1 ONLY</a:documentation>
+			<value>37</value>
+			<a:documentation>Is signed version of</a:documentation>
+			<a:documentation>&lt;Product&gt; is a signed copy of &lt;RelatedProduct&gt;. Use where signed copies are given a distinct product identifier and can be ordered separately, but are otherwise identical</a:documentation>
+			<value>38</value>
+			<a:documentation>Has signed version</a:documentation>
+			<a:documentation>&lt;Product&gt; is an unsigned copy of &lt;RelatedProduct&gt;. Use where signed copies are given a distinct product identifier and can be ordered separately, but are otherwise identical</a:documentation>
 		</choice>
 	</define>
 	<define name="List52">
@@ -5791,7 +5841,7 @@
 		</choice>
 	</define>
 	<define name="List74">
-		<a:documentation>Language code – based on ISO 639-2/B</a:documentation>
+		<a:documentation>Language code – ISO 639-2/B</a:documentation>
 		<a:documentation>Source: ONIX Code List 74</a:documentation>
 		<choice>
 			<value>aar</value>
@@ -9994,7 +10044,7 @@
 			<a:documentation>Rufiyaa</a:documentation>
 			<a:documentation>Maldives</a:documentation>
 			<value>MWK</value>
-			<a:documentation>Kwacha</a:documentation>
+			<a:documentation>Malawi Kwacha</a:documentation>
 			<a:documentation>Malawi</a:documentation>
 			<value>MXN</value>
 			<a:documentation>Mexican Peso</a:documentation>
@@ -10033,8 +10083,8 @@
 			<a:documentation>Balboa</a:documentation>
 			<a:documentation>Panama</a:documentation>
 			<value>PEN</value>
-			<a:documentation>Nuevo Sol</a:documentation>
-			<a:documentation>Peru</a:documentation>
+			<a:documentation>Sol</a:documentation>
+			<a:documentation>Peru (formerluy Nuevo Sol)</a:documentation>
 			<value>PGK</value>
 			<a:documentation>Kina</a:documentation>
 			<a:documentation>Papua New Guinea</a:documentation>
@@ -10183,8 +10233,8 @@
 			<a:documentation>Bolivar</a:documentation>
 			<a:documentation>Deprecated, replaced by VEF</a:documentation>
 			<value>VEF</value>
-			<a:documentation>Bolivar fuerte</a:documentation>
-			<a:documentation>Venezuela</a:documentation>
+			<a:documentation>Bolívar</a:documentation>
+			<a:documentation>Venezuela (formerly Bolívar fuerte)</a:documentation>
 			<value>VND</value>
 			<a:documentation>Dong</a:documentation>
 			<a:documentation>Viet Nam (prices normally quoted as integers)</a:documentation>
@@ -11142,6 +11192,9 @@
 			<value>ENH</value>
 			<a:documentation>English Heritage</a:documentation>
 			<a:documentation/>
+			<value>EPC</value>
+			<a:documentation>Epic!</a:documentation>
+			<a:documentation>www.getepic.com</a:documentation>
 			<value>FDB</value>
 			<a:documentation>FeedBooks</a:documentation>
 			<a:documentation/>
@@ -11235,6 +11288,9 @@
 			<value>MMS</value>
 			<a:documentation>Media Markt/Saturn</a:documentation>
 			<a:documentation>Also known as Media World</a:documentation>
+			<value>ADP</value>
+			<a:documentation>Messageries ADP</a:documentation>
+			<a:documentation/>
 			<value>MCR</value>
 			<a:documentation>Microcenter</a:documentation>
 			<a:documentation/>
@@ -11268,9 +11324,6 @@
 			<value>OLF</value>
 			<a:documentation>OLF</a:documentation>
 			<a:documentation/>
-			<value>ZZZ</value>
-			<a:documentation>Other</a:documentation>
-			<a:documentation>Include retailer name in &lt;SalesOutletName&gt;</a:documentation>
 			<value>OVD</value>
 			<a:documentation>OverDrive</a:documentation>
 			<a:documentation/>
@@ -11391,6 +11444,9 @@
 			<value>ZVV</value>
 			<a:documentation>Zavvi</a:documentation>
 			<a:documentation>Formerly Virgin Megastores (UK)</a:documentation>
+			<value>ZZZ</value>
+			<a:documentation>Other</a:documentation>
+			<a:documentation>Include retailer name in &lt;SalesOutletName&gt;</a:documentation>
 		</choice>
 	</define>
 	<define name="List140">
@@ -11524,8 +11580,8 @@
 			<a:documentation>No choking hazard warning necessary</a:documentation>
 			<a:documentation>To be used when a supplier wishes to make a clear statement that no such warning is applicable to product</a:documentation>
 			<value>11</value>
-			<a:documentation>WARNING: MAGNET HAZARD – product contains (a) small magnet(s)</a:documentation>
-			<a:documentation>Required on applicable products sold in the US. Should be accompanied by additional text: Swallowed magnets can stick together across intestines, causing serious infections and death. Seek immediate medical attention if magnet(s) are swallowed or inhaled</a:documentation>
+			<a:documentation>WARNING: MAGNET HAZARD – Product contains (a) small magnet(s)</a:documentation>
+			<a:documentation>Required on applicable products sold in the US. Should be accompanied by additional text: Swallowed magnets can stick together across intestines causing serious infections and death. Seek immediate medical attention if magnet(s) are swallowed or inhaled</a:documentation>
 		</choice>
 	</define>
 	<define name="List144">
@@ -11558,7 +11614,7 @@
 		<choice>
 			<value>01</value>
 			<a:documentation>Preview</a:documentation>
-			<a:documentation>Preview before purchase</a:documentation>
+			<a:documentation>Preview before purchase. Allows a retail customer, account holder or patron to view a proportion of the book before purchase. Also applies to borrowers making use of ‘acquisition on demand’ models in libraries, and to ‘subscription’ models where the purchase is made on behalf of the reader</a:documentation>
 			<value>02</value>
 			<a:documentation>Print</a:documentation>
 			<a:documentation>Print paper copy of extract</a:documentation>
@@ -11567,16 +11623,16 @@
 			<a:documentation>Make digital copy of extract</a:documentation>
 			<value>04</value>
 			<a:documentation>Share</a:documentation>
-			<a:documentation>Share product across multiple concurrent devices</a:documentation>
+			<a:documentation>Share product across multiple concurrent devices. Allows a retail customer, account holder or patron to read the book across multiple devices linked to the same account. Also applies to readers in library borrowing and ‘subscription’ models</a:documentation>
 			<value>05</value>
 			<a:documentation>Text to speech</a:documentation>
 			<a:documentation>‘Read aloud’ with text to speech functionality</a:documentation>
 			<value>06</value>
 			<a:documentation>Lend</a:documentation>
-			<a:documentation>Lendable to other device owner or account holder, eg ‘Lend-to-a-friend’, library lending. The ‘primary’ copy becomes unusable while the secondary copy is ‘on loan’ unless a number of concurrent borrowers is also specified)</a:documentation>
+			<a:documentation>Lendable by the purchaser to other device owner or account holder or patron, eg ‘Lend-to-a-friend’, library lending (where the library product has a separate &lt;ProductIdentifier&gt; from the consumer product). The ‘primary’ copy becomes unusable while the secondary copy is ‘on loan’ unless a number of concurrent borrowers is also specified</a:documentation>
 			<value>07</value>
 			<a:documentation>Time-limited license</a:documentation>
-			<a:documentation>E-publication license is time limited. Use with 02 from List 146 and a number of days in &lt;EpubUsageLimit&gt;</a:documentation>
+			<a:documentation>E-publication license is time limited. Use with 02 from List 146 and a number of days in &lt;EpubUsageLimit&gt;. The purchased copy becomes unusable when the license expires</a:documentation>
 			<value>08</value>
 			<a:documentation>Loan renewal</a:documentation>
 			<a:documentation>Maximum number of consecutive loans (eg from a library) to a single device owner or account holder. Note that a limit of 1 indicates that a loan cannot be renewed</a:documentation>
@@ -12113,7 +12169,7 @@
 			<a:documentation/>
 			<value>07</value>
 			<a:documentation>Flourished in</a:documentation>
-			<a:documentation/>
+			<a:documentation>(‘Floruit’)</a:documentation>
 			<value>08</value>
 			<a:documentation>Citizen of</a:documentation>
 			<a:documentation>Or nationality. For use with country codes only</a:documentation>
@@ -13581,6 +13637,9 @@
 			<value>51</value>
 			<a:documentation>Date of death</a:documentation>
 			<a:documentation/>
+			<value>56</value>
+			<a:documentation>Flourished around</a:documentation>
+			<a:documentation>(‘Floruit’). To date the height of or most productive period during a career</a:documentation>
 		</choice>
 	</define>
 	<define name="List178">
@@ -13767,6 +13826,9 @@
 			<value>22</value>
 			<a:documentation>Language tagging provided</a:documentation>
 			<a:documentation>The language of the text has been specified (eg via the HTML or XML lang attribute) to optimise text-to-speech (and other alternative renderings), both at whole document level and, where appropriate, for individual words, phrases or passages in a different language</a:documentation>
+			<value>24</value>
+			<a:documentation>Dyslexia readability</a:documentation>
+			<a:documentation>Specialised font, character and line spacing, justification and paragraph spacing, colouring and other options provided specifically to improve readbility for dyslexic readers. Details, including the name of the font, should be listed in &lt;ProductFormFeatureDescription&gt;</a:documentation>
 			<value>94</value>
 			<a:documentation>Compliance web page for detailed accessibility information</a:documentation>
 			<a:documentation>&lt;ProductFormFeatureDescription&gt; carries the URL of a web page giving further detailed description of the accessibility features, compatibility, testing etc. The web page should be maintained by an independent compliance scheme or testing organization</a:documentation>
@@ -13950,6 +14012,18 @@
 			<value>01</value>
 			<a:documentation>Proprietary</a:documentation>
 			<a:documentation/>
+			<value>02</value>
+			<a:documentation>Proprietary price point identifier</a:documentation>
+			<a:documentation>Proprietary identifier uniquely identifies price amount and currency. Two unrelated products with the same price amount carry the same identifier</a:documentation>
+			<value>03</value>
+			<a:documentation>Proprietary price type identifier</a:documentation>
+			<a:documentation>Proprietary identifier uniquely identifies price type, qualifier and any constraints and conditions, but two products carrying the same identififer may carry differing price amounts, currencies</a:documentation>
+			<value>04</value>
+			<a:documentation>Proprietary price point and type identifier</a:documentation>
+			<a:documentation>Proprietary identifier identifies a unique combination of price point and type, though two unrelated products may carry the same identifier if all details of their prices are identical</a:documentation>
+			<value>05</value>
+			<a:documentation>Proprietary unique price identifier</a:documentation>
+			<a:documentation>Proprietary identifier is unique to a single price point, price type and product. No two products can carry the same identifier, even if all details of the price are identical</a:documentation>
 		</choice>
 	</define>
 	<define name="List218">
@@ -13994,6 +14068,9 @@
 			<a:documentation>Use only with &lt;ProductFormDetail&gt; code E101</a:documentation>
 			<value>101C</value>
 			<a:documentation>EPUB 3.0.1</a:documentation>
+			<a:documentation>Use only with &lt;ProductFormDetail&gt; code E101</a:documentation>
+			<value>101D</value>
+			<a:documentation>EPUB 3.1</a:documentation>
 			<a:documentation>Use only with &lt;ProductFormDetail&gt; code E101</a:documentation>
 			<value>116A</value>
 			<a:documentation>Kindle mobi 7</a:documentation>
@@ -14163,6 +14240,45 @@
 			<value>17</value>
 			<a:documentation>Graduate level</a:documentation>
 			<a:documentation>Typical age 22+</a:documentation>
+		</choice>
+	</define>
+	<define name="List228">
+		<a:documentation>Grant identifier type code</a:documentation>
+		<a:documentation>Source: ONIX Code List 228</a:documentation>
+		<choice>
+			<value>01</value>
+			<a:documentation>Proprietary</a:documentation>
+			<a:documentation/>
+		</choice>
+	</define>
+	<define name="List229">
+		<a:documentation>Gender code</a:documentation>
+		<a:documentation>Source: ONIX Code List 229</a:documentation>
+		<choice>
+			<value>u</value>
+			<a:documentation>Unknown or unspecified</a:documentation>
+			<a:documentation>Provides positive indication that the gender is not known or is not specified by the sender for any reason</a:documentation>
+			<value>f</value>
+			<a:documentation>Female</a:documentation>
+			<a:documentation/>
+			<value>m</value>
+			<a:documentation>Male</a:documentation>
+			<a:documentation/>
+		</choice>
+	</define>
+	<define name="List230">
+		<a:documentation>Price constraint type</a:documentation>
+		<a:documentation>Source: ONIX Code List 230</a:documentation>
+		<choice>
+			<value>06</value>
+			<a:documentation>Lend</a:documentation>
+			<a:documentation>Lendable by the purchaser to other device owner, account holder or patron, eg library lending (use where the library product is not identified with a separate &lt;ProductIdentifier&gt; from the consumer product). The ‘primary’ copy becomes unusable while the secondary copy is on loan, unless a number of concurrent borrowers is also specified</a:documentation>
+			<value>07</value>
+			<a:documentation>Time-limited license</a:documentation>
+			<a:documentation>E-publication license is time-limited. Use with code 02 from List 146 and a number of days in &lt;PriceConstraintLimit&gt;. The purchased copy becomes unusable when the license expires</a:documentation>
+			<value>08</value>
+			<a:documentation>Loan renewal</a:documentation>
+			<a:documentation>Maximum number of consecutive loans (eg from a library) to a single device owner, account holder or patron. Note that a limit of 1 indicates that a loan cannot be renewed</a:documentation>
 		</choice>
 	</define>
 	<define name="SourceTypeCode">
