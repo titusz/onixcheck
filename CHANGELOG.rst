@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.9.3 (2016-05-10)
+------------------
+* Update ONIX 3.0 Schemas to Revision 3
+* Add support for RELAX NG and custom schema validations
+* Added validator name to short message output
+
 0.9.2 (2016-04-11)
 ------------------
 * Fix ExtentType in custom validation profile
