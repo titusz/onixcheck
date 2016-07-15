@@ -31,6 +31,11 @@ if platform.python_implementation() != 'PyPy':
 if sys.version.startswith('2.6'):
     dependencies.append('argparse')
 
+
+if sys.platform == 'win32':
+    dependencies.append('win-unicode-console')
+
+
 setup(
     name='onixcheck',
     version='0.9.3',

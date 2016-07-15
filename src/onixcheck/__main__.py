@@ -55,6 +55,13 @@ def main(argv=None):
         )
         print('DEBUG logging enabled.')
 
+    try:
+        import win_unicode_console
+        win_unicode_console.enable()
+        log.debug('Running with win-unicode-console patch')
+    except Exception:
+        pass
+
     log.debug('TYPE of path: %s' % type(args.path))
     # validate current working dir
     if not args.infile and not args.path:
@@ -75,7 +82,7 @@ def main(argv=None):
             all_valid = False
             for msg in messages:
                 if args.debug:
-                    print(msg, file=sys.stderr)
+                    print(msg.__str__(), file=sys.stderr)
                 else:
                     print(msg.short, file=sys.stderr)
 
@@ -98,9 +105,9 @@ def main(argv=None):
                 all_valid = False
                 for msg in messages:
                     if args.debug:
-                        print(msg.short, file=sys.stderr)
+                        print(msg.__str__(), file=sys.stderr)
                     else:
-                        print(msg, file=sys.stderr)
+                        print(msg.short, file=sys.stderr)
     if all_valid:
         return 0
     else:
