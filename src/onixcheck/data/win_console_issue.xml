@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ONIXMessage release="3.0">
+	<Header>
+		<Sender>
+			<SenderName>Some Sender</SenderName>
+			<ContactName>Some Contact</ContactName>
+			<EmailAddress>test@example.com</EmailAddress>
+		</Sender>
+		<SentDateTime>20160602</SentDateTime>
+		<DefaultLanguageOfText>eng</DefaultLanguageOfText>
+		<DefaultPriceType>01</DefaultPriceType>
+		<DefaultCurrencyCode>USD</DefaultCurrencyCode>
+	</Header>
+
+	<Product>
+		<RecordReference>SomeSender.9783141592641</RecordReference>
+		<NotificationType>03</NotificationType>
+		<ProductIdentifier>
+			<ProductIDType>03</ProductIDType>
+			<IDValue>9783141592641</IDValue>
+		</ProductIdentifier>
+		<ProductIdentifier>
+			<ProductIDType>15</ProductIDType>
+			<IDValue>9783141592641</IDValue>
+		</ProductIdentifier>
+		<DescriptiveDetail>
+			<ProductComposition>00</ProductComposition>
+			<ProductForm>BB</ProductForm>
+			<TitleDetail>
+				<TitleType>01</TitleType>
+				<TitleElement>
+					<TitleElementLevel>01</TitleElementLevel>
+					<TitlePrefix>The</TitlePrefix>
+					<TitleWithoutPrefix>Book of Texas</TitleWithoutPrefix>
+				</TitleElement>
+			</TitleDetail>
+			<Contributor>
+				<SequenceNumber>1</SequenceNumber>
+				<ContributorRole>A01</ContributorRole>
+				<NameIdentifier>
+					<NameIDType>16​</NameIDType>
+					<IDValue>0000000083795662</IDValue>
+				</NameIdentifier>
+				<PersonName>John Avery Lomax</PersonName>
+			</Contributor>
+			<NoEdition/>
+			<Language>
+				<LanguageRole>01</LanguageRole>
+				<LanguageCode>eng</LanguageCode>
+			</Language>
+		</DescriptiveDetail>
+		<PublishingDetail>
+			<Publisher>
+				<PublishingRole>01</PublishingRole>
+				<PublisherName>Flashpoint Publishing</PublisherName>
+			</Publisher>
+			<PublishingStatus>04</PublishingStatus>
+			<PublishingDate>
+				<PublishingDateRole>01</PublishingDateRole>
+				<DateFormat>00</DateFormat>
+				<Date>19160302</Date>
+			</PublishingDate>
+			<SalesRights>
+				<SalesRightsType>01</SalesRightsType>
+				<Territory>
+					<RegionsIncluded>WORLD</RegionsIncluded>
+				</Territory>
+			</SalesRights>
+		</PublishingDetail>
+		<ProductSupply>
+			<SupplyDetail>
+				<Supplier>
+					<SupplierRole>01</SupplierRole>
+					<SupplierName>Flashpoint Books</SupplierName>
+				</Supplier>
+				<ProductAvailability datestamp="20160602">20</ProductAvailability>
+				<Price>
+					<PriceType>01</PriceType>
+					<PriceAmount>25.99</PriceAmount>
+					<CurrencyCode>USD</CurrencyCode>
+				</Price>
+			</SupplyDetail>
+		</ProductSupply>
+	</Product>
+
+</ONIXMessage>
