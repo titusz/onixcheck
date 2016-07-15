@@ -45,3 +45,12 @@ def test_main_debug(capsys):
     out, err = capsys.readouterr()
     assert 'DEBUG' in out
     assert exit_code == 0
+
+
+def test_console_ouptup_encoding(capsys):
+    argv = [data.WIN_CONSOLE_ISSUE]
+    exit_code = main(argv)
+    assert exit_code == 1
+    out, err = capsys.readouterr()
+    assert 'UnicodeEncodeError' not in out
+    assert 'UnicodeEncodeError' not in err
