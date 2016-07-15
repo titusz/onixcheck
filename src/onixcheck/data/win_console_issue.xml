@@ -38,6 +38,13 @@
 				<SequenceNumber>1</SequenceNumber>
 				<ContributorRole>A01</ContributorRole>
 				<NameIdentifier>
+					<!--
+						Here we have the culprit! The '16' is followed by a
+						"ZERO WIDTH SPACE" from the unicode 'Cf' category.
+						'Cf' -> Control/Format character. When sending this
+						unicode character to the windows console we get the
+						infamous 'UnicodeEncodeError'.
+					-->
 					<NameIDType>16​</NameIDType>
 					<IDValue>0000000083795662</IDValue>
 				</NameIdentifier>
