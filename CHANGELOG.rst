@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.9.4 (2016-07-15)
+------------------
+* Fix issue with windows console output encoding
+* Update windows build to pyinstaller 3.1
+
 0.9.3 (2016-05-10)
 ------------------
 * Update ONIX 3.0 Schemas to Revision 3
