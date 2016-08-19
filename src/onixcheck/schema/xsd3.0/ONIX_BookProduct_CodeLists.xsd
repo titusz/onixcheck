@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-
 	**************************************************
 	*                                                *
 	*               ONIX INTERNATIONAL               *
@@ -8,12 +7,12 @@
 	*     BOOK PRODUCT INFORMATION MESSAGE SCHEMA    *
 	*                                                *
 	*           CODE LIST DATA TYPES MODULE          *
-	*             W3C XSD SCHEMA VERSION             *
+	*               XML SCHEMA VERSION               *
 	*                                                *
-	*                    ISSUE: 33                   *
+	*                    ISSUE: 34                   *
 	*                                                *
 	*                 Status: RELEASED               *
-	*            Release date: 2016-04-25            *
+	*            Release date: 2016-07-25            *
 	*                                                *
 	*  Orig filename ONIX_BookProduct_CodeLists.XSD  *
 	*                                                *
@@ -27,31 +26,31 @@
 	N.B. PRIMARILY DESIGNED FOR USE WITH ONIX SCHEMAS
 
 
-	TERMS AND CONDITIONS OF USE OF THE ONIX for Books PRODUCT INFORMATION FORMAT AND 
+	TERMS AND CONDITIONS OF USE OF THE ONIX for Books PRODUCT INFORMATION FORMAT AND
 	ASSOCIATED XML SCHEMAS
 
-	All ONIX standards and documentation – including this document – are copyright 
-	materials, made available free of charge for general use. A full license agreement 
-	(DOI: 10.4400/nwgj) that governs their use is available on the EDItEUR website. In 
-	particular, if you use any of the ONIX for Books Product Information Format schemas 
-	(RNG, XSD or DTD) (‘the schemas’), you will be deemed to have accepted these terms 
+	All ONIX standards and documentation – including this document – are copyright
+	materials, made available free of charge for general use. A full license agreement
+	(DOI: 10.4400/nwgj) that governs their use is available on the EDItEUR website. In
+	particular, if you use any of the ONIX for Books Product Information Format schemas
+	(RNG, XSD or DTD) (‘the schemas’), you will be deemed to have accepted these terms
 	and conditions:
 
-	1. You agree that you will not add to, delete from, amend or copy for use outside of 
+	1. You agree that you will not add to, delete from, amend or copy for use outside of
 	the schemas any part thereof except for strictly internal use in your own organization.
 
-	2. You agree that if your business would benefit from future additions or amendments 
-	to or extracts of the schemas for any purpose that is not strictly internal to your own 
-	organisation, you will in the first instance notify EDItEUR and allow EDItEUR to review 
-	and comment on your proposed use, in the interest of securing an orderly 
+	2. You agree that if your business would benefit from future additions or amendments
+	to or extracts of the schemas for any purpose that is not strictly internal to your own
+	organisation, you will in the first instance notify EDItEUR and allow EDItEUR to review
+	and comment on your proposed use, in the interest of securing an orderly
 	development of the Schema for the benefit of other users.
 
-	If you do not accept these terms, you must not use any version of the ONIX Product 
+	If you do not accept these terms, you must not use any version of the ONIX Product
 	Information Message Schemas.
 
-	Full copies of all published versions of the latest release of this Schema and all 
-	associated documentation are available from the EDItEUR web site, where may also be 
-	found details of how to contact EDItEUR for advice on the use of this Schema. The URL 
+	Full copies of all published versions of the latest release of this Schema and all
+	associated documentation are available from the EDItEUR web site, where may also be
+	found details of how to contact EDItEUR for advice on the use of this Schema. The URL
 	for the EDItEUR web site is:
 
 	http://www.editeur.org/
@@ -59,91 +58,94 @@
 
 	MODULE REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
 
-	2016-04-25: Module for public release based upon the ONIX International 
-	            Code lists Issue 33 (April 2016)
+	2016-07-25: Module for public release based upon the ONIX International
+	         Code lists Issue 34 (July 2016)
 
-	2016-01-23: Module for public release based upon the ONIX International 
-	            Code lists Issue 32 (January 2016)
+	2016-04-25: Module for public release based upon the ONIX International
+	         Code lists Issue 33 (April 2016)
 
-	2015-11-02: Module for public release based upon the ONIX International 
-	            Code lists Issue 31 (November 2015)
+	2016-01-23: Module for public release based upon the ONIX International
+	         Code lists Issue 32 (January 2016)
 
-	2015-07-29: Module for public release based upon the ONIX International 
+	2015-11-02: Module for public release based upon the ONIX International
+	         Code lists Issue 31 (November 2015)
+
+	2015-07-29: Module for public release based upon the ONIX International
 	            Code lists Issue 30 (July 2015)
 
-	2015-05-06: Module for public release based upon the ONIX International 
+	2015-05-06: Module for public release based upon the ONIX International
 	            Code lists Issue 29 (May 2015)
 
-	2015-02-09: Module for public release based upon the ONIX International 
+	2015-02-09: Module for public release based upon the ONIX International
 	            Code lists Issue 28 (February 2015)
 
-	2014-10-17: Module for public release based upon the ONIX International 
+	2014-10-17: Module for public release based upon the ONIX International
 	            Code lists Issue 27 (October 2014)
 
-	2014-07-09: Module for public release based upon the ONIX International 
+	2014-07-09: Module for public release based upon the ONIX International
 	            Code lists Issue 26 (July 2014)
 
-	2014-04-14: Module for public release based upon the ONIX International 
+	2014-04-14: Module for public release based upon the ONIX International
 	            Code lists Issue 25 (April 2014)
 
-	2014-01-30: Module for public release based upon the ONIX International 
+	2014-01-30: Module for public release based upon the ONIX International
 	            Code lists Issue 24 (January 2014)
 
-	2013-10-15: Module for public release based upon the ONIX International 
+	2013-10-15: Module for public release based upon the ONIX International
 	            Code lists Issue 23 (October 2013)
 
-	2013-07-19: Module for public release based upon the ONIX International 
+	2013-07-19: Module for public release based upon the ONIX International
 	            Code lists Issue 22 (July 2013)
 
-	2013-04-19: Module for public release based upon the ONIX International 
+	2013-04-19: Module for public release based upon the ONIX International
 	            Code lists Issue 21 (April 2013)
 
-	2013-01-21: Module for public release based upon the ONIX International 
+	2013-01-21: Module for public release based upon the ONIX International
 	            Code lists Issue 20 (January 2013)
 
-	2012-10-22: Module for public release based upon the ONIX International 
+	2012-10-22: Module for public release based upon the ONIX International
 	            Code lists Issue 19 (October 2012)
 
-	2012-08-14: Module for public release based upon the ONIX International 
+	2012-08-14: Module for public release based upon the ONIX International
 	            Code lists Issue 18 (August 2012)
 
-	2012-04-20: Module for public release based upon the ONIX International 
+	2012-04-20: Module for public release based upon the ONIX International
 	            Code lists Issue 17 (April 2012)
 
-	2012-01-23: Module for public release based upon the ONIX International 
+	2012-01-23: Module for public release based upon the ONIX International
 	            Code lists Issue 16 (January 2012)
 
-	2011-10-21: Module for public release based upon the ONIX International 
+	2011-10-21: Module for public release based upon the ONIX International
 	            Code lists Issue 15 (October 2011)
 
-	2011-06-27: Module for public release based upon the ONIX International 
+	2011-06-27: Module for public release based upon the ONIX International
 	            Code lists Issue 14 (June 2011)
 
-	2011-03-23: Module for public release based upon the ONIX International 
+	2011-03-23: Module for public release based upon the ONIX International
 	            Code lists Issue 13 (March 2011)
 
-	2010-10-26: Module for public release based upon the ONIX International 
+	2010-10-26: Module for public release based upon the ONIX International
 	            Code lists Issue 12 (October 2010)
 
-	2010-05-17: Module for public release based upon the ONIX International 
+	2010-05-17: Module for public release based upon the ONIX International
 	            Code lists Issue 11, with correction in List 67 (May 2010)
 
-	2010-03-18: Module for public release based upon the ONIX International 
+	2010-03-18: Module for public release based upon the ONIX International
 	            Code lists Issue 11 (March 2010)
 
-	2009-07-15: Module for public release based upon the ONIX International 
+	2009-07-15: Module for public release based upon the ONIX International
 	            Code lists Issue 10 (July 2009)
 
-	2009-04-09: Module for public release based upon the ONIX International 
+	2009-04-09: Module for public release based upon the ONIX International
 	            Code lists Issue 9 (April 2009)
 
-	2009-02-10: Module for public release based upon the ONIX International 
+	2009-02-10: Module for public release based upon the ONIX International
 	            Code Lists Issue 8+ (revised February 2009)
 
-	2008-12-04: Module for public release based upon the ONIX International 
+	2008-12-04: Module for public release based upon the ONIX International
 	            Code Lists Issue 8+ (December 2008)
 
-	2008-04-22: Module for public release based upon the ONIX International 
+	2008-04-22: Module for public release based upon the ONIX International
 	            Code Lists Issue 8 (April 2008)
 
 	2007-03-27: Module for public release based upon the ONIX International
@@ -158,13 +160,13 @@
 	2005-02-10: Module for public release based upon the ONIX International
 	            Code Lists Issue 4 (February 2005)
 
-	2004-11-10: Module for public release based upon the ONIX International 
+	2004-11-10: Module for public release based upon the ONIX International
 	            Code Lists Issue 3 (August 2004)
 
-	2004-08-10: Second Draft Module based upon the ONIX International 
+	2004-08-10: Second Draft Module based upon the ONIX International
 	            Code Lists Issue 3 (August 2004)
 
-	2003-12-30: First Draft Module based upon the ONIX International 
+	2003-12-30: First Draft Module based upon the ONIX International
 	            Code Lists Issue 2 (December 2003)
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -383,7 +385,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation>For example, a publisher’s or wholesaler’s product number</xs:documentation>
+					<xs:documentation>For example, a publisher’s or wholesaler’s product number. Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -1809,7 +1811,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>WCO Harmonized System</xs:documentation>
-					<xs:documentation>World Customs Organization Harmonized Commodity Coding and Description System</xs:documentation>
+					<xs:documentation>World Customs Organization Harmonized Commodity Coding and Description System. Use 6 or 8 digits, without punctuation</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -2365,7 +2367,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation>For example, publisher’s own series ID</xs:documentation>
+					<xs:documentation>For example, publisher’s own series ID. Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -2548,7 +2550,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -2579,6 +2581,18 @@
 				<xs:annotation>
 					<xs:documentation>ISRC</xs:documentation>
 					<xs:documentation>International Standard Recording Code</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="32">
+				<xs:annotation>
+					<xs:documentation>GLIMIR</xs:documentation>
+					<xs:documentation>Global Library Manifestation Identifier, OCLC’s ‘manifestation cluster’ ID</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="33">
+				<xs:annotation>
+					<xs:documentation>OWI</xs:documentation>
+					<xs:documentation>OCLC Work Identifier</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -3320,7 +3334,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="List20">
 		<xs:annotation>
-			<xs:documentation source="ONIX Code List 20">Conference / Event role</xs:documentation>
+			<xs:documentation source="ONIX Code List 20">Event role</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="01">
@@ -4148,7 +4162,7 @@
 			<xs:enumeration value="20">
 				<xs:annotation>
 					<xs:documentation>Keywords</xs:documentation>
-					<xs:documentation>Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons (this is consistent with Library of Congress preferred practice)</xs:documentation>
+					<xs:documentation>For indexing and search purposes, not normally intended for display. Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons (this is consistent with Library of Congress preferred practice)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="21">
@@ -4406,7 +4420,7 @@
 			<xs:enumeration value="63">
 				<xs:annotation>
 					<xs:documentation>RVM</xs:documentation>
-					<xs:documentation>Répertoire de vedettes-matière (Bibliothèque et Archives Canada et Bibliothèque de l’Université Laval) (French)</xs:documentation>
+					<xs:documentation>Répertoire de vedettes-matière (Bibliothèque de l’Université Laval) (French)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="64">
@@ -4604,7 +4618,7 @@
 			<xs:enumeration value="A5">
 				<xs:annotation>
 					<xs:documentation>Rameau</xs:documentation>
-					<xs:documentation>French library classification</xs:documentation>
+					<xs:documentation>French library subject headings</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="A6">
@@ -4767,7 +4781,7 @@
 			<xs:enumeration value="20">
 				<xs:annotation>
 					<xs:documentation>Keywords</xs:documentation>
-					<xs:documentation>Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons (this is consistent with Library of Congress preferred practice)</xs:documentation>
+					<xs:documentation>For indexing and search purposes, not normally intended for display. Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons (this is consistent with Library of Congress preferred practice)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="21">
@@ -5025,7 +5039,7 @@
 			<xs:enumeration value="63">
 				<xs:annotation>
 					<xs:documentation>RVM</xs:documentation>
-					<xs:documentation>Répertoire de vedettes-matière (Bibliothèque et Archives Canada et Bibliothèque de l’Université Laval) (French)</xs:documentation>
+					<xs:documentation>Répertoire de vedettes-matière (Bibliothèque de l’Université Laval) (French)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="64">
@@ -5265,7 +5279,7 @@
 			<xs:enumeration value="A5">
 				<xs:annotation>
 					<xs:documentation>Rameau</xs:documentation>
-					<xs:documentation>French library classification</xs:documentation>
+					<xs:documentation>French library subject headings</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="A6">
@@ -5307,7 +5321,13 @@
 			<xs:enumeration value="B2">
 				<xs:annotation>
 					<xs:documentation>Keywords (not for display)</xs:documentation>
-					<xs:documentation>Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons. Use code B2 in preference to code 20 where it is important to show the keyword list is specifically NOT intended for display to purchasers, but is intended for use solely in indexing or by search engines</xs:documentation>
+					<xs:documentation>For indexing and search purposes, MUST not be displayed. Where multiple keywords or keyword phrases are sent in a single instance of the &lt;SubjectHeadingText&gt; element, it is recommended that they should be separated by semi-colons. Use code B2 in preference to code 20 where it is important to show the keyword list is specifically NOT for display to purchasers</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="B3">
+				<xs:annotation>
+					<xs:documentation>Nomenclature Diplôme</xs:documentation>
+					<xs:documentation>French higher and vocational educational subject classification scolomfr-voc-29 subject category for degree and diploma study. See http://www.lom-fr.fr/scolomfr/vocabulaires/consultation-des-vocabulaires.html</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -5350,7 +5370,7 @@
 			<xs:enumeration value="06">
 				<xs:annotation>
 					<xs:documentation>Professional and scholarly</xs:documentation>
-					<xs:documentation>For an expert adult audience, including academic research</xs:documentation>
+					<xs:documentation>For an expert adult audience, including professional development and academic research</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="07">
@@ -5387,7 +5407,7 @@
 			<xs:enumeration value="02">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>As specified in &lt;AudienceCodeTypeName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="03">
@@ -6088,13 +6108,13 @@
 			<xs:enumeration value="06">
 				<xs:annotation>
 					<xs:documentation>Default text format</xs:documentation>
-					<xs:documentation>Default: text in the encoding declared at the head of the message or in the XML default (UTF-8 or UTF-16) if there is no explicit declaration</xs:documentation>
+					<xs:documentation>Default: text containing no tags of any kind, except for the tags &amp;amp; and &amp;lt; that XML insists must be used to represent ampersand and less-than characters in text, and in the encoding declared at the head of the message or in the XML default (UTF-8 or UTF-16) if there is no explicit declaration</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="07">
 				<xs:annotation>
 					<xs:documentation>Basic ASCII text</xs:documentation>
-					<xs:documentation>Plain text containing no tags of any kind, except for the tags &amp;amp; and &amp;lt; that XML insists must be used to represent ampersand and less-than characters in text; and with the character set limited to the ASCII range, i.e. valid UTF-8 characters whose character number lies between 32 (space) and 126 (tilde)</xs:documentation>
+					<xs:documentation>Plain text containing no tags of any kind, except for the tags &amp;amp; and &amp;lt; that XML insists must be used to represent ampersand and less-than characters in text, and with the character set limited to the ASCII range, i.e. valid UTF-8 characters whose character number lies between 32 (space) and 126 (tilde)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="08">
@@ -6829,7 +6849,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation>For example, a publisher’s own identifier</xs:documentation>
+					<xs:documentation>For example, a publisher’s own identifier. Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="03">
@@ -6878,7 +6898,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -9539,7 +9559,7 @@
 			<xs:enumeration value="00">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>As specified in &lt;ReturnsCodeTypeName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="01">
@@ -10743,7 +10763,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>As specified in &lt;StockQuantityCodeTypeName&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -11964,7 +11984,7 @@
 			</xs:enumeration>
 			<xs:enumeration value="fit">
 				<xs:annotation>
-					<xs:documentation>Meänkieli / Tournedalen Finnish</xs:documentation>
+					<xs:documentation>Meänkieli / Tornedalen Finnish</xs:documentation>
 					<xs:documentation>ONIX local code, equivalent to fit in ISO 639-3</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
@@ -14236,7 +14256,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="List77">
 		<xs:annotation>
-			<xs:documentation source="ONIX Code List 77">North American school or college grade</xs:documentation>
+			<xs:documentation source="ONIX Code List 77">US and Canada (excluding Québec) school or college grade</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="P">
@@ -15872,6 +15892,12 @@
 				<xs:annotation>
 					<xs:documentation>Carry case</xs:documentation>
 					<xs:documentation>A case with carrying handle, typically for a set of educational books and/or learning materials</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="24">
+				<xs:annotation>
+					<xs:documentation>In tin</xs:documentation>
+					<xs:documentation>Individual item, items or set in metal box or can with separate or hinged lid</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -18564,7 +18590,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -19528,7 +19554,7 @@
 			<xs:enumeration value="PEN">
 				<xs:annotation>
 					<xs:documentation>Sol</xs:documentation>
-					<xs:documentation>Peru (formerluy Nuevo Sol)</xs:documentation>
+					<xs:documentation>Peru (formerly Nuevo Sol)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="PGK">
@@ -20258,7 +20284,7 @@
 			<xs:enumeration value="02">
 				<xs:annotation>
 					<xs:documentation>Proprietary discount code</xs:documentation>
-					<xs:documentation>A publisher’s or supplier’s own code which identifies a trade discount category, the actual discount being set by trading partner agreement (applies to goods supplied on standard trade discounting terms)</xs:documentation>
+					<xs:documentation>A publisher’s or supplier’s own code which identifies a trade discount category, as specified in &lt;DiscountCodeTypeName&gt;. The actual discount for each code is set by trading partner agreement (applies to goods supplied on standard trade discounting terms)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="03">
@@ -20276,7 +20302,7 @@
 			<xs:enumeration value="05">
 				<xs:annotation>
 					<xs:documentation>Proprietary commission code</xs:documentation>
-					<xs:documentation>A publisher’s or supplier’s own code which identifies a commission rate category, the actual commission rate being set by trading partner agreement (applies to goods supplied on agency terms)</xs:documentation>
+					<xs:documentation>A publisher’s or supplier’s own code which identifies a commission rate category, as specified in &lt;DiscountCodeTypeName&gt;. The actual commission rate for each code is set by trading partner agreement (applies to goods supplied on agency terms)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="06">
@@ -20295,7 +20321,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -20332,7 +20358,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation>Proprietary list of retail and other end-user sales outlet IDs</xs:documentation>
+					<xs:documentation>Proprietary list of retail and other end-user sales outlet IDs. Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -21604,6 +21630,12 @@
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="CVM">
+				<xs:annotation>
+					<xs:documentation>CVS Mediatheques</xs:documentation>
+					<xs:documentation>www.cvs-mediatheques.com</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="CYB">
 				<xs:annotation>
 					<xs:documentation>Cyberlibris</xs:documentation>
@@ -22198,6 +22230,12 @@
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="YOU">
+				<xs:annotation>
+					<xs:documentation>Youboox</xs:documentation>
+					<xs:documentation>youboox.fr</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="ZVV">
 				<xs:annotation>
 					<xs:documentation>Zavvi</xs:documentation>
@@ -22494,13 +22532,25 @@
 			<xs:enumeration value="04">
 				<xs:annotation>
 					<xs:documentation>Apple DRM</xs:documentation>
-					<xs:documentation>FairPlay’ DRM protection applied via Apple proprietary online store</xs:documentation>
+					<xs:documentation>Has 'FairPlay’ DRM protection applied via Apple proprietary online store</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="05">
 				<xs:annotation>
 					<xs:documentation>OMA DRM</xs:documentation>
 					<xs:documentation>Has OMA v2 DRM protection applied, as used to protect some mobile phone content</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="06">
+				<xs:annotation>
+					<xs:documentation>Readium LCP DRM</xs:documentation>
+					<xs:documentation>Has ‘Licensed Content Protection' DRM applied by a Readium License Server</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="07">
+				<xs:annotation>
+					<xs:documentation>Sony DRM</xs:documentation>
+					<xs:documentation>Has Sony DADC User Rights Management (URMS) DRM protection applied</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -23532,6 +23582,18 @@
 			<xs:enumeration value="ZJ">
 				<xs:annotation>
 					<xs:documentation>Jigsaw</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZK">
+				<xs:annotation>
+					<xs:documentation>Mug</xs:documentation>
+					<xs:documentation/>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZL">
+				<xs:annotation>
+					<xs:documentation>Tote bag</xs:documentation>
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:enumeration>
@@ -24589,6 +24651,18 @@
 					<xs:documentation>Latest date on which an order may be placed for guaranteed delivery prior to the publication date. May or may not be linked to a special reservation or pre-publication price</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="50">
+				<xs:annotation>
+					<xs:documentation>New supplier start date</xs:documentation>
+					<xs:documentation>First date on which the supplier specified in &lt;NewSupplier&gt; will accept orders. Note the first date would typically be the day after the old supplier end date, but they may overlap if there is an agreement to forward any orders between old and new supplier for fulfillment</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="51">
+				<xs:annotation>
+					<xs:documentation>Supplier end date</xs:documentation>
+					<xs:documentation>Last date on which the supplier specified in &lt;Supplier&gt; will accept orders. New supplier should be specified where available. Note last date would typically be the day before the new supplier start date, but they may overlap if there is an agreement to forward any orders between old and new supplier for fulfillment</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="List167">
@@ -24635,7 +24709,7 @@
 			<xs:enumeration value="10">
 				<xs:annotation>
 					<xs:documentation>Rental duration</xs:documentation>
-					<xs:documentation>The duration of the rental to which the price applies</xs:documentation>
+					<xs:documentation>The duration of the rental to which the price applies. Deprecated, use &lt;PriceConstraint&gt; instead</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="11">
@@ -24647,7 +24721,7 @@
 			<xs:enumeration value="12">
 				<xs:annotation>
 					<xs:documentation>Rental extension</xs:documentation>
-					<xs:documentation>Upgrade to longer rental duration. &lt;PriceConditionQuantity&gt; gives minimum prior rental duration. Separate price condition with rental duration (code 10) specifies the new combined rental duration</xs:documentation>
+					<xs:documentation>Upgrade to longer rental duration. &lt;PriceConditionQuantity&gt; gives minimum prior rental duration, and &lt;ProductIdentifier&gt; may be used if rental uses a different product identifier. Separate price constraint with time limited licence duration (code 07) specifies the new combined rental duration</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -25394,6 +25468,18 @@
 				<xs:annotation>
 					<xs:documentation>Trade binding</xs:documentation>
 					<xs:documentation>Hardcover binding intended for general consumers rather than libraries, use with Product form code BB. The default if a hardcover binding detail is not stated. cf. Library binding</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="B316">
+				<xs:annotation>
+					<xs:documentation>Swiss binding</xs:documentation>
+					<xs:documentation>Cover is attached to the book block along only one edge of the spine, allowing the cover to lay flat</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="B317">
+				<xs:annotation>
+					<xs:documentation>Notched binding</xs:documentation>
+					<xs:documentation>Refinement of perfect binding, with notches cut in the spine of the book block prior to glueing, to improve adhesion and durability</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="B400">
@@ -26597,7 +26683,7 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation>A publisher or retailer’s proprietary code list which identifies particular codes with particular price points, price tiers or bands</xs:documentation>
+					<xs:documentation>A publisher or retailer’s proprietary code list as specified in &lt;PriceCodeTypeName&gt; which identifies particular codes with particular price points, price tiers or bands</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
@@ -26761,7 +26847,7 @@
 			<xs:enumeration value="24">
 				<xs:annotation>
 					<xs:documentation>Dyslexia readability</xs:documentation>
-					<xs:documentation>Specialised font, character and line spacing, justification and paragraph spacing, colouring and other options provided specifically to improve readbility for dyslexic readers. Details, including the name of the font, should be listed in &lt;ProductFormFeatureDescription&gt;</xs:documentation>
+					<xs:documentation>Specialised font, character and line spacing, justification and paragraph spacing, colouring and other options provided specifically to improve readability for dyslexic readers. Details, including the name of the font, should be listed in &lt;ProductFormFeatureDescription&gt;</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="94">
@@ -27092,19 +27178,19 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Note that &lt;IDTypeName&gt; is required for proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="02">
 				<xs:annotation>
 					<xs:documentation>Proprietary price point identifier</xs:documentation>
-					<xs:documentation>Proprietary identifier uniquely identifies price amount and currency. Two unrelated products with the same price amount carry the same identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier uniquely identifies price amount and currency. Two unrelated products with the same price amount carry the same identifier, though their price types may be different</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="03">
 				<xs:annotation>
 					<xs:documentation>Proprietary price type identifier</xs:documentation>
-					<xs:documentation>Proprietary identifier uniquely identifies price type, qualifier and any constraints and conditions, but two products carrying the same identififer may carry differing price amounts, currencies</xs:documentation>
+					<xs:documentation>Proprietary identifier uniquely identifies price type, qualifier and any constraints and conditions. Two unrelated products with the same price type carry the same identifier, though their price points may be different</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="04">
@@ -27116,7 +27202,19 @@
 			<xs:enumeration value="05">
 				<xs:annotation>
 					<xs:documentation>Proprietary unique price identifier</xs:documentation>
-					<xs:documentation>Proprietary identifier is unique to a single price point, price type and product. No two products can carry the same identifier, even if all details of the price are identical</xs:documentation>
+					<xs:documentation>Proprietary identifier is unique to a single price point, price type and product. No two products can carry the same identifier, even if all details of their prices are identical</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="06">
+				<xs:annotation>
+					<xs:documentation>Proprietary product price point identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier uniquely identifies a specific combination of product, price amount and currency, independent of the price type</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="07">
+				<xs:annotation>
+					<xs:documentation>Proprietary product price type identifier</xs:documentation>
+					<xs:documentation>Proprietary identifier uniquely identifies a specific combination of product, price type, qualifier and any constraints and conditions, independent of the price amount and currency. A product with the same product price type identififer may carry differing price amounts, currencies at different points in time</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -27511,14 +27609,14 @@
 			<xs:enumeration value="01">
 				<xs:annotation>
 					<xs:documentation>Proprietary</xs:documentation>
-					<xs:documentation/>
+					<xs:documentation>Note that &lt;IDTypeName&gt; is required with proprietary identifiers</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="List229">
 		<xs:annotation>
-			<xs:documentation source="ONIX Code List 229">Gender code</xs:documentation>
+			<xs:documentation source="ONIX Code List 229">Gender code – based on ISO 5218</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="u">
@@ -27546,6 +27644,12 @@
 			<xs:documentation source="ONIX Code List 230">Price constraint type</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
+			<xs:enumeration value="00">
+				<xs:annotation>
+					<xs:documentation>No constraints</xs:documentation>
+					<xs:documentation>Allows positive indication that there are no conditions (the default if &lt;PriceConstraint&gt; is omitted)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="06">
 				<xs:annotation>
 					<xs:documentation>Lend</xs:documentation>
