@@ -2,6 +2,11 @@
 Changelog
 =========
 
+0.9.5 (2016-08-19)
+------------------
+* Update Onix 3 to Code List issue 34
+* Remove build artifacts from source distribution
+
 0.9.4 (2016-07-15)
 ------------------
 * Fix issue with windows console output encoding
