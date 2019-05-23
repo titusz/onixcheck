@@ -180,6 +180,7 @@ class OnixMeta(_BaseMeta):
         except KeyError:
             raise OnixError('Found no {2} schema for ONIX {0} {1}'.format(*key))
 
+
 _BaseMessage = namedtuple('Message', 'level validator location message error_type')
 
 
@@ -210,17 +211,16 @@ class Message(_BaseMessage):
         :param str filename: Optional filename to prefix error location
         :return Message:
         """
-        l = logentry
-        location = '%s:%s:%s' % (filename, l.line, l.column)
-        message = l.message or ''
+        location = '%s:%s:%s' % (filename, logentry.line, logentry.column)
+        message = logentry.message or ''
         message = re.sub('({.*?})', '', message)
 
         return cls(
-            level=l.level_name,
-            validator=l.domain_name,
+            level=logentry.level_name,
+            validator=logentry.domain_name,
             location=location,
             message=message,
-            error_type=l.type_name
+            error_type=logentry.type_name
         )
 
     @classmethod

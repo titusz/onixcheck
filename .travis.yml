@@ -1,22 +1,28 @@
 language: python
-python: 3.5
 sudo: false
 env:
   global:
     LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
-  matrix:
-    - TOXENV=check
-    - TOXENV=2.6
-    - TOXENV=2.6-nocover
-    - TOXENV=2.7
-    - TOXENV=2.7-nocover
-    - TOXENV=3.3
-    - TOXENV=3.3-nocover
-    - TOXENV=3.4
-    - TOXENV=3.4-nocover
-    - TOXENV=3.5
-    - TOXENV=3.5-nocover
-    - TOXENV=pypy-nocover
+matrix:
+  include:
+    - name: "Check"
+      python: 3.6
+      env: TOXENV=check
+    - name: "Python 2.7"
+      python: 2.7
+      env: TOXENV=2.7
+    - name: "Python 3.4"
+      python: 3.4
+      env: TOXENV=3.4
+    - name: "Python 3.5"
+      python: 3.5
+      env: TOXENV=3.5
+    - name: "Python 3.6"
+      python: 3.6
+      env: TOXENV=3.6
+    - name: "PyPy"
+      python: pypy
+      env: TOXENV=pypy
 before_install:
   - python --version
   - virtualenv --version
@@ -31,4 +37,3 @@ notifications:
   email:
     on_success: never
     on_failure: always
-
