@@ -15,12 +15,12 @@
 	*          Recent revisions: Graham Bell         *
 	*                                                *
 	*                  Release 3.0                   *
-	*                   Revision 3                   *
-	*                Status: RELEASED                *
+	*                   Revision 6                   *
+	*               Status: RELEASED                 *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2016-04-25               *
+	*              Revised: 2019-04-26               *
 	*                                                *
-	*             (c) 2000-2016 EDItEUR              *
+	*             (c) 2000-2019 EDItEUR              *
 	*             http://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -58,6 +58,33 @@
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
 
+	2019-04-26: ONIX for Books 3.0 revision 6
+	            1. Added <Measure> within <ProductPart>
+	            2. Made <WebsiteLink> repeatable, added @language
+
+	2018-10-26: ONIX for Books 3.0 revision 5
+	            1. Added <AVItem> within <ContentItem>, as an alternative to <TextItem>
+	            2. Added <PalletQuantity> within <Supplier>
+	            3. Added <TaxExempt/> empty element
+	            4. Ensure Blocks 2, 3, 5 can be blank
+
+	2018-02-02: enforce 'if and only if' on <PositionOnProduct> in <Price>
+
+	2017-11-26: corrected content model for <InitialPrintRun> to match documentation
+
+	2017-10-26: ONIX for Books 3.0 revision 4
+	            1. Added <SupplyContact> within <SupplyDetail>
+	            2. Added <PricePartDescription> in <Tax>
+	            3. Added <EpubTechnicalProtection> and <EpubLicense> in <Price>
+	            4. Modified <CollectionSequenceNumber> to accept hyphen for unordered levels in numbering hierarchy
+	            5. Added <Reserved> within <Stock>
+	            6. Added <Language> in <ContentItem>
+	            7. Used gp.authorship in <Collection> and <ContentItem>
+
+	2017-10-19: Corrected regex for dt.MultiLevelNumber
+
+	2017-05-22: Simplified expression of data model for <Territory>
+
 	2016-04-25: ONIX for Books 3.0 revision 3
 	            1. added Event as near-synonym for Conference
 	               a. choose either elements labelled <Event…> OR <Conference…>, but cannot mix in one <Product> record
@@ -85,7 +112,7 @@
 	2016-01-24  1. enforce positive (>= 0), strict positive (> 0) or percentage (0..100) real numbers in various fields
 	            2. enforce positive (0, 1, 2…) or strict positive (1, 2, 3…) integers in various fields
 
-	               note these changes were included in 'strict' version of schema from 2015-01-24
+	               note these changes had been included in a 'strict' version of schema from 2015-01-24
 
 	2015-07-29: corrected Flow to dt.NonEmptyString in ConferenceName to match documentation
 
@@ -239,6 +266,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.0/short" xmlns="http://ns.editeur.org/onix/3.0/short">
 	<xs:include schemaLocation="ONIX_BookProduct_CodeLists.xsd" />
 	<xs:include schemaLocation="ONIX_XHTML_Subset.xsd" />
+
 	<xs:element name="addressee">
 		<xs:complexType>
 			<xs:sequence>
@@ -821,6 +849,124 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="x544">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.TimeOrDuration">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="AVDuration" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x544" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="avitem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="x540" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="avitemidentifier" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="timerun" />
+				<xs:element minOccurs="0" ref="x544" />
+			</xs:sequence>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="AVItem" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="avitem" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="avitemidentifier">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="x541" />
+				<xs:element minOccurs="0" ref="b233" />
+				<xs:element ref="b244" />
+			</xs:sequence>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="AVItemIdentifier" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="avitemidentifier" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x541">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="List241">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="AVItemIDType" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x541" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x540">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="List240">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="AVItemType" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x540" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="barcode">
 		<xs:complexType>
 			<xs:sequence>
@@ -1194,9 +1340,9 @@
 						<xs:sequence minOccurs="0">
 							<xs:element maxOccurs="unbounded" ref="x432" />
 							<xs:element minOccurs="0" ref="x433" />
-						</xs:sequence>	
+						</xs:sequence>
 					</xs:sequence>
-					<xs:sequence minOccurs="0">
+					<xs:sequence>
 						<xs:element maxOccurs="unbounded" ref="x432" />
 						<xs:element minOccurs="0" ref="x433" />
 					</xs:sequence>
@@ -1300,10 +1446,7 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="collectionidentifier" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="collectionsequence" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="titledetail" />
-				<xs:sequence minOccurs="0">
-					<xs:element maxOccurs="unbounded" ref="contributor" />
-					<xs:element minOccurs="0" maxOccurs="unbounded" ref="b049" />
-				</xs:sequence>
+				<xs:group ref="gp.authorship" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -1396,7 +1539,7 @@
 	<xs:element name="x481">
 		<xs:complexType>
 			<xs:simpleContent>
-				<xs:extension base="dt.MultiLevelNumber">
+				<xs:extension base="dt.MultiLevelNumberOrHyphen">
 					<xs:attribute name="refname">
 						<xs:simpleType>
 							<xs:restriction base="xs:token">
@@ -1706,7 +1849,7 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="b052">
-		<xs:complexType mixed="true">
+		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
 					<xs:attribute name="refname">
@@ -1997,7 +2140,7 @@
 	<xs:element name="contentdetail">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element maxOccurs="unbounded" ref="contentitem" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="contentitem" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -2020,7 +2163,10 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element minOccurs="0" ref="b284" />
-				<xs:element ref="textitem" />
+				<xs:choice>
+					<xs:element ref="textitem" />
+					<xs:element ref="avitem" />
+				</xs:choice>
 				<xs:choice>
 					<xs:sequence>
 						<xs:element ref="b288" />
@@ -2032,14 +2178,11 @@
 						<xs:element maxOccurs="unbounded" ref="titledetail" />
 					</xs:sequence>
 				</xs:choice>
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="contributor" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="subject" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="nameassubject" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="textcontent" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="citedcontent" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="supportingresource" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="relatedwork" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="relatedproduct" />
+				<xs:group ref="gp.authorship" />
+				<xs:group ref="gp.languages" />
+				<xs:group ref="gp.subjects" />
+				<xs:group ref="gp.descriptions" />
+				<xs:group ref="gp.related_materials" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -2405,29 +2548,6 @@
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="b392">
-		<xs:complexType>
-			<xs:simpleContent>
-				<xs:extension base="List44">
-					<xs:attribute name="refname">
-						<xs:simpleType>
-							<xs:restriction base="xs:token">
-								<xs:enumeration value="CopyrightOwnerIDType" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="shortname">
-						<xs:simpleType>
-							<xs:restriction base="xs:token">
-								<xs:enumeration value="b392" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attributeGroup ref="generalAttributes" />
-				</xs:extension>
-			</xs:simpleContent>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="copyrightowneridentifier">
 		<xs:complexType>
 			<xs:sequence>
@@ -2450,6 +2570,29 @@
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="b392">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="List44">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="CopyrightOwnerIDType" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="b392" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="copyrightstatement">
@@ -2889,14 +3032,14 @@
 			<xs:sequence>
 				<xs:group ref="gp.product_form" />
 				<xs:group ref="gp.collections" />
-				<xs:group ref="gp.title" />
+				<xs:group ref="gp.titles" />
 				<xs:group ref="gp.authorship" />
-				<xs:group ref="gp.event" />
-				<xs:group ref="gp.edition" />
-				<xs:group ref="gp.language" />
+				<xs:group ref="gp.events" />
+				<xs:group ref="gp.editions" />
+				<xs:group ref="gp.languages" />
 				<xs:group ref="gp.extents" />
-				<xs:group ref="gp.subject" />
-				<xs:group ref="gp.audience" />
+				<xs:group ref="gp.subjects" />
+				<xs:group ref="gp.audiences" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -3225,6 +3368,29 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="dateformatAttribute" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x543">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.TimeOrDuration">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="EndTime" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x543" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -4383,9 +4549,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="k167">
-		<xs:complexType>
-			<xs:simpleContent>
-				<xs:extension base="dt.NonEmptyString">
+		<xs:complexType mixed="true">
+			<xs:complexContent>
+				<xs:extension base="Flow">
 					<xs:attribute name="refname">
 						<xs:simpleType>
 							<xs:restriction base="xs:token">
@@ -4404,7 +4570,7 @@
 					<xs:attributeGroup ref="languageAttribute" />
 					<xs:attributeGroup ref="textformatAttribute" />
 				</xs:extension>
-			</xs:simpleContent>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="b040">
@@ -5726,6 +5892,29 @@
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="x545">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.StrictPositiveInteger">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="PalletQuantity" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x545" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="x410">
 		<xs:complexType>
 			<xs:simpleContent>
@@ -5927,7 +6116,9 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="priceidentifier" />
 				<xs:element minOccurs="0" ref="x462" />
 				<xs:element minOccurs="0" ref="j261" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x317" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="priceconstraint" />
+				<xs:element minOccurs="0" ref="epublicense" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="j262" />
 				<xs:element minOccurs="0" ref="j239" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="pricecondition" />
@@ -5942,7 +6133,10 @@
 							<xs:element ref="j151" />
 							<xs:element ref="pricecoded" />
 						</xs:choice>
-						<xs:element minOccurs="0" maxOccurs="unbounded" ref="tax" />
+						<xs:choice minOccurs="0">
+							<xs:element maxOccurs="unbounded" ref="tax" />
+							<xs:element ref="x546" />
+						</xs:choice>
 					</xs:sequence>
 					<xs:element ref="j192" />
 				</xs:choice>
@@ -5951,8 +6145,10 @@
 				<xs:element minOccurs="0" ref="x475" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="comparisonproductprice" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="pricedate" />
-				<xs:element minOccurs="0" ref="x301" />
-				<xs:element minOccurs="0" ref="x313" />
+				<xs:sequence minOccurs="0">
+					<xs:element ref="x301" />
+					<xs:element minOccurs="0" ref="x313" />
+				</xs:sequence>
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -6507,6 +6703,30 @@
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
+	</xs:element>
+	<xs:element name="x535">
+			<xs:complexType>
+				<xs:simpleContent>
+					<xs:extension base="dt.NonEmptyString">
+						<xs:attribute name="refname">
+							<xs:simpleType>
+								<xs:restriction base="xs:token">
+									<xs:enumeration value="PricePartDescription" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="shortname">
+							<xs:simpleType>
+								<xs:restriction base="xs:token">
+									<xs:enumeration value="x535" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attributeGroup ref="generalAttributes" />
+						<xs:attributeGroup ref="languageAttribute" />
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
 	</xs:element>
 	<xs:element name="x416">
 		<xs:complexType>
@@ -7279,6 +7499,7 @@
 				<xs:element minOccurs="0" ref="b225" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="b014" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="b385" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="measure" />
 				<xs:choice>
 					<xs:sequence>
 						<xs:element ref="x322" />
@@ -7660,7 +7881,7 @@
 	<xs:element name="publishingdetail">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:group ref="gp.publisher" />
+				<xs:group ref="gp.imprints_publishers" />
 				<xs:group ref="gp.publishing_status" />
 				<xs:group ref="gp.rights_restrictions" />
 			</xs:sequence>
@@ -7813,6 +8034,29 @@
 						<xs:simpleType>
 							<xs:restriction base="xs:token">
 								<xs:enumeration value="x505" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x536">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.PositiveInteger">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="Reserved" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x536" />
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
@@ -8184,10 +8428,7 @@
 	</xs:element>
 	<xs:element name="relatedmaterial">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="relatedwork" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="relatedproduct" />
-			</xs:sequence>
+			<xs:group ref="gp.related_materials" />
 			<xs:attribute name="refname">
 				<xs:simpleType>
 					<xs:restriction base="xs:token">
@@ -9053,29 +9294,6 @@
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="m379">
-		<xs:complexType>
-			<xs:simpleContent>
-				<xs:extension base="List44">
-					<xs:attribute name="refname">
-						<xs:simpleType>
-							<xs:restriction base="xs:token">
-								<xs:enumeration value="SenderIDType" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="shortname">
-						<xs:simpleType>
-							<xs:restriction base="xs:token">
-								<xs:enumeration value="m379" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attributeGroup ref="generalAttributes" />
-				</xs:extension>
-			</xs:simpleContent>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="senderidentifier">
 		<xs:complexType>
 			<xs:sequence>
@@ -9098,6 +9316,29 @@
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="m379">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="List44">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="SenderIDType" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="m379" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="x298">
@@ -9263,6 +9504,29 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="x542">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.TimeOrDuration">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="StartTime" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x542" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="stock">
 		<xs:complexType>
 			<xs:sequence>
@@ -9273,6 +9537,10 @@
 					<xs:sequence>
 						<xs:element ref="j350" />
 						<xs:element minOccurs="0" ref="x502" />
+						<xs:sequence minOccurs="0">
+							<xs:element ref="x536" />
+							<xs:element minOccurs="0" ref="x502" />
+						</xs:sequence>
 						<xs:sequence minOccurs="0">
 							<xs:element ref="j351" />
 							<xs:element minOccurs="0" ref="x502" />
@@ -9890,6 +10158,130 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="supplycontact">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="x537" />
+				<xs:choice>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" ref="supplycontactidentifier" />
+						<xs:element minOccurs="0" ref="x539" />
+					</xs:sequence>
+					<xs:element ref="x539" />
+				</xs:choice>
+				<xs:element minOccurs="0" ref="x299" />
+				<xs:element minOccurs="0" ref="j272" />
+			</xs:sequence>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="SupplyContact" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="supplycontact" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="supplycontactidentifier">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="x538" />
+				<xs:element minOccurs="0" ref="b233" />
+				<xs:element ref="b244" />
+			</xs:sequence>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="SupplyContactIdentifier" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="supplycontactidentifier" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x538">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="List44">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="SupplyContactIDType" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x538" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x539">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.NonEmptyString">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="SupplyContactName" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x539" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x537">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="List239">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="SupplyContactRole" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x537" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="supplydate">
 		<xs:complexType>
 			<xs:sequence>
@@ -9941,6 +10333,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="supplier" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="supplycontact" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="supplierowncoding" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="returnsconditions" />
 				<xs:element ref="j396" />
@@ -9949,6 +10342,7 @@
 				<xs:element minOccurs="0" ref="newsupplier" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="stock" />
 				<xs:element minOccurs="0" ref="j145" />
+				<xs:element minOccurs="0" ref="x545" />
 				<xs:sequence minOccurs="0">
 					<xs:element maxOccurs="2" ref="x532" />
 					<xs:element minOccurs="0" ref="x533" />
@@ -10007,6 +10401,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="productidentifier" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x535" />
 				<xs:element minOccurs="0" ref="x470" />
 				<xs:element minOccurs="0" ref="x471" />
 				<xs:choice>
@@ -10038,6 +10433,29 @@
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="x473">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.StrictPositiveDecimal">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="TaxableAmount" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x473" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="x474">
 		<xs:complexType>
 			<xs:simpleContent>
@@ -10059,6 +10477,25 @@
 					<xs:attributeGroup ref="generalAttributes" />
 				</xs:extension>
 			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x546">
+		<xs:complexType>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="TaxExempt" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="x546" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="x471">
@@ -10099,29 +10536,6 @@
 						<xs:simpleType>
 							<xs:restriction base="xs:token">
 								<xs:enumeration value="x472" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attributeGroup ref="generalAttributes" />
-				</xs:extension>
-			</xs:simpleContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="x473">
-		<xs:complexType>
-			<xs:simpleContent>
-				<xs:extension base="dt.StrictPositiveDecimal">
-					<xs:attribute name="refname">
-						<xs:simpleType>
-							<xs:restriction base="xs:token">
-								<xs:enumeration value="TaxableAmount" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="shortname">
-						<xs:simpleType>
-							<xs:restriction base="xs:token">
-								<xs:enumeration value="x473" />
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
@@ -10178,22 +10592,18 @@
 	</xs:element>
 	<xs:element name="territory">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:choice>
-					<xs:sequence>
-						<xs:element ref="x449" />
-						<xs:sequence minOccurs="0">
-							<xs:element ref="x450" />
-							<xs:element minOccurs="0" ref="x451" />
-						</xs:sequence>
-					</xs:sequence>
-					<xs:sequence>
-						<xs:element ref="x450" />
-						<xs:element minOccurs="0" ref="x451" />
-					</xs:sequence>
-				</xs:choice>
-				<xs:element minOccurs="0" ref="x452" />
-			</xs:sequence>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="x449" />
+					<xs:element minOccurs="0" ref="x450" />
+					<xs:element minOccurs="0" ref="x452" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element ref="x450" />
+					<xs:element minOccurs="0" ref="x451" />
+					<xs:element minOccurs="0" ref="x452" />
+				</xs:sequence>
+			</xs:choice>
 			<xs:attribute name="refname">
 				<xs:simpleType>
 					<xs:restriction base="xs:token">
@@ -10501,6 +10911,29 @@
 					<xs:attributeGroup ref="dateformatAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="timerun">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="x542" />
+				<xs:element minOccurs="0" ref="x543" />
+			</xs:sequence>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="TimeRun" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="timerun" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="titledetail">
@@ -10959,7 +11392,7 @@
 			<xs:sequence>
 				<xs:element minOccurs="0" ref="b367" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="b294" />
-				<xs:element ref="b295" />
+				<xs:element maxOccurs="unbounded" ref="b295" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -11022,6 +11455,7 @@
 						</xs:simpleType>
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
+					<xs:attributeGroup ref="languageAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -11219,7 +11653,7 @@
 			</xs:choice>
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="gp.title">
+	<xs:group name="gp.titles">
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" ref="titledetail" />
 			<xs:sequence minOccurs="0">
@@ -11238,13 +11672,13 @@
 			<xs:element minOccurs="0" ref="n339" />
 		</xs:choice>
 	</xs:group>
-	<xs:group name="gp.event">
+	<xs:group name="gp.events">
 		<xs:choice>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="event" />
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="conference" />
 		</xs:choice>
 	</xs:group>
-	<xs:group name="gp.edition">
+	<xs:group name="gp.editions">
 		<xs:sequence>
 			<xs:choice>
 				<xs:sequence>
@@ -11260,7 +11694,7 @@
 			<xs:element minOccurs="0" ref="religioustext" />
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="gp.language">
+	<xs:group name="gp.languages">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="language" />
 		</xs:sequence>
@@ -11274,13 +11708,13 @@
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="ancillarycontent" />
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="gp.subject">
+	<xs:group name="gp.subjects">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="subject" />
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="nameassubject" />
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="gp.audience">
+	<xs:group name="gp.audiences">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="b073" />
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="audience" />
@@ -11296,12 +11730,18 @@
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="supportingresource" />
 		</xs:sequence>
 	</xs:group>
+	<xs:group name="gp.related_materials">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" ref="relatedwork" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" ref="relatedproduct" />
+		</xs:sequence>
+	</xs:group>
 	<xs:group name="gp.prizes">
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="prize" />
 		</xs:sequence>
 	</xs:group>
-	<xs:group name="gp.publisher">
+	<xs:group name="gp.imprints_publishers">
 		<xs:sequence>
 			<xs:choice>
 				<xs:sequence>
@@ -11401,6 +11841,11 @@
 			<xs:pattern value="[12]\d\d\d" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="dt.TimeOrDuration">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3}[0-5][0-9][0-5][0-9]([0-9]{2})?" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="dt.YearOrYearRange">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[12]\d\d\d(-[12]\d\d\d)?" />
@@ -11408,7 +11853,12 @@
 	</xs:simpleType>
 	<xs:simpleType name="dt.MultiLevelNumber">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="\d+(\.\d+)?" />
+			<xs:pattern value="\d+(\.\d+)*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dt.MultiLevelNumberOrHyphen">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\d+|-)(\.(\d+|-))*" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:attributeGroup name="releaseAttribute">
@@ -11421,12 +11871,12 @@
 		</xs:attribute>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="collationkeyAttribute">
-		<xs:attribute name="collationkey" type="xs:string" />
+		<xs:attribute name="collationkey" type="dt.NonEmptyString" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="generalAttributes">
 		<xs:attribute name="datestamp" type="dt.DateOrDateTime" />
 		<xs:attribute name="sourcetype" type="SourceTypeCode" />
-		<xs:attribute name="sourcename" />
+		<xs:attribute name="sourcename" type="dt.NonEmptyString" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="dateformatAttribute">
 		<xs:attribute name="dateformat" type="List55" />
