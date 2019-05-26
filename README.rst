@@ -46,7 +46,7 @@ Installation
 ============
 
 On Windows you can download the standalone binary command line tool:
-`onixcheck-0.9.4_win.zip <https://github.com/titusz/onixcheck/releases/download/v0.9.4/onixcheck-0.9.4_win.zip>`_
+`onixcheck-0.9.6_win.zip <https://github.com/titusz/onixcheck/releases/download/v0.9.6/onixcheck-0.9.6_win.zip>`_
 
 If you have Python or PyPy installed on your system you can do the usual::
 
