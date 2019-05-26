@@ -38,7 +38,7 @@ if sys.platform == 'win32':
 
 setup(
     name='onixcheck',
-    version='0.9.5',
+    version='0.9.6',
     license='BSD',
     description='ONIX validation library and commandline tool',
     long_description='%s\n%s' % (read('README.rst'), re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))),
