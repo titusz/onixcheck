@@ -194,6 +194,7 @@ class OnixFix(object):
             msg = 'Invalid decimal value %s' % el.text
             self.add_message(msg, path, el)
 
+
 if __name__ == '__main__':
     from onixcheck import profiles, data
 

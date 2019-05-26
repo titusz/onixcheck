@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
-import os
 import sys
 import logging
 from argparse import ArgumentParser, FileType
 from onixcheck import validate, __version__
 from onixcheck.exeptions import get_logger
 from onixcheck.utils import iter_files
-
+from six.moves import getcwd
 
 DEFAULT_EXTENSIONS = ('xml', 'onx', 'onix')
 log = get_logger()
@@ -65,7 +64,7 @@ def main(argv=None):
     log.debug('TYPE of path: %s' % type(args.path))
     # validate current working dir
     if not args.infile and not args.path:
-        args.path = os.getcwdu()
+        args.path = getcwd()
         log.debug('NEW TYPE of path: %s' % type(args.path))
 
     all_valid = True
