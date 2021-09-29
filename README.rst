@@ -35,7 +35,7 @@ Introduction
 standard for the publishing and book trade industry.
 
 ``onixcheck`` is a Python library and command line tool for validating ONIX
-metadata. It allows you to validate ONIX versions 2.1 and 3.0 against the
+metadata. It allows you to validate ONIX versions 2.1 and 3.0.8 against the
 official XML Schema.
 
 
@@ -46,7 +46,7 @@ Installation
 ============
 
 On Windows you can download the standalone binary command line tool:
-`onixcheck-0.9.6_win.zip <https://github.com/titusz/onixcheck/releases/download/v0.9.6/onixcheck-0.9.6_win.zip>`_
+`onixcheck-0.9.7_win.zip <https://github.com/titusz/onixcheck/releases/download/v0.9.6/onixcheck-0.9.7_win.zip>`_
 
 If you have Python or PyPy installed on your system you can do the usual::
 

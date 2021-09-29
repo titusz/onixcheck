@@ -2,6 +2,10 @@
 Changelog
 =========
 
+0.9.7 (2021-09-29)
+------------------
+* Update Onix 3 to Revision 8 and Code List issue 54
+
 0.9.6 (2019-05-26)
 ------------------
 * Python 3.6 and 3.7 compatibility
