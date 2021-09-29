@@ -17,9 +17,9 @@
 	*                  Revision 2                    *
 	*                Status: RELEASED                *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2014-06-29               *
+	*              Revised: 2019-10-31               *
 	*                                                *
-	*             (c) 2000-2014 EDItEUR              *
+	*             (c) 2000-2019 EDItEUR              *
 	*             http://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -64,6 +64,8 @@
 
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+
+	2019-07-28: Added HTML start and type attributes to <ol> tag for use in complex TOCs
 
 	2014-06-29: Added explicit mixed="true" to elements which are extended from Flow and Inline
 	            to avoid problems with some XML parsers
@@ -393,6 +395,20 @@
 	</xs:element>
 	<xs:attributeGroup name="ol.attlist">
 		<xs:attributeGroup ref="attrs"/>
+		<!-- added attributes for ol -->
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="1"/>
+					<xs:enumeration value="A"/>
+					<xs:enumeration value="a"/>
+					<xs:enumeration value="I"/>
+					<xs:enumeration value="i"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="start" type="xs:int"/>
+		<!-- - - - - - - - -->
 	</xs:attributeGroup>
 	<!-- list item -->
 	<xs:element name="li">

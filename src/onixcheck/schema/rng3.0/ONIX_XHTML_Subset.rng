@@ -17,9 +17,9 @@
 	*                  Revision 2                    *
 	*                Status: RELEASED                *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2014-01-24               *
+	*              Revised: 2019-10-31               *
 	*                                                *
-	*             (c) 2000-2014 EDItEUR              *
+	*             (c) 2000-2019 EDItEUR              *
 	*             http://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -65,6 +65,8 @@
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
 
+	2019-07-28: Added HTML start and type attributes to <ol> tag for use in complex TOCs
+
 	2014-01-24: removed <object> and <param> element definitions
 
 	2012-01-27: added XHTML 1.1 <ruby> and associated <rb>, <rp>, <rt>, <rbc> and <rtc> tags
@@ -72,7 +74,6 @@
 	2009-04-09: initial release
 
 -->
-
 <!-- ================ Character mnemonic entities ========================= -->
 <!--
 	THE FOLLOWING ENTITY SETS ARE EXCLUDED FROM ALL VERSIONS OF THE ONIX SCHEMA. 
@@ -473,6 +474,22 @@
 	</define>
 	<define name="ol.attlist" combine="interleave">
 		<ref name="attrs"/>
+		<optional>
+			<attribute name="start">
+				<data type="int"/>
+			</attribute>
+		</optional>
+		<optional>
+			<attribute name="type">
+				<choice>
+					<value>1</value>
+					<value>I</value>
+					<value>i</value>
+					<value>A</value>
+					<value>a</value>
+				</choice>
+			</attribute>
+		</optional>
 	</define>
 	<!-- list item -->
 	<define name="li">
