@@ -2,9 +2,9 @@ name: Run Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ '**' ]  # Run on all branches
   pull_request:
-    branches: [ main, develop ]
+    branches: [ '**' ]  # Run on PRs targeting any branch
   workflow_dispatch:
 
 jobs:
