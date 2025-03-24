@@ -42,7 +42,7 @@ class OnixFix(object):
                 elem.tag = elem.tag[i + 1 :]
         objectify.deannotate(self.onix, cleanup_namespaces=True)
 
-        self.spec = yaml.load(open(profile, "rb"))
+        self.spec = yaml.load(open(profile, "rb"), Loader=yaml.SafeLoader)
 
         name, ext = splitext(basename(profile))
         self.name = name.upper()

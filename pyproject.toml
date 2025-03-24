@@ -55,8 +55,9 @@ target-version = "py39"
 [tool.ruff.format]
 line-ending = "lf"
 
-#[tool.pytest.ini_options]
+[tool.pytest.ini_options]
 #addopts = "--cov=onixcheck -p no:warnings"
+addopts = "-p no:warnings"
 
 [tool.coverage.report]
 show_missing = true

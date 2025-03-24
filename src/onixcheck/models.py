@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 import re
 from collections import namedtuple
-from defusedxml import lxml
 from lxml import etree
 from onixcheck import schema
 from onixcheck.exeptions import OnixError, get_logger
@@ -33,7 +32,7 @@ class OnixFile(object):
         if hasattr(self.infile, "seek"):
             self.infile.seek(0)
 
-        tree = lxml.parse(self.infile)
+        tree = etree.parse(self.infile)
 
         if self.meta.namespaces:
             return tree
@@ -44,8 +43,8 @@ class OnixFile(object):
         ns_root[:] = root[:]
 
         # Roundtrip to add namespace
-        doc = lxml.tostring(ns_root, encoding=tree.docinfo.encoding, xml_declaration=True, pretty_print=True)
-        ns_tree = lxml.fromstring(doc)
+        doc = etree.tostring(ns_root, encoding=tree.docinfo.encoding, xml_declaration=True, pretty_print=True)
+        ns_tree = etree.fromstring(doc)
         return etree.ElementTree(ns_tree)
 
     def get_validator(self, schema_type="xsd"):
@@ -154,7 +153,7 @@ class OnixMeta(_BaseMeta):
         :type infile: file or str
         :return OnixMeta: Initialized OnixMeta instance
         """
-        tree = lxml.parse(infile)
+        tree = etree.parse(infile)
         return cls.from_tree(tree)
 
     def get_ns_string(self):
