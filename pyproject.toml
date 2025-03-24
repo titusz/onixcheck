@@ -56,7 +56,7 @@ target-version = "py39"
 line-ending = "lf"
 
 [tool.pytest.ini_options]
-#addopts = "--cov=onixcheck -p no:warnings"
+pythonpath = ["src"]
 addopts = "-p no:warnings"
 
 [tool.coverage.report]

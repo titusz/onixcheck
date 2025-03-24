@@ -229,7 +229,7 @@ wheels = [
 
 [[package]]
 name = "onixcheck"
-version = "0.9.7"
+version = "0.9.8"
 source = { editable = "." }
 dependencies = [
     { name = "defusedxml" },
@@ -261,7 +261,7 @@ requires-dist = [
 dev = [
     { name = "poethepoet" },
     { name = "pytest" },
-    { name = "pytest-cov", specifier = ">=6.0.0" },
+    { name = "pytest-cov" },
 ]
 
 [[package]]
