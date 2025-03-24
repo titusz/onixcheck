@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.8 (2025-03-23)
+
+- Update to Code List issue 68
+- Add Onix 3.1 support
+- Modernize packaging
+
 ## 0.9.7 (2021-09-29)
 
 - Update Onix 3 to Revision 8 and Code List issue 54
