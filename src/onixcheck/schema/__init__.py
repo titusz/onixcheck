@@ -20,6 +20,12 @@ O30_XSD_REFERENCE = os.path.join(basedir, "xsd3.0", "ONIX_BookProduct_3.0_refere
 O30_RNG_SHORT = os.path.join(basedir, "rng3.0", "ONIX_BookProduct_3.0_short.rng")
 O30_RNG_REFERENCE = os.path.join(basedir, "rng3.0", "ONIX_BookProduct_3.0_reference.rng")
 
+O31_XSD_SHORT = os.path.join(basedir, "xsd3.1", "ONIX_BookProduct_3.1_short.xsd")
+O31_XSD_REFERENCE = os.path.join(basedir, "xsd3.1", "ONIX_BookProduct_3.1_reference.xsd")
+
+O31_RNG_SHORT = os.path.join(basedir, "rng3.1", "ONIX_BookProduct_3.1_short.rng")
+O31_RNG_REFERENCE = os.path.join(basedir, "rng3.1", "ONIX_BookProduct_3.1_reference.rng")
+
 GOOGLE_O30_YML_REFERENCE = os.path.join(basedir, "google", "google_onix_30.yaml")
 
 BIBLON_O30_YML_REFERENCE = os.path.join(basedir, "biblon", "biblon_onix_30.yaml")

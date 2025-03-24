@@ -70,7 +70,7 @@ class OnixMeta(_BaseMeta):
 
     :param str xml_version: XML Version as str ("1.0").
     :param str xml_encoding: XML Encoding as str ("utf-8").
-    :param str onix_version: Onix Version as string ("2.1" or "3.0")
+    :param str onix_version: Onix Version as string ("2.1", "3.0", "3.1")
     :param str onix_style: Onix Style as str ("short" or "reference")
     :param dict namespaces: dict of str with namspaces from the root element
 
@@ -80,6 +80,8 @@ class OnixMeta(_BaseMeta):
     V21 = "2.1"
     #: ONIX Version 3.0
     V30 = "3.0"
+    #: ONIX Version 3.1
+    V31 = "3.1"
     #: Short notation
     SHORT = "short"
     #: Reference notation
@@ -88,7 +90,7 @@ class OnixMeta(_BaseMeta):
     XSD = "xsd"
     RNG = "rng"
 
-    ONIX_VERSIONS = (V21, V30)
+    ONIX_VERSIONS = (V21, V30, V31)
     ONIX_STYLES = (SHORT, REFERENCE)
 
     SCHEMA_MAP = {
@@ -98,6 +100,10 @@ class OnixMeta(_BaseMeta):
         (V30, SHORT, RNG): schema.O30_RNG_SHORT,
         (V30, REFERENCE, XSD): schema.O30_XSD_REFERENCE,
         (V30, REFERENCE, RNG): schema.O30_RNG_REFERENCE,
+        (V31, SHORT, XSD): schema.O31_XSD_SHORT,
+        (V31, SHORT, RNG): schema.O31_RNG_SHORT,
+        (V31, REFERENCE, XSD): schema.O31_XSD_REFERENCE,
+        (V31, REFERENCE, RNG): schema.O31_RNG_REFERENCE,
     }
 
     SCHEMA_TYPE_PARSER_MAP = {
