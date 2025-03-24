@@ -30,11 +30,11 @@ def test_requires_one_of():
 
 
 def test_recommended():
-    assert text_in_warnings('Missing recommended element ContactName')
+    assert text_in_warnings("Missing recommended element ContactName")
 
 
 def test_multiple():
-    assert text_in_errors('Only one')
+    assert text_in_errors("Only one")
 
 
 def test_content():
@@ -42,7 +42,7 @@ def test_content():
 
 
 def test_length():
-    assert text_in_errors('Expected 3 characters')
+    assert text_in_errors("Expected 3 characters")
 
 
 def test_choice():

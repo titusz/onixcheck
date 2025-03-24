@@ -8,7 +8,7 @@ from onixcheck.onixfix import OnixFix
 from onixcheck import schema
 
 
-def validate(infile, schemas=('xsd',)):
+def validate(infile, schemas=("xsd",)):
     """Validate an ONIX file.
 
     :param infile: File or path to file
@@ -18,7 +18,7 @@ def validate(infile, schemas=('xsd',)):
     :return: List of `Message` objects (invalid ONIX) or empty list (valid ONIX)
     :rtype: list[Message]
     """
-    if hasattr(infile, 'name'):
+    if hasattr(infile, "name"):
         filename = basename(infile.name)
     else:
         filename = basename(infile)
@@ -31,7 +31,10 @@ def validate(infile, schemas=('xsd',)):
     messages = []
 
     for s in schemas:
-        if s in ('xsd', 'rng',):
+        if s in (
+            "xsd",
+            "rng",
+        ):
             try:
                 validator = onix_file.get_validator(s)
             except OnixError as e:
@@ -43,10 +46,10 @@ def validate(infile, schemas=('xsd',)):
             messages.extend([msg(err, filename) for err in errors])
 
     for s in schemas:
-        if s in ('google', 'biblon'):
-            if s == 'google':
+        if s in ("google", "biblon"):
+            if s == "google":
                 profile = schema.GOOGLE_O30_YML_REFERENCE
-            elif s == 'biblon':
+            elif s == "biblon":
                 profile = schema.BIBLON_O30_YML_REFERENCE
 
             validator = OnixFix(infile, profile)

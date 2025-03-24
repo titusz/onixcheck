@@ -22,12 +22,12 @@ class OnixFix(object):
     """
 
     def __init__(self, onixfile, profile):
-        if hasattr(onixfile, 'name'):
+        if hasattr(onixfile, "name"):
             self.basename = basename(onixfile.name)
         else:
             self.basename = basename(onixfile)
 
-        if hasattr(onixfile, 'seek'):
+        if hasattr(onixfile, "seek"):
             onixfile.seek(0)
 
         self._onix_file = OnixFile(onixfile)
@@ -35,14 +35,14 @@ class OnixFix(object):
 
         # Get rid of namespaces for easier xpath search
         for elem in self.onix.getiterator():
-            if not hasattr(elem.tag, 'find'):
+            if not hasattr(elem.tag, "find"):
                 continue
-            i = elem.tag.find('}')
+            i = elem.tag.find("}")
             if i >= 0:
-                elem.tag = elem.tag[i + 1:]
+                elem.tag = elem.tag[i + 1 :]
         objectify.deannotate(self.onix, cleanup_namespaces=True)
 
-        self.spec = yaml.load(open(profile, 'rb'))
+        self.spec = yaml.load(open(profile, "rb"))
 
         name, ext = splitext(basename(profile))
         self.name = name.upper()
@@ -54,27 +54,29 @@ class OnixFix(object):
     def messages(self):
         return self.errors + self.warnings
 
-    def add_message(self, message, path, el=None, level='ERROR'):
-
-        assert level in ('ERROR', 'WARNING',)
+    def add_message(self, message, path, el=None, level="ERROR"):
+        assert level in (
+            "ERROR",
+            "WARNING",
+        )
 
         if el is not None and el.sourceline is not None:
-            location = '%s' % el.sourceline
+            location = "%s" % el.sourceline
         else:
             location = path
 
-        location = '%s:%s' % (self.basename, location)
+        location = "%s:%s" % (self.basename, location)
 
         msg = Message(
             level=level,
             validator=self.name,
             location=location,
             message=message,
-            error_type='SPECIFICATION ERROR'
+            error_type="SPECIFICATION ERROR",
         )
-        if level == 'ERROR':
+        if level == "ERROR":
             self.errors.append(msg)
-        elif level == 'WARNING':
+        elif level == "WARNING":
             self.warnings.append(msg)
 
     def validate(self):
@@ -85,8 +87,8 @@ class OnixFix(object):
         """
 
         for path_or_keyword in self.spec:
-            if path_or_keyword.startswith('/'):
-                path = path_or_keyword.lstrip('/')
+            if path_or_keyword.startswith("/"):
+                path = path_or_keyword.lstrip("/")
                 specnode = self.spec[path_or_keyword]
                 xmlnode = self.onix
                 self.validate_block(path, specnode, xmlnode)
@@ -94,17 +96,17 @@ class OnixFix(object):
 
     def validate_block(self, path, specnode, xmlnode):
         for pok in specnode:
-            if pok in ('description', 'example'):
+            if pok in ("description", "example"):
                 continue
-            elif pok in ('required', 'mulitple', 'recommended'):
-                func = getattr(self, 'handle_' + pok)
+            elif pok in ("required", "mulitple", "recommended"):
+                func = getattr(self, "handle_" + pok)
                 func(path, xmlnode, specnode.get(pok))
-            elif pok.startswith('/'):
-                sub_path = pok.lstrip('/')
+            elif pok.startswith("/"):
+                sub_path = pok.lstrip("/")
                 for node in xmlnode.xpath(path):
                     self.validate_block(sub_path, specnode[pok], node)
             else:
-                func = getattr(self, 'handle_' + pok)
+                func = getattr(self, "handle_" + pok)
                 value = specnode.get(pok)
                 for element in xmlnode.xpath(path):
                     func(path, element, value)
@@ -113,7 +115,7 @@ class OnixFix(object):
         if val:
             result = el.xpath(path)
             if len(result) == 0:
-                msg = 'Missing element %s within %s' % (path, el.tag)
+                msg = "Missing element %s within %s" % (path, el.tag)
                 self.add_message(msg, path, el)
 
     def handle_requires_one_of(self, path, el, val):
@@ -124,15 +126,15 @@ class OnixFix(object):
                 if len(result) == 1:
                     results.append(result)
             if len(results) != 1:
-                msg = 'Exactly one of %s must be within %s' % (val, el.tag)
+                msg = "Exactly one of %s must be within %s" % (val, el.tag)
                 self.add_message(msg, path)
 
     def handle_recommended(self, path, el, val):
         if val:
             result = el.xpath(path)
             if len(result) == 0:
-                msg = 'Missing recommended element %s within %s' % (path, el.tag)
-                self.add_message(msg, path, level='WARNING')
+                msg = "Missing recommended element %s within %s" % (path, el.tag)
+                self.add_message(msg, path, level="WARNING")
 
     def handle_multiple(self, path, el, val):
         if not val:
@@ -168,34 +170,34 @@ class OnixFix(object):
             self.add_message(msg, path, el)
 
     def handle_type(self, path, el, val):
-        assert val in ('int', 'isbn13', 'isbn', 'decimal')
-        getattr(self, 'check_' + val)(path, el)
+        assert val in ("int", "isbn13", "isbn", "decimal")
+        getattr(self, "check_" + val)(path, el)
 
     def check_int(self, path, el):
         invalid = [c for c in el.text if c not in string.digits]
         if invalid:
-            msg = 'Not an Integer. Invalid chars %s.' % invalid
+            msg = "Not an Integer. Invalid chars %s." % invalid
             self.add_message(msg, path, el)
 
     def check_isbn13(self, path, el):
         if not isbnlib.is_isbn13(el.text):
-            msg = 'Invalid ISBN13: %s' % el.text
+            msg = "Invalid ISBN13: %s" % el.text
             self.add_message(msg, path, el)
 
     def check_isbn(self, path, el):
         if not isbnlib.is_isbn13(el.text) and not isbnlib.is_isbn10(el.text):
-            msg = 'Invalid ISBN: %s' % el.text
+            msg = "Invalid ISBN: %s" % el.text
             self.add_message(msg, path, el)
 
     def check_decimal(self, path, el):
         try:
             Decimal(el.text)
         except InvalidOperation:
-            msg = 'Invalid decimal value %s' % el.text
+            msg = "Invalid decimal value %s" % el.text
             self.add_message(msg, path, el)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from onixcheck import profiles, data
 
     of = OnixFix(data.VALID_GOOGLE_ONIX_30_SAMPLE, profiles.GOOGLE_ONIX_30)

@@ -13,7 +13,7 @@ def test_onix_file_with_path():
 
 
 def test_onix_file_with_file_obj():
-    with open(data.VALID_ONIX3_REF, 'rb') as infile:
+    with open(data.VALID_ONIX3_REF, "rb") as infile:
         ofile = OnixFile(infile)
         assert isinstance(ofile.xml_tree(), etree._ElementTree)
     assert isinstance(ofile, OnixFile)
@@ -21,16 +21,16 @@ def test_onix_file_with_file_obj():
 
 def test_onix_meta_reference():
     meta = OnixMeta.from_file(data.VALID_ONIX3_REF)
-    assert meta.xml_version == '1.0'
-    assert meta.xml_encoding == 'utf-8'
+    assert meta.xml_version == "1.0"
+    assert meta.xml_encoding == "utf-8"
     assert meta.onix_version == OnixMeta.V30
     assert meta.onix_style == OnixMeta.REFERENCE
 
 
 def test_onix_meta_short():
     meta = OnixMeta.from_file(data.VALID_ONIX3_SHORT)
-    assert meta.xml_version == '1.0'
-    assert meta.xml_encoding == 'utf-8'
+    assert meta.xml_version == "1.0"
+    assert meta.xml_encoding == "utf-8"
     assert meta.onix_version == OnixMeta.V30
     assert meta.onix_style == OnixMeta.SHORT
 
@@ -41,7 +41,6 @@ def test_onix_root_invalid():
 
 
 def test_get_validator_o3():
-
     o3_ref = OnixFile(data.VALID_ONIX3_REF)
     validator = o3_ref.get_validator()
     assert isinstance(validator, etree.XMLSchema)

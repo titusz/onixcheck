@@ -8,7 +8,7 @@ from onixcheck.exeptions import get_logger
 from onixcheck.utils import iter_files
 from six.moves import getcwd
 
-DEFAULT_EXTENSIONS = ('xml', 'onx', 'onix')
+DEFAULT_EXTENSIONS = ("xml", "onx", "onix")
 log = get_logger()
 
 
@@ -17,19 +17,18 @@ def create_parser():
     :rtype ArgumentParser:
     """
     parser = ArgumentParser(
-        prog='onixcheck',
-        description="Onixcheck v%s - Validate your metadata" % __version__
+        prog="onixcheck", description="Onixcheck v%s - Validate your metadata" % __version__
     )
 
     # Arguments
-    parser.add_argument('infile', nargs='?', type=FileType(mode='rb'), help="Path to Onix file to validate")
+    parser.add_argument("infile", nargs="?", type=FileType(mode="rb"), help="Path to Onix file to validate")
 
     # Options
-    parser.add_argument('-p', '--path', help="Path to folder with ONIX files for batch validation")
-    parser.add_argument('-s', '--schemas', nargs='*', help="Custom validation schemas")
-    parser.add_argument('-e', '--ext', nargs='*', help="File Extensions to validate. Default: xml onx onix")
-    parser.add_argument('-r', '--recursive', action='store_true', help='Recurse into subfolders')
-    parser.add_argument('-d', '--debug', action="store_true", help='Show debug information')
+    parser.add_argument("-p", "--path", help="Path to folder with ONIX files for batch validation")
+    parser.add_argument("-s", "--schemas", nargs="*", help="Custom validation schemas")
+    parser.add_argument("-e", "--ext", nargs="*", help="File Extensions to validate. Default: xml onx onix")
+    parser.add_argument("-r", "--recursive", action="store_true", help="Recurse into subfolders")
+    parser.add_argument("-d", "--debug", action="store_true", help="Show debug information")
 
     # Defaults
     parser.set_defaults(ext=DEFAULT_EXTENSIONS)
@@ -45,39 +44,37 @@ def main(argv=None):
 
     args = parser.parse_args() if argv is None else parser.parse_args(argv)
 
-    schemas = ('xsd',) if not args.schemas else tuple(args.schemas)
+    schemas = ("xsd",) if not args.schemas else tuple(args.schemas)
 
     if args.debug:
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format='%(asctime)s - %(levelname)s - %(name)s - %(message)s'
-        )
-        print('DEBUG logging enabled.')
+        logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+        print("DEBUG logging enabled.")
 
     try:
         import win_unicode_console
+
         win_unicode_console.enable()
-        log.debug('Running with win-unicode-console patch')
+        log.debug("Running with win-unicode-console patch")
     except Exception:
         pass
 
-    log.debug('TYPE of path: %s' % type(args.path))
+    log.debug("TYPE of path: %s" % type(args.path))
     # validate current working dir
     if not args.infile and not args.path:
         args.path = getcwd()
-        log.debug('NEW TYPE of path: %s' % type(args.path))
+        log.debug("NEW TYPE of path: %s" % type(args.path))
 
     all_valid = True
 
     if args.infile:
-        log.debug('TYPE of infile.name: %s' % type(args.infile.name))
-        print('Validating: %s' % args.infile.name)
+        log.debug("TYPE of infile.name: %s" % type(args.infile.name))
+        print("Validating: %s" % args.infile.name)
         messages = validate(args.infile, schemas)
         is_valid = messages == []
         if is_valid:
-            print('VALID - No errors found')
+            print("VALID - No errors found")
         else:
-            print('INVALID - errors found:', file=sys.stderr)
+            print("INVALID - errors found:", file=sys.stderr)
             all_valid = False
             for msg in messages:
                 if args.debug:
@@ -86,21 +83,21 @@ def main(argv=None):
                     print(msg.short, file=sys.stderr)
 
     if args.path:
-        tree_or_dir = 'tree' if args.recursive else 'dir'
+        tree_or_dir = "tree" if args.recursive else "dir"
         print()
-        print('Validating all files in %s %s' % (tree_or_dir, args.path))
+        print("Validating all files in %s %s" % (tree_or_dir, args.path))
 
         for onix_file_path in iter_files(args.path, args.ext, args.recursive):
             print()
-            print('Validating: %s' % onix_file_path)
-            with open(onix_file_path, 'rb') as onix_file:
+            print("Validating: %s" % onix_file_path)
+            with open(onix_file_path, "rb") as onix_file:
                 messages = validate(onix_file, schemas)
                 is_valid = messages == []
 
             if is_valid:
-                print('VALID - No errors found')
+                print("VALID - No errors found")
             else:
-                print('INVALID - errors found:', file=sys.stderr)
+                print("INVALID - errors found:", file=sys.stderr)
                 all_valid = False
                 for msg in messages:
                     if args.debug:
@@ -113,5 +110,5 @@ def main(argv=None):
         return 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

@@ -1,0 +1,74 @@
+[project]
+name = "onixcheck"
+version = "0.9.7"
+description = "ONIX validation library and commandline tool"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+authors = [
+    { name = "Titusz Pan", email = "tp@py7.de" }
+]
+keywords = [
+    "ONIX",
+    "validation",
+    "EDItEUR",
+    "XML",
+    "RelaxNG",
+    "XMLSchema"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Utilities",
+]
+
+
+dependencies = [
+    "six",
+    "lxml",
+    "defusedxml",
+    "isbnlib",
+    "PyYAML",
+    "win-unicode-console; platform_system == 'Windows'"
+]
+
+[dependency-groups]
+dev = [
+    "poethepoet",
+    "pytest",
+    "pytest-cov>=6.0.0",
+]
+
+[project.scripts]
+onixcheck = "onixcheck.__main__:main"
+
+[tool.ruff]
+line-length = 112
+target-version = "py39"
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.pytest.ini_options]
+addopts = "--cov=onixcheck -p no:warnings"
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 100
+
+[tool.poe.tasks]
+format-code = { cmd = "ruff format", help = "Code style formating with black" }
+format-md = { cmd = "mdformat --wrap 112 --end-of-line lf docs README.md", help = "Markdown formating with mdformat" }
+test = { cmd = "pytest", help = "Run tests"}
+all = ["format-code", "format-md", "test"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -58,3 +58,4 @@ docs/_build
 .pytest
 .bootstrap
 *.bak
+.aider*

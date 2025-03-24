@@ -13,7 +13,7 @@ class NullHandler(logging.Handler):
         pass
 
 
-def get_logger(logger_name='onixcheck', add_null_handler=True):
+def get_logger(logger_name="onixcheck", add_null_handler=True):
     logger = logging.getLogger(logger_name)
     if add_null_handler:
         logger.addHandler(NullHandler())

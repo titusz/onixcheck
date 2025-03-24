@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Generic or common utility functions"""
+
 from __future__ import print_function, unicode_literals
 from os.path import splitext, join
 
@@ -11,6 +12,7 @@ except ImportError:
     from os import walk
     from os import listdir as scandir
     from os.path import isdir
+
     has_scandir = False
 
 
@@ -33,16 +35,16 @@ def iter_files(root, exts=None, recursive=False):
     if recursive is False:
         for entry in scandir(root):
             if has_scandir:
-                ext = splitext(entry.name)[-1].lstrip('.').lower()
+                ext = splitext(entry.name)[-1].lstrip(".").lower()
                 if entry.is_file() and matches(ext):
                     yield entry.path
             else:
-                ext = splitext(entry)[-1].lstrip('.').lower()
+                ext = splitext(entry)[-1].lstrip(".").lower()
                 if not isdir(entry) and matches(ext):
                     yield join(root, entry)
     else:
         for root, folders, files in walk(root):
             for f in files:
-                ext = splitext(f)[-1].lstrip('.').lower()
+                ext = splitext(f)[-1].lstrip(".").lower()
                 if matches(ext):
                     yield join(root, f)

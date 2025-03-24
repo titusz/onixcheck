@@ -21,7 +21,7 @@ class OnixFile(object):
     def __init__(self, infile):
         self.infile = infile
         self.meta = OnixMeta.from_file(infile)
-        if hasattr(infile, 'seek'):
+        if hasattr(infile, "seek"):
             self.infile.seek(0)
 
     def xml_tree(self):
@@ -30,7 +30,7 @@ class OnixFile(object):
 
         :return etree.ElementTree: An lxml ElementTree with proper namespace
         """
-        if hasattr(self.infile, 'seek'):
+        if hasattr(self.infile, "seek"):
             self.infile.seek(0)
 
         tree = lxml.parse(self.infile)
@@ -38,26 +38,17 @@ class OnixFile(object):
         if self.meta.namespaces:
             return tree
 
-        log.debug('Adding namespaces to xml for validation')
+        log.debug("Adding namespaces to xml for validation")
         root = tree.getroot()
-        ns_root = etree.Element(
-            tree.docinfo.root_name,
-            root.attrib,
-            nsmap={None: self.meta.get_ns_string()}
-        )
+        ns_root = etree.Element(tree.docinfo.root_name, root.attrib, nsmap={None: self.meta.get_ns_string()})
         ns_root[:] = root[:]
 
         # Roundtrip to add namespace
-        doc = lxml.tostring(
-            ns_root,
-            encoding=tree.docinfo.encoding,
-            xml_declaration=True,
-            pretty_print=True
-        )
+        doc = lxml.tostring(ns_root, encoding=tree.docinfo.encoding, xml_declaration=True, pretty_print=True)
         ns_tree = lxml.fromstring(doc)
         return etree.ElementTree(ns_tree)
 
-    def get_validator(self, schema_type='xsd'):
+    def get_validator(self, schema_type="xsd"):
         """
         Create a matching validator for the ONIX file.
 
@@ -67,7 +58,7 @@ class OnixFile(object):
         return parser(file=self.meta.get_schema_file(schema_type=schema_type))
 
 
-_BaseMeta = namedtuple('OnixMeta', 'xml_version xml_encoding onix_version onix_style namespaces')
+_BaseMeta = namedtuple("OnixMeta", "xml_version xml_encoding onix_version onix_style namespaces")
 
 
 class OnixMeta(_BaseMeta):
@@ -87,16 +78,16 @@ class OnixMeta(_BaseMeta):
     """
 
     #: ONIX Version 2.1
-    V21 = '2.1'
+    V21 = "2.1"
     #: ONIX Version 3.0
-    V30 = '3.0'
+    V30 = "3.0"
     #: Short notation
-    SHORT = 'short'
+    SHORT = "short"
     #: Reference notation
-    REFERENCE = 'reference'
+    REFERENCE = "reference"
     #: Schema Types
-    XSD = 'xsd'
-    RNG = 'rng'
+    XSD = "xsd"
+    RNG = "rng"
 
     ONIX_VERSIONS = (V21, V30)
     ONIX_STYLES = (SHORT, REFERENCE)
@@ -125,25 +116,25 @@ class OnixMeta(_BaseMeta):
         """
         root = tree.getroot()
 
-        if root.tag.endswith('ONIXmessage'):
+        if root.tag.endswith("ONIXmessage"):
             onix_style = cls.SHORT
-        elif root.tag.endswith('ONIXMessage'):
+        elif root.tag.endswith("ONIXMessage"):
             onix_style = cls.REFERENCE
         else:
-            raise OnixError('Bad root element: %s' % root.tag)
+            raise OnixError("Bad root element: %s" % root.tag)
 
-        onix_version = root.attrib.get('release')
+        onix_version = root.attrib.get("release")
         if onix_version is None:
-            log.warning('No release attribute on root element. Try namespace.')
+            log.warning("No release attribute on root element. Try namespace.")
             try:
                 if cls.V21 in list(root.nsmap.values())[0]:
                     onix_version = cls.V21
                 elif cls.V30 in list(root.nsmap.values())[0]:
                     onix_version = cls.V30
                 else:
-                    raise OnixError('Could not determin ONIX version.')
+                    raise OnixError("Could not determin ONIX version.")
             except IndexError:
-                raise OnixError('No release attribute and no Namespace :(')
+                raise OnixError("No release attribute and no Namespace :(")
 
         namespaces = list(root.nsmap.values())
         return cls(
@@ -151,7 +142,7 @@ class OnixMeta(_BaseMeta):
             xml_encoding=tree.docinfo.encoding,
             onix_version=onix_version,
             onix_style=onix_style,
-            namespaces=namespaces
+            namespaces=namespaces,
         )
 
     @classmethod
@@ -168,9 +159,9 @@ class OnixMeta(_BaseMeta):
 
     def get_ns_string(self):
         if self.onix_version == self.V21:
-            tpl = 'http://www.editeur.org/onix/2.1/%s'
+            tpl = "http://www.editeur.org/onix/2.1/%s"
         elif self.onix_version == self.V30:
-            tpl = 'http://ns.editeur.org/onix/3.0/%s'
+            tpl = "http://ns.editeur.org/onix/3.0/%s"
         return tpl % self.onix_style
 
     def get_schema_file(self, schema_type=XSD):
@@ -178,10 +169,10 @@ class OnixMeta(_BaseMeta):
         try:
             return self.SCHEMA_MAP[key]
         except KeyError:
-            raise OnixError('Found no {2} schema for ONIX {0} {1}'.format(*key))
+            raise OnixError("Found no {2} schema for ONIX {0} {1}".format(*key))
 
 
-_BaseMessage = namedtuple('Message', 'level validator location message error_type')
+_BaseMessage = namedtuple("Message", "level validator location message error_type")
 
 
 class Message(_BaseMessage):
@@ -196,7 +187,7 @@ class Message(_BaseMessage):
     """
 
     def __str__(self):
-        return ' | '.join(self._asdict().values())
+        return " | ".join(self._asdict().values())
 
     @property
     def short(self):
@@ -204,27 +195,27 @@ class Message(_BaseMessage):
         return "{m.level} - {m.validator} - {m.location} - {m.message}".format(m=self)
 
     @classmethod
-    def from_logentry(cls, logentry, filename=''):
+    def from_logentry(cls, logentry, filename=""):
         """Instanciate Message from lxml LogEntry object
 
         :param _LogEntry logentry: Validatation error from LXML
         :param str filename: Optional filename to prefix error location
         :return Message:
         """
-        location = '%s:%s:%s' % (filename, logentry.line, logentry.column)
-        message = logentry.message or ''
-        message = re.sub('({.*?})', '', message)
+        location = "%s:%s:%s" % (filename, logentry.line, logentry.column)
+        message = logentry.message or ""
+        message = re.sub("({.*?})", "", message)
 
         return cls(
             level=logentry.level_name,
             validator=logentry.domain_name,
             location=location,
             message=message,
-            error_type=logentry.type_name
+            error_type=logentry.type_name,
         )
 
     @classmethod
-    def from_exception(cls, exc, filename=''):
+    def from_exception(cls, exc, filename=""):
         """
 
         :param Exception exc:
@@ -232,9 +223,9 @@ class Message(_BaseMessage):
         :return Message:
         """
         return cls(
-            level='CRITICAL',
-            validator='ONIXCHECK',
+            level="CRITICAL",
+            validator="ONIXCHECK",
             location=filename,
             message=exc.message,
-            error_type='EXCEPTION'
+            error_type="EXCEPTION",
         )

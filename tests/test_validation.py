@@ -10,23 +10,17 @@ def test_validation_with_file_path():
 
 
 def test_validation_with_file_obj():
-    with open(data.VALID_ONIX3_REF, 'rb') as onix_file:
+    with open(data.VALID_ONIX3_REF, "rb") as onix_file:
         errors = onixcheck.validate(onix_file)
     assert not errors
 
 
 def test_validation_with_file_path_and_schema_name():
-    errors = onixcheck.validate(
-        data.VALID_GOOGLE_ONIX_30_SAMPLE,
-        schemas=('google',)
-    )
+    errors = onixcheck.validate(data.VALID_GOOGLE_ONIX_30_SAMPLE, schemas=("google",))
     assert len(errors) == 2
 
 
 def test_validation_with_file_obj_and_schema_name():
-    with open(data.VALID_GOOGLE_ONIX_30_SAMPLE, 'rb') as ofile:
-        errors = onixcheck.validate(
-            ofile,
-            schemas=('google',)
-        )
+    with open(data.VALID_GOOGLE_ONIX_30_SAMPLE, "rb") as ofile:
+        errors = onixcheck.validate(ofile, schemas=("google",))
     assert len(errors) == 2
