@@ -1,6 +1,5 @@
 # Onixcheck - Book Trade Metadata Validation
 
-[![Documentation Status](https://readthedocs.org/projects/onixcheck/badge/?style=flat-square)](https://readthedocs.org/projects/onixcheck)
 [![PyPI Package](http://img.shields.io/pypi/v/onixcheck.svg?style=flat-square)](https://pypi.python.org/pypi/onixcheck)
 [![PyPI Downloads](http://img.shields.io/pypi/dm/onixcheck.svg?style=flat-square)](https://pypi.python.org/pypi/onixcheck)
 
@@ -10,16 +9,24 @@
 trade industry.
 
 `onixcheck` is a Python library and command line tool for validating ONIX metadata. It allows you to validate
-ONIX versions 2.1 and 3.0.8 against the official XML Schema.
+ONIX versions 2.1, 3.0, and 3.1 against the official XML Schema.
 
-- Free software: BSD license
+- Free software: Apache License 2.0
 
 ## Installation
 
-On Windows you can download the standalone binary command line tool:
-[onixcheck-0.9.7_win.zip](https://github.com/titusz/onixcheck/releases/download/v0.9.7/onixcheck-0.9.7_win.zip)
+### Using uv (Recommended)
 
-If you have Python or PyPy installed on your system you can do the usual:
+For the fastest and most reliable installation, we recommend using the
+[uv tool](https://docs.astral.sh/uv/getting-started/installation/):
+
+```bash
+uv tool install onixcheck
+```
+
+### Using pip
+
+If you have Python or PyPy installed on your system:
 
 ```bash
 pip install onixcheck
@@ -47,35 +54,41 @@ Validate all .xml files in /onixdata and its subdirectories:
 onixcheck --path /onixdata --ext xml --recursive
 ```
 
+Enable debug information (more detailed error output):
+
+```bash
+onixcheck myonixfile.xml --debug
+```
+
 Show help:
 
 ```bash
 onixcheck -h
 ```
 
-### Using onixcheck as a python lib
+### Using onixcheck as a Python library
 
 Simple usage with `onixcheck.validate`:
 
 ```python
->>> import onixcheck
->>> errors = onixcheck.validate('src/onixcheck/data/invalid_onix3_ref.xml')
->>> print(errors[0].short)
+import onixcheck
+errors = onixcheck.validate('src/onixcheck/data/invalid_onix3_ref.xml')
+print(errors[0].short)
+```
+
+```bash
 ERROR - SCHEMASV - invalid_onix3_ref.xml:4:0 - Element 'SentDateTime': This element is not expected. Expected is ( Sender ).
 ```
 
 `errors` is either a list of `Message` objects (INVALID file) or an empty list (VALID file)
 
-## Documentation
+### Custom schema validation
 
-https://onixcheck.readthedocs.org/
+You can specify custom schema types for validation:
 
-## Development
-
-To run the all tests run:
-
-```bash
-tox
+```python
+import onixcheck
+errors = onixcheck.validate('myfile.xml', schemas=('xsd', 'rng', 'google'))
 ```
 
-Contributions/suggestions are welcome.
+Contributions and suggestions are welcome. Please feel free to open issues or pull requests on GitHub.
