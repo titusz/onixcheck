@@ -43,10 +43,14 @@ dev = [
     "poethepoet",
     "pytest",
     "pytest-cov",
+    "build",
 ]
 
 [project.scripts]
 onixcheck = "onixcheck.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/onixcheck"]
 
 [tool.ruff]
 line-length = 112

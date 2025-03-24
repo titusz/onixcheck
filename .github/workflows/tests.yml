@@ -33,5 +33,13 @@ jobs:
     - name: Run tests
       run: uv run pytest
 
+    - name: Build package
+      run: uv run python -m build
+
+    - name: Test package installation
+      run: |
+        uv pip install dist/*.whl
+        onixcheck --version
+
     - name: Minimize uv cache
       run: uv cache prune --ci
