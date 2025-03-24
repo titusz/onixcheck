@@ -29,6 +29,7 @@ def create_parser():
     parser.add_argument("-e", "--ext", nargs="*", help="File Extensions to validate. Default: xml onx onix")
     parser.add_argument("-r", "--recursive", action="store_true", help="Recurse into subfolders")
     parser.add_argument("-d", "--debug", action="store_true", help="Show debug information")
+    parser.add_argument("-v", "--version", action="store_true", help="Show version information")
 
     # Defaults
     parser.set_defaults(ext=DEFAULT_EXTENSIONS)
@@ -43,6 +44,10 @@ def main(argv=None):
     parser = create_parser()
 
     args = parser.parse_args() if argv is None else parser.parse_args(argv)
+
+    if args.version:
+        print("onixcheck version %s" % __version__)
+        return 0
 
     schemas = ("xsd",) if not args.schemas else tuple(args.schemas)
 
