@@ -1,6 +1,6 @@
 [project]
 name = "onixcheck"
-version = "0.9.7"
+version = "0.9.8"
 description = "ONIX validation library and commandline tool"
 readme = "README.md"
 requires-python = ">=3.9"
