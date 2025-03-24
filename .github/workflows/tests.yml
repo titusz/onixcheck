@@ -28,11 +28,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install uv
-        
-    - name: Install dependencies
+
+    - name: Create and activate UV venv
       run: |
-        uv pip install -e ".[test]"
-        uv pip install pytest pytest-cov
+        uv venv
+        uv pip install -e ".[dev]"
         
     - name: Run tests
       run: |
