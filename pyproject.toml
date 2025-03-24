@@ -42,7 +42,7 @@ dependencies = [
 dev = [
     "poethepoet",
     "pytest",
-    "pytest-cov>=6.0.0",
+    "pytest-cov",
 ]
 
 [project.scripts]
@@ -69,6 +69,25 @@ format-code = { cmd = "ruff format", help = "Code style formating with black" }
 format-md = { cmd = "mdformat --wrap 112 --end-of-line lf docs README.md", help = "Markdown formating with mdformat" }
 test = { cmd = "pytest", help = "Run tests"}
 all = ["format-code", "format-md", "test"]
+
+[tool.hatch.build]
+include = [
+  "src/**/*.py",
+  "src/**/*.yaml",
+  "src/**/*.xsd",
+  "src/**/*.rng",
+  "src/**/*.xml",
+  "LICENSE",
+  "README.md",
+  "CHANGELOG.md"
+]
+exclude = [
+  "tests/**",
+  ".github/**",
+  ".venv/**",
+  "docs/**",
+  ".gitignore",
+]
 
 [build-system]
 requires = ["hatchling"]
