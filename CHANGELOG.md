@@ -2,7 +2,11 @@
 
 ## 0.9.10 (2025-10-14)
 
+- Fix UnboundLocalError in get_ns_string() for ONIX 3.1 files
+- Add test data files for ONIX 3.1 (reference and short formats)
+- Update PyInstaller build configuration
 - Fix AUTHORS.md filename (was incorrectly named AUTHORMS.md)
+- Remove obsolete winbuild.bat script
 
 ## 0.9.9 (2025-03-24)
 
