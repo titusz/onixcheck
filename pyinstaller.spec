@@ -1,19 +1,23 @@
 # -*- mode: python -*-
 
+from pathlib import Path
+
 block_cipher = None
 
+# Get current working directory
+ROOT_DIR = Path('.').resolve()
 
-a = Analysis(['src\\onixcheck\\__main__.py'],
-             pathex=['C:\\dev\\onixcheck'],
-             binaries=None,
-             datas=None,
-             hiddenimports=[],
-             hookspath=[],
-             runtime_hooks=[],
-             excludes=[],
-             win_no_prefer_redirects=True,
-             win_private_assemblies=True,
-             cipher=block_cipher)
+a = Analysis(
+    [str(ROOT_DIR / 'src' / 'onixcheck' / '__main__.py')],
+    pathex=[str(ROOT_DIR)],
+    binaries=[],
+    datas=[],
+    hiddenimports=[],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    cipher=block_cipher
+)
 
 # Include all schema files
 biblon = Tree('./src/onixcheck/schema/biblon', prefix='biblon')
@@ -21,6 +25,7 @@ google = Tree('./src/onixcheck/schema/google', prefix='google')
 rng30 = Tree('./src/onixcheck/schema/rng3.0', prefix='rng3.0')
 xsd21 = Tree('./src/onixcheck/schema/xsd2.1', prefix='xsd2.1')
 xsd30 = Tree('./src/onixcheck/schema/xsd3.0', prefix='xsd3.0')
+xsd31 = Tree('./src/onixcheck/schema/xsd3.1', prefix='xsd3.1')
 
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
