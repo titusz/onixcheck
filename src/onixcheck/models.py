@@ -167,6 +167,10 @@ class OnixMeta(_BaseMeta):
             tpl = "http://www.editeur.org/onix/2.1/%s"
         elif self.onix_version == self.V30:
             tpl = "http://ns.editeur.org/onix/3.0/%s"
+        elif self.onix_version == self.V31:
+            tpl = "http://ns.editeur.org/onix/3.1/%s"
+        else:
+            raise OnixError("Unsupported ONIX version: %s" % self.onix_version)
         return tpl % self.onix_style
 
     def get_schema_file(self, schema_type=XSD):
