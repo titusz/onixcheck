@@ -59,3 +59,4 @@ docs/_build
 .bootstrap
 *.bak
 .aider*
+CLAUDE.md
