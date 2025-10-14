@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.10 (2025-10-14)
+
+- Fix AUTHORS.md filename (was incorrectly named AUTHORMS.md)
+
+## 0.9.9 (2025-03-24)
+
+- Add --version flag to display onixcheck version information
+- Update project dependencies and configuration
+- Remove AppVeyor CI scripts
+- Update README with new installation and usage information
+
 ## 0.9.8 (2025-03-23)
 
 - Update to Code List issue 68
