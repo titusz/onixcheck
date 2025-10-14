@@ -1,6 +1,6 @@
 [project]
 name = "onixcheck"
-version = "0.9.9"
+version = "0.9.10"
 description = "ONIX validation library and commandline tool"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -27,8 +27,6 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Utilities",
 ]
-
-
 dependencies = [
     "six",
     "lxml",
@@ -38,12 +36,17 @@ dependencies = [
     "win-unicode-console; platform_system == 'Windows'"
 ]
 
+[project.urls]
+Homepage = "https://github.com/titusz/onixcheck"
+Repository = "https://github.com/titusz/onixcheck"
+
 [dependency-groups]
 dev = [
     "poethepoet",
     "pytest",
     "pytest-cov",
     "build",
+    "pyinstaller>=6.16.0",
 ]
 
 [project.scripts]
@@ -72,6 +75,7 @@ fail_under = 100
 format-code = { cmd = "ruff format", help = "Code style formating with black" }
 format-md = { cmd = "mdformat --wrap 112 --end-of-line lf docs README.md", help = "Markdown formating with mdformat" }
 test = { cmd = "pytest", help = "Run tests"}
+build-exe = { cmd = "pyinstaller --clean pyinstaller.spec", help = "Build Windows executable with PyInstaller" }
 all = ["format-code", "format-md", "test"]
 
 [tool.hatch.build]
