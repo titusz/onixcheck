@@ -68,3 +68,41 @@ def test_onix_meta_from_tree_no_release():
     tree = etree.parse(data.VALID_GOOGLE_SAMPLE)
     meta = OnixMeta.from_tree(tree)
     assert meta.onix_version == OnixMeta.V21
+
+
+def test_onix_meta_31_reference():
+    meta = OnixMeta.from_file(data.VALID_ONIX31_REF)
+    assert meta.xml_version == "1.0"
+    assert meta.xml_encoding == "utf-8"
+    assert meta.onix_version == OnixMeta.V31
+    assert meta.onix_style == OnixMeta.REFERENCE
+
+
+def test_onix_meta_31_short():
+    meta = OnixMeta.from_file(data.VALID_ONIX31_SHORT)
+    assert meta.xml_version == "1.0"
+    assert meta.xml_encoding == "utf-8"
+    assert meta.onix_version == OnixMeta.V31
+    assert meta.onix_style == OnixMeta.SHORT
+
+
+def test_get_ns_string_31():
+    """Test that get_ns_string() works for ONIX 3.1 without UnboundLocalError"""
+    meta = OnixMeta.from_file(data.VALID_ONIX31_REF)
+    ns_string = meta.get_ns_string()
+    assert ns_string == "http://ns.editeur.org/onix/3.1/reference"
+
+    meta_short = OnixMeta.from_file(data.VALID_ONIX31_SHORT)
+    ns_string_short = meta_short.get_ns_string()
+    assert ns_string_short == "http://ns.editeur.org/onix/3.1/short"
+
+
+def test_get_validator_o31():
+    """Test that validators work for ONIX 3.1"""
+    o31_ref = OnixFile(data.VALID_ONIX31_REF)
+    validator = o31_ref.get_validator()
+    assert isinstance(validator, etree.XMLSchema)
+
+    o31_short = OnixFile(data.VALID_ONIX31_SHORT)
+    validator = o31_short.get_validator()
+    assert isinstance(validator, etree.XMLSchema)
