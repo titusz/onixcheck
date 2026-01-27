@@ -19,6 +19,9 @@ lib
 lib64
 venv*/
 pyvenv*/
+.venv
+.pytest_cache
+.ruff_cache
 
 # Installer logs
 pip-log.txt
