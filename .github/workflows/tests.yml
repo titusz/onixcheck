@@ -38,7 +38,7 @@ jobs:
     - name: Test package installation
       run: |
         uv pip install dist/*.whl
-        onixcheck --version
+        uv run onixcheck --version
 
     - name: Minimize uv cache
       run: uv cache prune --ci
