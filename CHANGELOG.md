@@ -3,6 +3,7 @@
 ## 0.9.11 (2026-01-27)
 
 - Update ONIX 3.0/3.1 schemas to Code List Issue 72
+- Fix PyInstaller config to include ONIX 3.1 RNG schemas
 
 ## 0.9.10 (2025-10-14)
 

@@ -33,6 +33,11 @@ If you have Python or PyPy installed on your system:
 pip install onixcheck
 ```
 
+### Windows Binary
+
+For Windows users who prefer not to install Python, standalone executables are available on the
+[GitHub Releases](https://github.com/titusz/onixcheck/releases) page.
+
 ## Quickstart
 
 ### Command line usage examples

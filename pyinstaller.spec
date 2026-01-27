@@ -23,6 +23,7 @@ a = Analysis(
 biblon = Tree('./src/onixcheck/schema/biblon', prefix='biblon')
 google = Tree('./src/onixcheck/schema/google', prefix='google')
 rng30 = Tree('./src/onixcheck/schema/rng3.0', prefix='rng3.0')
+rng31 = Tree('./src/onixcheck/schema/rng3.1', prefix='rng3.1')
 xsd21 = Tree('./src/onixcheck/schema/xsd2.1', prefix='xsd2.1')
 xsd30 = Tree('./src/onixcheck/schema/xsd3.0', prefix='xsd3.0')
 xsd31 = Tree('./src/onixcheck/schema/xsd3.1', prefix='xsd3.1')
@@ -37,6 +38,7 @@ exe = EXE(pyz,
           biblon,
           google,
           rng30,
+          rng31,
           xsd21,
           xsd30,
           name='onixcheck.exe',
