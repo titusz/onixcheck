@@ -37,7 +37,7 @@ def validate(infile, schemas=("xsd",)):
         ):
             try:
                 validator = onix_file.get_validator(s)
-            except OnixError as e:
+            except OnixError as e:  # pragma: no cover
                 messages.append(Message.from_exception(e, filename))
                 continue
             validator(onix_file.xml_tree())

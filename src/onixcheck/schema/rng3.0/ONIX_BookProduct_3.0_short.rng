@@ -26,31 +26,31 @@
 	**************************************************
 
 
-	TERMS AND CONDITIONS OF USE OF THE ONIX for Books PRODUCT INFORMATION FORMAT AND 
+	TERMS AND CONDITIONS OF USE OF THE ONIX for Books PRODUCT INFORMATION FORMAT AND
 	ASSOCIATED XML SCHEMAS
 
-	All ONIX standards and documentation – including this document – are copyright 
-	materials, made available free of charge for general use. A full license agreement 
-	(DOI: 10.4400/nwgj) that governs their use is available on the EDItEUR website. In 
-	particular, if you use any of the ONIX for Books Product Information Format schemas 
-	(RNG, XSD or DTD) (‘the schemas’), you will be deemed to have accepted these terms 
+	All ONIX standards and documentation – including this document – are copyright
+	materials, made available free of charge for general use. A full license agreement
+	(DOI: 10.4400/nwgj) that governs their use is available on the EDItEUR website. In
+	particular, if you use any of the ONIX for Books Product Information Format schemas
+	(RNG, XSD or DTD) (‘the schemas’), you will be deemed to have accepted these terms
 	and conditions:
 
-	1. You agree that you will not add to, delete from, amend or copy for use outside of 
+	1. You agree that you will not add to, delete from, amend or copy for use outside of
 	the schemas any part thereof except for strictly internal use in your own organization.
 
-	2. You agree that if your business would benefit from future additions or amendments 
-	to or extracts of the schemas for any purpose that is not strictly internal to your own 
-	organisation, you will in the first instance notify EDItEUR and allow EDItEUR to review 
-	and comment on your proposed use, in the interest of securing an orderly 
+	2. You agree that if your business would benefit from future additions or amendments
+	to or extracts of the schemas for any purpose that is not strictly internal to your own
+	organisation, you will in the first instance notify EDItEUR and allow EDItEUR to review
+	and comment on your proposed use, in the interest of securing an orderly
 	development of the Schema for the benefit of other users.
 
-	If you do not accept these terms, you must not use any version of the ONIX Product 
+	If you do not accept these terms, you must not use any version of the ONIX Product
 	Information Message Schemas.
 
-	Full copies of all published versions of the latest release of this Schema and all 
-	associated documentation are available from the EDItEUR web site, where may also be 
-	found details of how to contact EDItEUR for advice on the use of this Schema. The URL 
+	Full copies of all published versions of the latest release of this Schema and all
+	associated documentation are available from the EDItEUR web site, where may also be
+	found details of how to contact EDItEUR for advice on the use of this Schema. The URL
 	for the EDItEUR web site is:
 
 	http://www.editeur.org/
@@ -5877,7 +5877,7 @@
 			<zeroOrMore><ref name="Subject" /></zeroOrMore>
 			<zeroOrMore><ref name="NameAsSubject" /></zeroOrMore>
 		</group>
-	</define>  
+	</define>
 	<define name="gp.audiences">
 		<group>
 			<zeroOrMore><ref name="AudienceCode" /></zeroOrMore>

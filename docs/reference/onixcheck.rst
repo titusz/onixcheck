@@ -13,5 +13,3 @@ onixcheck
     :members: from_tree, from_file
 
 .. autofunction:: onixcheck.utils.iter_files
-
-

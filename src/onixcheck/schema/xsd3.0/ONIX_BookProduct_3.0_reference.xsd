@@ -3399,7 +3399,7 @@
 	</xs:element>
 	<xs:element name="CoverResource">
 		<xs:annotation>
-			<xs:documentation>Details of a resource file needed to manufacuture or package the cover of a product</xs:documentation> 
+			<xs:documentation>Details of a resource file needed to manufacuture or package the cover of a product</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>

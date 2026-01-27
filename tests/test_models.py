@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from io import BytesIO
 from onixcheck import data
 from onixcheck.exeptions import OnixError
 from onixcheck.models import OnixMeta, OnixFile, Message
@@ -106,3 +107,63 @@ def test_get_validator_o31():
     o31_short = OnixFile(data.VALID_ONIX31_SHORT)
     validator = o31_short.get_validator()
     assert isinstance(validator, etree.XMLSchema)
+
+
+def test_message_str():
+    """Test Message.__str__ method"""
+    msg = Message(
+        level="ERROR",
+        validator="XSD",
+        location="test.xml:10:5",
+        message="Test error",
+        error_type="SCHEMA_ERROR",
+    )
+    result = str(msg)
+    assert "ERROR" in result
+    assert "XSD" in result
+    assert "test.xml:10:5" in result
+    assert "Test error" in result
+
+
+def test_message_from_exception():
+    """Test Message.from_exception method"""
+    exc = OnixError("Test exception message")
+    msg = Message.from_exception(exc, "test.xml")
+    assert msg.level == "CRITICAL"
+    assert msg.validator == "ONIXCHECK"
+    assert msg.location == "test.xml"
+    assert msg.message == "Test exception message"
+    assert msg.error_type == "EXCEPTION"
+
+
+def test_onix_meta_v30_from_namespace():
+    """Test detecting ONIX 3.0 version from namespace when no release attribute"""
+    xml_content = b"""<?xml version="1.0" encoding="utf-8"?>
+<ONIXMessage xmlns="http://ns.editeur.org/onix/3.0/reference">
+  <Header><Sender><SenderName>Test</SenderName></Sender></Header>
+</ONIXMessage>"""
+    tree = etree.parse(BytesIO(xml_content))
+    meta = OnixMeta.from_tree(tree)
+    assert meta.onix_version == OnixMeta.V30
+
+
+def test_onix_meta_no_release_no_namespace():
+    """Test error when no release attribute and no namespace"""
+    xml_content = b"""<?xml version="1.0" encoding="utf-8"?>
+<ONIXMessage>
+  <Header><Sender><SenderName>Test</SenderName></Sender></Header>
+</ONIXMessage>"""
+    tree = etree.parse(BytesIO(xml_content))
+    with pytest.raises(OnixError, match="No release attribute and no Namespace"):
+        OnixMeta.from_tree(tree)
+
+
+def test_onix_meta_unknown_version_namespace():
+    """Test error when namespace doesn't match known ONIX versions"""
+    xml_content = b"""<?xml version="1.0" encoding="utf-8"?>
+<ONIXMessage xmlns="http://ns.editeur.org/onix/9.9/reference">
+  <Header><Sender><SenderName>Test</SenderName></Sender></Header>
+</ONIXMessage>"""
+    tree = etree.parse(BytesIO(xml_content))
+    with pytest.raises(OnixError, match="Could not determin ONIX version"):
+        OnixMeta.from_tree(tree)

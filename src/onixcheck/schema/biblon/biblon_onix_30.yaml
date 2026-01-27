@@ -38,6 +38,3 @@ onix_style: 'reference'
     /CollateralDetail:
         /TextContent:
             required: true
-
-
-

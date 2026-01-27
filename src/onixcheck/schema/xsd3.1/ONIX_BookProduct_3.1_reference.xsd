@@ -9476,7 +9476,7 @@
 			<xs:choice>
 				<xs:sequence>
 					<xs:element maxOccurs="unbounded" ref="ProfessionalPosition" />
-					<xs:element minOccurs="0" maxOccurs="unbounded" ref="AffiliationIdentifier" /> 
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="AffiliationIdentifier" />
 					<xs:element minOccurs="0" ref="Affiliation" />
 				</xs:sequence>
 				<xs:sequence>

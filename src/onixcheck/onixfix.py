@@ -162,10 +162,10 @@ class OnixFix(object):
         try:
             datetime.strptime(el.text, val).date()
         except ValueError as e:
-            self.add_message(e.message, path, el)
+            self.add_message(str(e), path, el)
 
     def handle_range(self, path, el, val):
-        if not int(el.text) in range(*val):
+        if int(el.text) not in range(*val):
             msg = '"%s" out of range' % el.text
             self.add_message(msg, path, el)
 
@@ -197,7 +197,7 @@ class OnixFix(object):
             self.add_message(msg, path, el)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     from onixcheck import profiles, data
 
     of = OnixFix(data.VALID_GOOGLE_ONIX_30_SAMPLE, profiles.GOOGLE_ONIX_30)

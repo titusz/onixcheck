@@ -34,11 +34,11 @@ def iter_files(root, exts=None, recursive=False):
 
     if recursive is False:
         for entry in scandir(root):
-            if has_scandir:
+            if has_scandir:  # pragma: no cover
                 ext = splitext(entry.name)[-1].lstrip(".").lower()
                 if entry.is_file() and matches(ext):
                     yield entry.path
-            else:
+            else:  # pragma: no cover
                 ext = splitext(entry)[-1].lstrip(".").lower()
                 if not isdir(entry) and matches(ext):
                     yield join(root, entry)

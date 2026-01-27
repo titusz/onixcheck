@@ -55,17 +55,17 @@ def main(argv=None):
         logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
         print("DEBUG logging enabled.")
 
-    try:
+    try:  # pragma: no cover
         import win_unicode_console
 
         win_unicode_console.enable()
         log.debug("Running with win-unicode-console patch")
-    except Exception:
+    except Exception:  # pragma: no cover
         pass
 
     log.debug("TYPE of path: %s" % type(args.path))
     # validate current working dir
-    if not args.infile and not args.path:
+    if not args.infile and not args.path:  # pragma: no cover
         args.path = getcwd()
         log.debug("NEW TYPE of path: %s" % type(args.path))
 
@@ -105,7 +105,7 @@ def main(argv=None):
                 print("INVALID - errors found:", file=sys.stderr)
                 all_valid = False
                 for msg in messages:
-                    if args.debug:
+                    if args.debug:  # pragma: no cover
                         print(msg.__str__(), file=sys.stderr)
                     else:
                         print(msg.short, file=sys.stderr)
@@ -115,5 +115,5 @@ def main(argv=None):
         return 1
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())

@@ -4,7 +4,7 @@
 import sys
 import os
 
-if getattr(sys, "frozen", False):
+if getattr(sys, "frozen", False):  # pragma: no cover
     # we are running in a |PyInstaller| bundle
     basedir = sys._MEIPASS
 else:

@@ -1,0 +1,37 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+        exclude: ^src/onixcheck/schema/biblon/
+      - id: check-json
+      - id: check-toml
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-mkdocs[recommended]
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: Ruff linting
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: Ruff formatting
+        entry: uv run ruff format
+        language: system
+        types: [python]
+      - id: pytest
+        name: Tests with coverage
+        entry: uv run pytest --cov --cov-fail-under=100
+        language: system
+        types: [python]
+        pass_filenames: false

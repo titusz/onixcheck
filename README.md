@@ -72,7 +72,8 @@ Simple usage with `onixcheck.validate`:
 
 ```python
 import onixcheck
-errors = onixcheck.validate('src/onixcheck/data/invalid_onix3_ref.xml')
+
+errors = onixcheck.validate("src/onixcheck/data/invalid_onix3_ref.xml")
 print(errors[0].short)
 ```
 
@@ -88,7 +89,8 @@ You can specify custom schema types for validation:
 
 ```python
 import onixcheck
-errors = onixcheck.validate('myfile.xml', schemas=('xsd', 'rng', 'google'))
+
+errors = onixcheck.validate("myfile.xml", schemas=("xsd", "rng", "google"))
 ```
 
 Contributions and suggestions are welcome. Please feel free to open issues or pull requests on GitHub.

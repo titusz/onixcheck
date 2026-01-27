@@ -169,7 +169,7 @@ class OnixMeta(_BaseMeta):
             tpl = "http://ns.editeur.org/onix/3.0/%s"
         elif self.onix_version == self.V31:
             tpl = "http://ns.editeur.org/onix/3.1/%s"
-        else:
+        else:  # pragma: no cover
             raise OnixError("Unsupported ONIX version: %s" % self.onix_version)
         return tpl % self.onix_style
 
@@ -177,7 +177,7 @@ class OnixMeta(_BaseMeta):
         key = self.onix_version, self.onix_style, schema_type
         try:
             return self.SCHEMA_MAP[key]
-        except KeyError:
+        except KeyError:  # pragma: no cover
             raise OnixError("Found no {2} schema for ONIX {0} {1}".format(*key))
 
 
@@ -225,7 +225,7 @@ class Message(_BaseMessage):
 
     @classmethod
     def from_exception(cls, exc, filename=""):
-        """
+        """Create Message from an exception.
 
         :param Exception exc:
         :param str filename: Optional filename to prefix error location
@@ -235,6 +235,6 @@ class Message(_BaseMessage):
             level="CRITICAL",
             validator="ONIXCHECK",
             location=filename,
-            message=exc.message,
+            message=str(exc),
             error_type="EXCEPTION",
         )
