@@ -16,11 +16,11 @@
 	*                                                *
 	*                   Release 3.0                  *
 	*                   Revision 8                   *
-	*                Status: RELEASED                *
+	*                Status: Released                *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2021-04-29               *
+	*              Revised: 2025-12-11               *
 	*                                                *
-	*             (c) 2000-2021 EDItEUR              *
+	*             (c) 2000-2025 EDItEUR              *
 	*             http://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -57,6 +57,8 @@
 
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+
+	2025-12-11: added @version on <schema>, starting at 3.0.8.0 representing the version of this schema, any subsequent corrections to this will be 3.0.8.1, 3.0.8.2 and so on
 
 	2021-04-29: ONIX for Books 3.0 revision 8
 	            1. added <ProductionDetail> block
@@ -282,7 +284,7 @@
 	2009-04-09: Release 3.0 schema for public release
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ns.editeur.org/onix/3.0/reference" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.0/reference">
+<xs:schema xmlns="http://ns.editeur.org/onix/3.0/reference" version="3.0.8.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.0/reference">
 	<xs:include schemaLocation="ONIX_BookProduct_CodeLists.xsd"/>
 	<xs:include schemaLocation="ONIX_XHTML_Subset.xsd"/>
 
@@ -3399,7 +3401,7 @@
 	</xs:element>
 	<xs:element name="CoverResource">
 		<xs:annotation>
-			<xs:documentation>Details of a resource file needed to manufacuture or package the cover of a product</xs:documentation>
+			<xs:documentation>Details of a resource file needed to manufacuture or package the cover of a product</xs:documentation> 
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>

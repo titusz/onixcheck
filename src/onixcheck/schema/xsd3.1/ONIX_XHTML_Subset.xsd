@@ -26,38 +26,38 @@
 
 
 	NOTE - THIS MODULE CORRESPONDS TO A SUBSET OF W3C XHTML 1.1. IT ONLY INCLUDES
-	ELEMENTS AND ASSOCIATED ATTRIBUTES THAT ARE VALID INSIDE THE XHTML ELEMENT
-	'body', AND EXCLUDES ELEMENTS FOR XHTML EMBEDDED OBJECTS, FORMS AND SCRIPTS AND
-	ATTRIBUTES THAT DEFINE BEHAVIOUR. SOME PARAMETER ENTITIES HAVE BEEN RENAMED
+	ELEMENTS AND ASSOCIATED ATTRIBUTES THAT ARE VALID INSIDE THE XHTML ELEMENT 
+	'body', AND EXCLUDES ELEMENTS FOR XHTML EMBEDDED OBJECTS, FORMS AND SCRIPTS AND 
+	ATTRIBUTES THAT DEFINE BEHAVIOUR. SOME PARAMETER ENTITIES HAVE BEEN RENAMED 
 	TO AVOID CLASHES WITH ONIX PARAMETER ENTITY NAMES.
 
 
 	TERMS AND CONDITIONS OF USE OF THE ONIX BOOK PRODUCT INFORMATION MESSAGE SCHEMA
 
-	All ONIX standards and documentation are copyright materials, made available
-	free of charge for general use. If you use any version of the ONIX Book Product
-	Information Message Schema, you will be deemed to have accepted these terms and
+	All ONIX standards and documentation are copyright materials, made available 
+	free of charge for general use. If you use any version of the ONIX Book Product 
+	Information Message Schema, you will be deemed to have accepted these terms and 
 	conditions:
 
-	1. You agree that you will not add to, delete from or amend any version of the
-	ONIX Product Information Message Schema, or any part of the Schema except for
+	1. You agree that you will not add to, delete from or amend any version of the 
+	ONIX Product Information Message Schema, or any part of the Schema except for 
 	strictly internal use in your own organisation.
 
-	2. You agree that if you wish to add to, amend, or make extracts of any version
-	of the Schema for any purpose that is not strictly internal to your own organisation,
-	you will in the first instance notify EDItEUR and allow EDItEUR to review
-	and comment on your proposed use, in the interest of securing an orderly
+	2. You agree that if you wish to add to, amend, or make extracts of any version 
+	of the Schema for any purpose that is not strictly internal to your own organisation, 
+	you will in the first instance notify EDItEUR and allow EDItEUR to review 
+	and comment on your proposed use, in the interest of securing an orderly 
 	development of the Schema for the benefit of other users.
 
 	A full licence agreement (DOI: 10.4400/nwgj) that governs use of EDItEUR’s ONIX
 	documentation, DTDs and schemas is available on the EDItEUR website.
 
-	If you do not accept these terms, you must not use any version of the ONIX Product
+	If you do not accept these terms, you must not use any version of the ONIX Product 
 	Information Message Schema.
 
-	Full copies of all published versions of the latest release of this Schema and all
-	associated documentation are available from the EDItEUR web site, where may also be
-	found details of how to contact EDItEUR for advice on the use of this Schema. The URL
+	Full copies of all published versions of the latest release of this Schema and all 
+	associated documentation are available from the EDItEUR web site, where may also be 
+	found details of how to contact EDItEUR for advice on the use of this Schema. The URL 
 	for the EDItEUR web site is:
 
 	http://www.editeur.org/
@@ -79,7 +79,7 @@
 -->
 <!-- ================ Character mnemonic entities ========================= -->
 <!--
-	THE FOLLOWING ENTITY SETS ARE EXCLUDED FROM ALL VERSIONS OF THE ONIX SCHEMA.
+	THE FOLLOWING ENTITY SETS ARE EXCLUDED FROM ALL VERSIONS OF THE ONIX SCHEMA. 
 
 	<!ENTITY % HTMLlat1 PUBLIC "-//W3C//ENTITIES Latin 1 for XHTML//EN" "xhtml-lat1.ent">
 	%HTMLlat1;
@@ -979,7 +979,7 @@
 	<!--
 		The border attribute sets the thickness of the frame around the
 		table. The default units are screen pixels.
-
+		
 		The frame attribute specifies which parts of the frame around
 		the table should be rendered. The values are not the same as
 		CALS to avoid a name clash with the valign attribute.
@@ -999,7 +999,7 @@
 	</xs:simpleType>
 	<!--
 		The rules attribute defines which rules to draw between cells:
-
+		
 		If rules is absent then assume:
 				"none" if border is absent or border="0" otherwise "all"
 	-->
@@ -1015,7 +1015,7 @@
 	<!-- horizontal placement of table relative to document -->
 	<!--
 		horizontal alignment attributes for cell contents
-
+		
 		char        alignment char, e.g. char=':'
 		charoff     offset for alignment char
 	-->
@@ -1165,12 +1165,12 @@
 	<!--
 		col elements define the alignment properties for cells in
 		one or more columns.
-
+		
 		The width attribute specifies the width of the columns, e.g.
-
+		
 				width=64        width in screen pixels
 				width=0.5*      relative width of 0.5
-
+		
 		The span attribute causes the attributes of one
 		col element to apply to more than one column.
 	-->
@@ -1185,11 +1185,11 @@
 		Use thead to duplicate headers when breaking table
 		across page boundaries, or for static headers when
 		tbody sections are rendered in scrolling panel.
-
+		
 		Use tfoot to duplicate footers when breaking table
 		across page boundaries, or for static footers when
 		tbody sections are rendered in scrolling panel.
-
+		
 		Use multiple tbody sections when rules are needed
 		between groups of table rows.
 	-->

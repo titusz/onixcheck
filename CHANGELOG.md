@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.11 (2026-01-27)
+
+- Update ONIX 3.0/3.1 schemas to Code List Issue 72
+
 ## 0.9.10 (2025-10-14)
 
 - Fix UnboundLocalError in get_ns_string() for ONIX 3.1 files

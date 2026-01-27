@@ -18,9 +18,9 @@
 	*                   Revision 2                   *
 	*                Status: Released                *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2024-10-28               *
+	*              Revised: 2025-12-11               *
 	*                                                *
-	*             (c) 2000-2024 EDItEUR              *
+	*             (c) 2000-2025 EDItEUR              *
 	*            https://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -58,6 +58,8 @@
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
 
+	2025-12-11: added @version on <schema>, starting at 3.1.2.0 representing the version of this schema, any subsequent corrections to this will be 3.1.2.1, 3.1.2.2 and so on
+
 	2024-10-28: ONIX for Books 3.1 revision 2
 	            1. added <StreetAddress>, <LocationName>, <PostalCode>, <RegionCode>, <CountryCode> to <ProductContact> and <SupplyContact> (to support GPSR). Also added <PostalCode> into <EventOccurrence>
 
@@ -70,7 +72,7 @@
 	            1. extended and modified cardinality of <EpubLicense> in <DescriptiveDetail>, added <EpubUsageConstraint>, extended <EpubLicense> and <Publisher> in <ContentItem> (to support hybrid open access)
 	            2. added <AffiliationIdentifier> in <ProfessionalAffiliation> (to support RORs and similar)
 	            3. added <SequenceNumber> in <TextContent>, <SupportingResource>, <CitedContent>, <Prize> (to prioritize multiple collateral items of the same type, eg multiple reviews)
-	            4. added <CollectionFrequency> in <Collection> (primarily to support periodicals, eg monthly or weekkly magazines)
+	            4. added <CollectionFrequency> in <Collection> (primarily to support periodicals, eg monthly or weekly magazines)
 	            5. added <CollectionElementLevel> in <CollectionIdentifier> (to disambiguate collection identifier referents in collections, sub-collections)
 	            6. added <MainAudience/> flag in <Audience> (to prioritize multiple audiences)
 	            7. added <TextSourceLink> in <TextContent> (primarily to enable reference to full text of reviews)
@@ -308,7 +310,7 @@
 	2009-04-09: Release 3.0 schema for public release
 
 -->
-<xs:schema xmlns="http://ns.editeur.org/onix/3.1/reference" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:onix="http://ns.editeur.org/onix/3.1/reference" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.1/reference">
+<xs:schema xmlns="http://ns.editeur.org/onix/3.1/reference" version="3.1.2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:onix="http://ns.editeur.org/onix/3.1/reference" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.1/reference">
 	<xs:include schemaLocation="ONIX_BookProduct_CodeLists.xsd" />
 	<xs:include schemaLocation="ONIX_XHTML_Subset.xsd" />
 
@@ -519,7 +521,7 @@
 	</xs:element>
 	<xs:element name="AffiliationIDType">
 		<xs:annotation>
-			<xs:documentation>Type of identifier which uniquely identifies the affiliate organization, eg an ROR, ISNI etc</xs:documentation>
+			<xs:documentation>Type of identifier which uniquely identifies the affiliate organization, eg ROR, ISNI</xs:documentation>
 			<xs:documentation>● Added at release 3.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -1370,6 +1372,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BibleContents">
+		<xs:annotation>
+			<xs:documentation>Parts of the Bible included in the product, eg OT, NT, Apocrypha</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List82">
@@ -1393,6 +1398,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BiblePurpose">
+		<xs:annotation>
+			<xs:documentation>Intended purpose of the version of the Bible, eg a children’s Bible, wedding gift Bible, or a Bible for scholarly research</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List85">
@@ -1416,6 +1424,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BibleReferenceLocation">
+		<xs:annotation>
+			<xs:documentation>Location of references within the Bible content (centre column, side column, page end etc)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List87">
@@ -1439,6 +1450,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BibleTextFeature">
+		<xs:annotation>
+			<xs:documentation>Any feature of a Bible text not covered elsewhere, eg red letter</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List97">
@@ -1462,6 +1476,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BibleTextOrganization">
+		<xs:annotation>
+			<xs:documentation>Manner in which Biblical text is laid out, eg traditional, arranged chronologically, or parallel (side-by-side alignment of two versions)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List86">
@@ -1485,6 +1502,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="BibleVersion">
+		<xs:annotation>
+			<xs:documentation>Specific translation or version of the Bible</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List83">
@@ -1610,6 +1630,9 @@
 		</xs:unique>
 	</xs:element>
 	<xs:element name="BookClubAdoption">
+		<xs:annotation>
+			<xs:documentation>Textual description of adoption of the book as a book club selection</xs:documentation>
+		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
 				<xs:extension base="Flow">
@@ -1661,6 +1684,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CitationNote">
+		<xs:annotation>
+			<xs:documentation>Note giving additional information about cited content</xs:documentation>
+		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
 				<xs:extension base="Flow">
@@ -2245,6 +2271,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ComponentNumber">
+		<xs:annotation>
+			<xs:documentation>Number of text or AV content item within the product (numbered as in the TOC)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
@@ -2268,6 +2297,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ComponentTypeName">
+		<xs:annotation>
+			<xs:documentation>Type of text or AV content item within the product (named as in the TOC, Chapter, Section etc)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
@@ -2319,7 +2351,7 @@
 	</xs:element>
 	<xs:element name="ContentAudience">
 		<xs:annotation>
-			<xs:documentation>Target audience of an item of marketing collateral (eg for consumers, for the booktrade etc)</xs:documentation>
+			<xs:documentation>Target audience of an item of marketing collateral (eg for consumers, for the booktrade)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -2429,7 +2461,7 @@
 	</xs:element>
 	<xs:element name="ContentItem">
 		<xs:annotation>
-			<xs:documentation>Details of a textual content item (eg a chapter)</xs:documentation>
+			<xs:documentation>Details of a textual content item (eg a chapter, a section)</xs:documentation>
 			<xs:documentation>● Added &lt;CopyrightStatementText> at revision 3.1.1</xs:documentation>
 			<xs:documentation>● Added &lt;EpubUsageConstraint>, extended &lt;EpubLicense>, &lt;Publisher> and &lt;CopyrightStatement> at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;AVItem> at revision 3.0.5</xs:documentation>
@@ -2931,6 +2963,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CopyrightOwnerIDType">
+		<xs:annotation>
+			<xs:documentation>The type of identifier for a copyright owner</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List44">
@@ -3162,7 +3197,7 @@
 	</xs:element>
 	<xs:element name="CountriesExcluded">
 		<xs:annotation>
-			<xs:documentation>List of countries excluded from a territory (which must be defined using WORLD)</xs:documentation>
+			<xs:documentation>List of countries excluded from a territory (which must be defined using WORLD in &lt;RegionsIncluded>)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -3711,7 +3746,7 @@
 	</xs:element>
 	<xs:element name="DiscountCodeType">
 		<xs:annotation>
-			<xs:documentation>Method used to obfustate the actual business-to-business discount percentage</xs:documentation>
+			<xs:documentation>Method used to obfuscate the actual business-to-business discount percentage</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -3737,7 +3772,7 @@
 	</xs:element>
 	<xs:element name="DiscountCodeTypeName">
 		<xs:annotation>
-			<xs:documentation>Name of proprietary method used to obfustate the actual business-to-business discount percentage</xs:documentation>
+			<xs:documentation>Name of proprietary method used to obfuscate the actual business-to-business discount percentage</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -3789,6 +3824,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DiscountType">
+		<xs:annotation>
+			<xs:documentation>Type of B2B discount (eg rising, progressive)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List170">
@@ -3974,7 +4012,7 @@
 	</xs:element>
 	<xs:element name="EndTime">
 		<xs:annotation>
-			<xs:documentation>The end time of a content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific filc containing that audio or video content)</xs:documentation>
+			<xs:documentation>The end time of an audiovisual content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific file containing that audio or video content)</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.5</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4083,6 +4121,8 @@
 	</xs:element>
 	<xs:element name="EpubLicenseExpressionLink">
 		<xs:annotation>
+			<xs:documentation>URI for an expression of a license</xs:documentation>
+			<xs:documentation>NB use CDATA to avoid escaping &amp; if there is more than a single query parameter</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.2</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4109,6 +4149,7 @@
 	</xs:element>
 	<xs:element name="EpubLicenseExpressionType">
 		<xs:annotation>
+			<xs:documentation>Type of expression of a license, eg text for legal professionals, text for lay user</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.2</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4135,6 +4176,7 @@
 	</xs:element>
 	<xs:element name="EpubLicenseExpressionTypeName">
 		<xs:annotation>
+			<xs:documentation>Further detail of type of expression of a license</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.2</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4320,6 +4362,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EpubUsageUnit">
+		<xs:annotation>
+			<xs:documentation>Units used when specifying usage limit, eg pages (over life of product), pages per month, percentage</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List147">
@@ -4799,6 +4844,7 @@
 	</xs:element>
 	<xs:element name="EventStatus">
 		<xs:annotation>
+			<xs:documentation>Status of an event or event occurrence</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.7</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4852,6 +4898,7 @@
 	</xs:element>
 	<xs:element name="EventType">
 		<xs:annotation>
+			<xs:documentation>Type of a promotional event</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.7</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4938,6 +4985,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ExtentType">
+		<xs:annotation>
+			<xs:documentation>Method used to count an extent of a product (eg main content only, production page count, duration)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List23">
@@ -4961,6 +5011,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ExtentUnit">
+		<xs:annotation>
+			<xs:documentation>Units used to count an extent of a product (eg words, pages, minutes)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List24">
@@ -4984,6 +5037,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ExtentValue">
+		<xs:annotation>
+			<xs:documentation>Count of an extent of a product, using the method in &lt;ExtentType> and the units in &lt;ExtentUnit></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveDecimal">
@@ -5007,6 +5063,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ExtentValueRoman">
+		<xs:annotation>
+			<xs:documentation>Count of an extent of a product, using Roman numerals, using the method in &lt;ExtentType> and the units in &lt;ExtentUnit></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.RomanNumeralString">
@@ -5136,6 +5195,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FreeQuantity">
+		<xs:annotation>
+			<xs:documentation>Number of free copies supplied with an order for a specific number of paid-for copies</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -5333,7 +5395,7 @@
 	</xs:element>
 	<xs:element name="IDValue">
 		<xs:annotation>
-			<xs:documentation>Value of an identifier, taken from the specified identifier scheme</xs:documentation>
+			<xs:documentation>Value of proprietary identifier, taken from the specified identifier scheme</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -5385,7 +5447,7 @@
 	</xs:element>
 	<xs:element name="IllustrationsNote">
 		<xs:annotation>
-			<xs:documentation>Text description of the type and number of illustrations in the product</xs:documentation>
+			<xs:documentation>Textual description of the type and number of illustrations in the product</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
@@ -5524,6 +5586,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="InitialPrintRun">
+		<xs:annotation>
+			<xs:documentation>Textual description of the initial impression, eg number of copies and associated marketing effort</xs:documentation>
+		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
 				<xs:extension base="Flow">
@@ -5586,6 +5651,7 @@
 	</xs:element>
 	<xs:element name="InsertPoint">
 		<xs:annotation>
+			<xs:documentation>Details of where within the product an insert should be positioned (eg between pages 172 and 173)</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -5612,6 +5678,7 @@
 	</xs:element>
 	<xs:element name="InsertPointType">
 		<xs:annotation>
+			<xs:documentation>Type of insert point in &lt;InsertPointValue>, eg page number, timecode</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -5638,6 +5705,7 @@
 	</xs:element>
 	<xs:element name="InsertPointValue">
 		<xs:annotation>
+ 			<xs:documentation>Value of insert point, based on the type in &lt;InsertPointType>, eg a page number, a time</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -5767,6 +5835,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="LanguageCode">
+		<xs:annotation>
+			<xs:documentation>The language used in the manner specified by &lt;LanguageRole></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List74">
@@ -5842,6 +5913,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="LatestReprintNumber">
+		<xs:annotation>
+			<xs:documentation>Sequential number of most recent manufacturing batch (impression or reprint)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -5896,6 +5970,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="LevelSequenceNumber">
+		<xs:annotation>
+			<xs:documentation>Number used to place content items in a logical order within a book, eg 2.7.1 for first part of seventh chapter in part 2 (need not be related to the physical numbering of the items)</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.MultiLevelNumber">
@@ -5919,6 +5996,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ListName">
+		<xs:annotation>
+			<xs:documentation>Name or title of a bestseller list</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
@@ -5997,7 +6077,7 @@
 	</xs:element>
 	<xs:element name="LocationName">
 		<xs:annotation>
-			<xs:documentation>Name of a city, town (or other location) associated with (eg) a contributor, with a stockholding warehouse, with an event, with a product contact</xs:documentation>
+			<xs:documentation>Name of a city, town (or other location) associated with, for example, a contributor, a stockholding warehouse, an event, a product contact</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -6243,7 +6323,7 @@
 	</xs:element>
 	<xs:element name="MarketPublishingStatus">
 		<xs:annotation>
-			<xs:documentation>Market-specific publishing status of the product in the market, particular where it differs from the publishing status in Block 4</xs:documentation>
+			<xs:documentation>Market-specific publishing status of the product in the market, particular where it differs from the &lt;PublishingStatus> in Block 4</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -6269,7 +6349,7 @@
 	</xs:element>
 	<xs:element name="MarketPublishingStatusNote">
 		<xs:annotation>
-			<xs:documentation>Text description of the market-specific publishing status, where the Market publishing status is insufficient</xs:documentation>
+			<xs:documentation>Textual description of the market-specific publishing status, where the &lt;MarketPublishingStatus> is insufficient</xs:documentation>
 			<xs:documentation>● Added at revision 3.0 (2010)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
@@ -6298,7 +6378,7 @@
 	</xs:element>
 	<xs:element name="MarketReference">
 		<xs:annotation>
-			<xs:documentation>Unique and persistent label for the metadata record for a market</xs:documentation>
+			<xs:documentation>Arbitrary, but unique and persistent label for the metadata record for a market</xs:documentation>
 			<xs:documentation>● Added at release 3.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -6325,7 +6405,7 @@
 	</xs:element>
 	<xs:element name="Measure">
 		<xs:annotation>
-			<xs:documentation>Detail of a physical measurement – a dimension of the product</xs:documentation>
+			<xs:documentation>Container for a physical measurement – a dimension of the product</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -6351,6 +6431,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Measurement">
+		<xs:annotation>
+			<xs:documentation>Value of a physical measurement of &lt;MeasureType>, using the units in &lt;MeasureUnitCode></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveDecimal">
@@ -6374,6 +6457,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="MeasureType">
+		<xs:annotation>
+			<xs:documentation>Type of a physical measurement, eg height, width, weight of a physical product</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List48">
@@ -6397,6 +6483,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="MeasureUnitCode">
+		<xs:annotation>
+			<xs:documentation>Units used for a physical measurement of a product</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List50">
@@ -6475,7 +6564,7 @@
 	</xs:element>
 	<xs:element name="MessageRepeat">
 		<xs:annotation>
-			<xs:documentation>Monotonic sequence number used if an ONIX message with a particular message number needs to be re-sent (the first repeat is 2)</xs:documentation>
+			<xs:documentation>Monotonic sequence number used if an ONIX message with a particular message number needs to be re-sent (the original is 1, the first repeat is 2)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -6500,6 +6589,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="MinimumOrderQuantity">
+		<xs:annotation>
+			<xs:documentation>Minimum number of copies which must be ordered to obtain the price carried in &lt;Price></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -6615,7 +6707,7 @@
 	</xs:element>
 	<xs:element name="NameIDType">
 		<xs:annotation>
-			<xs:documentation>Type of dentifier for the name of a person, persona or corporate identity, eg an ISNI or ORCID, or the publisher’s proprietary internal identifier</xs:documentation>
+			<xs:documentation>Type of dentifier for the name of a person, persona or corporate identity, eg an ISNI or ORCID, or a publisher’s proprietary internal identifier</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -6702,6 +6794,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="NameType">
+		<xs:annotation>
+			<xs:documentation>The type of a name – eg an earlier name, a pseudonym</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List18">
@@ -6726,7 +6821,7 @@
 	</xs:element>
 	<xs:element name="NewSupplier">
 		<xs:annotation>
-			<xs:documentation>Replacement supplier as the Supplier no longer supplies the product</xs:documentation>
+			<xs:documentation>Replacement supplier as the &lt;Supplier> no longer supplies the product</xs:documentation>
 			<xs:documentation>● Added &lt;Website> at release 3.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -6855,7 +6950,7 @@
 	</xs:element>
 	<xs:element name="NoProduct">
 		<xs:annotation>
-			<xs:documentation>Positive indication that there are no product records in the message</xs:documentation>
+			<xs:documentation>Positive indication that there are no Product records in the message</xs:documentation>
 			<xs:documentation>● XML empty element – must not contain data</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.2</xs:documentation>
 		</xs:annotation>
@@ -6952,6 +7047,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Number">
+		<xs:annotation>
+			<xs:documentation>Number of content items of the type specified in &lt;AncillaryContentType></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveIntegerOrZero">
@@ -6975,6 +7073,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="NumberOfCopies">
+		<xs:annotation>
+			<xs:documentation>Number of identical copies of a component represented by particular &lt;ProductPart></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -6998,6 +7099,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="NumberOfIllustrations">
+		<xs:annotation>
+			<xs:documentation>Total number of illustations in the product</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveIntegerOrZero">
@@ -7021,6 +7125,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="NumberOfItemsOfThisForm">
+		<xs:annotation>
+			<xs:documentation>Number of different components of the same &lt;ProductForm> represented by a particular &lt;ProductPart></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -7044,6 +7151,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="NumberOfPages">
+		<xs:annotation>
+			<xs:documentation>Total number of (numbered) pages within a &lt;TextItem></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -7096,6 +7206,7 @@
 	</xs:element>
 	<xs:element name="OccurrenceDateRole">
 		<xs:annotation>
+			<xs:documentation>Role of date and time within &lt;OccurrenceDate>, eg beginning, end</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.7</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7173,6 +7284,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="OnOrderDetail">
+		<xs:annotation>
+			<xs:documentation>Container for details of an expected stock shipment</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="OnOrder" />
@@ -7198,6 +7312,7 @@
 	</xs:element>
 	<xs:element name="OrderQuantityMinimum">
 		<xs:annotation>
+			<xs:documentation>Minimum number of copies that may be ordered in a single order from the &lt;Supplier></xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7224,6 +7339,7 @@
 	</xs:element>
 	<xs:element name="OrderQuantityMultiple">
 		<xs:annotation>
+			<xs:documentation>Multiple copies that must be ordered (in addition to the minimum) in a single order from the &lt;Supplier></xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7276,7 +7392,7 @@
 	</xs:element>
 	<xs:element name="PackQuantity">
 		<xs:annotation>
-			<xs:documentation>The quantity in each carton or binder’s pack currently held in stock by the supplier</xs:documentation>
+			<xs:documentation>The number of copies in each carton or binder’s pack currently held in stock by the supplier</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -7328,7 +7444,7 @@
 	</xs:element>
 	<xs:element name="PalletQuantity">
 		<xs:annotation>
-			<xs:documentation>The quantity on each pallet currently held in stock by the supplier</xs:documentation>
+			<xs:documentation>The number of copies on each pallet currently held in stock by the supplier</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.5</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7383,6 +7499,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Percent">
+		<xs:annotation>
+			<xs:documentation>Percentage of unit value of a product</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PercentDecimal">
@@ -7468,6 +7587,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PositionOnList">
+		<xs:annotation>
+			<xs:documentation>Highest position achieved by the product on bestseller list named in &lt;ListName> </xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.PositiveInteger">
@@ -7680,6 +7802,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceCode">
+		<xs:annotation>
+			<xs:documentation>Code for a price represented by &lt;PriceCoded></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
@@ -7731,6 +7856,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceCodeType">
+		<xs:annotation>
+			<xs:documentation>Type of scheme from which the &lt;PriceCode> is taken</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List179">
@@ -7754,6 +7882,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceCodeTypeName">
+		<xs:annotation>
+			<xs:documentation>Name of proprietary scheme from which the &lt;PriceCode> is taken</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
@@ -7806,6 +7937,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceConditionQuantity">
+		<xs:annotation>
+			<xs:documentation>Detail of a quantity related to a &lt;PriceCondition></xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="PriceConditionQuantityType" />
@@ -7830,6 +7964,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceConditionQuantityType">
+		<xs:annotation>
+			<xs:documentation>Type of a quantity related to a &lt;PriceCondition>, eg a period of time, or a number of copies</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List168">
@@ -7853,6 +7990,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceConditionType">
+		<xs:annotation>
+			<xs:documentation>Type of a &lt;PriceCondition>, eg must also purchase updates</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List167">
@@ -7877,7 +8017,7 @@
 	</xs:element>
 	<xs:element name="PriceConstraint">
 		<xs:annotation>
-			<xs:documentation>Details of a constraint on use of a product when purchased at a specific price</xs:documentation>
+			<xs:documentation>Details of a constraint on use of a product when purchased at a specific &lt;Price></xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7905,6 +8045,7 @@
 	</xs:element>
 	<xs:element name="PriceConstraintLimit">
 		<xs:annotation>
+			<xs:documentation>Details of a limit related to a constraint on use of a product</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7931,6 +8072,7 @@
 	</xs:element>
 	<xs:element name="PriceConstraintStatus">
 		<xs:annotation>
+			<xs:documentation>Status of a constraint on use of a product, eg permitted, permitted subject to limit, prohibited</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7957,6 +8099,7 @@
 	</xs:element>
 	<xs:element name="PriceConstraintType">
 		<xs:annotation>
+			<xs:documentation>Type of constraint on use of a product, eg preview prior to purchase, loan, when purchased at a specific &lt;Price></xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -7983,6 +8126,7 @@
 	</xs:element>
 	<xs:element name="PriceConstraintUnit">
 		<xs:annotation>
+			<xs:documentation>Units – eg pages, percentage, days – applied to a &lt;Quantity> within a &lt;PriceConstraintLimit></xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -8036,6 +8180,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PriceDateRole">
+		<xs:annotation>
+			<xs:documentation>Role of a date relating to the price, eg from, until</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List173">
@@ -8088,6 +8235,7 @@
 	</xs:element>
 	<xs:element name="PriceIDType">
 		<xs:annotation>
+			<xs:documentation>Type of price identifier</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.2</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -8141,6 +8289,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PricePer">
+		<xs:annotation>
+			<xs:documentation>Unit of product which is the basis for the price carried in &lt;Price> </xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List60">
@@ -8243,7 +8394,7 @@
 	</xs:element>
 	<xs:element name="PriceTypeDescription">
 		<xs:annotation>
-			<xs:documentation>Textual description of the price type, when the coded PriceType and PriceQualifier are inadequate</xs:documentation>
+			<xs:documentation>Textual description of the price type, when the coded &lt;PriceType> and &lt;PriceQualifier> are inadequate</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -8503,6 +8654,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PrizeJury">
+		<xs:annotation>
+			<xs:documentation>Textual listing of prize jury members</xs:documentation>
+		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
 				<xs:extension base="Flow">
@@ -8639,7 +8793,7 @@
 	</xs:element>
 	<xs:element name="Product">
 		<xs:annotation>
-			<xs:documentation>Container for details of a single product</xs:documentation>
+			<xs:documentation>Container for details of a single product – a ‘Product record’</xs:documentation>
 			<xs:documentation>● Added &lt;ProductionDetail> (Block 8) at revision 3.0.8</xs:documentation>
 			<xs:documentation>● Added &lt;PromotionDetail> (Block 7) at revision 3.0.7</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;DeletionText> at revision 3.0.1</xs:documentation>
@@ -8892,6 +9046,7 @@
 	</xs:element>
 	<xs:element name="ProductContactIdentifier">
 		<xs:annotation>
+			<xs:documentation>Identifier which uniquely identifies the product contact organization</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -8919,6 +9074,7 @@
 	</xs:element>
 	<xs:element name="ProductContactIDType">
 		<xs:annotation>
+			<xs:documentation>Type of identifier for a product contact, eg an ISNI for the contact organization</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -9025,7 +9181,7 @@
 	</xs:element>
 	<xs:element name="ProductForm">
 		<xs:annotation>
-			<xs:documentation>The primary form of a product, eg hardcover, softcover, e-book etc</xs:documentation>
+			<xs:documentation>The primary form of a product, eg hardcover, softcover, e-book</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -9078,7 +9234,7 @@
 	</xs:element>
 	<xs:element name="ProductFormDetail">
 		<xs:annotation>
-			<xs:documentation>Additional detail of the digital or physical nature of the product and its features, in addition to the Product form</xs:documentation>
+			<xs:documentation>Additional detail of the digital or physical nature of the product and its features, in addition to the &lt;ProductForm></xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -9215,7 +9371,7 @@
 	</xs:element>
 	<xs:element name="ProductIdentifier">
 		<xs:annotation>
-			<xs:documentation>An identifier which uniquely identifies the product, eg an ISBN, GTIN etc</xs:documentation>
+			<xs:documentation>An identifier which uniquely identifies the product</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -9242,7 +9398,7 @@
 	</xs:element>
 	<xs:element name="ProductIDType">
 		<xs:annotation>
-			<xs:documentation>Type of identifier which uniquely identifies the product, eg an ISBN, GTIN etc</xs:documentation>
+			<xs:documentation>Type of identifier which uniquely identifies the product, eg an ISBN, GTIN</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -9476,7 +9632,7 @@
 			<xs:choice>
 				<xs:sequence>
 					<xs:element maxOccurs="unbounded" ref="ProfessionalPosition" />
-					<xs:element minOccurs="0" maxOccurs="unbounded" ref="AffiliationIdentifier" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="AffiliationIdentifier" /> 
 					<xs:element minOccurs="0" ref="Affiliation" />
 				</xs:sequence>
 				<xs:sequence>
@@ -9507,6 +9663,9 @@
 		</xs:unique>
 	</xs:element>
 	<xs:element name="ProfessionalPosition">
+		<xs:annotation>
+			<xs:documentation>‘Job title’ held by the contributor at the named affiliated institution</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="dt.NonEmptyString">
@@ -9592,6 +9751,9 @@
 		</xs:unique>
 	</xs:element>
 	<xs:element name="PromotionCampaign">
+		<xs:annotation>
+			<xs:documentation>Textual description of the advertising and promotion campaign for the product</xs:documentation>
+		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
 				<xs:extension base="Flow">
@@ -9733,6 +9895,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PublisherIDType">
+		<xs:annotation>
+			<xs:documentation>Type of identifier for the publisher, eg SAN, GLN, ISNI or other organization ID</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List44">
@@ -9976,7 +10141,7 @@
 	</xs:element>
 	<xs:element name="PublishingStatusNote">
 		<xs:annotation>
-			<xs:documentation>Textual description of the publishing status, when the coded Pubishing status is inadequate</xs:documentation>
+			<xs:documentation>Textual description of the publishing status, when the coded &lt;PublishingStatus> is inadequate</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
@@ -10056,7 +10221,7 @@
 	</xs:element>
 	<xs:element name="Rate">
 		<xs:annotation>
-			<xs:documentation>Rate of stock depletion, as measured by the specified Velocity metric</xs:documentation>
+			<xs:documentation>Rate of stock depletion, as measured by the specified &lt;Velocity> metric</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.2</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10165,7 +10330,7 @@
 	</xs:element>
 	<xs:element name="RecordReference">
 		<xs:annotation>
-			<xs:documentation>Unique and persistent identifier for the metadata record (not for the product itself)</xs:documentation>
+			<xs:documentation>Unique and persistent identifier for the metadata record (not for the product itself), used to enable updates without reliance on the product identifier (and thus enabling management of data about the same product from different sources)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -10217,6 +10382,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RecordSourceIDType">
+		<xs:annotation>
+			<xs:documentation>Type of identifier for the organization that is the record source, eg SAN, GLN, ISNI</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List44">
@@ -10671,6 +10839,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ResourceContentType">
+		<xs:annotation>
+			<xs:documentation>Type of a supporting resource, eg a front cover image, photo of author, reading group guide</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List158">
@@ -10726,6 +10897,9 @@
 		</xs:unique>
 	</xs:element>
 	<xs:element name="ResourceFeatureType">
+		<xs:annotation>
+			<xs:documentation>Type of feature of a supporting resource, eg required credit or caption for a photo, duration of an audio resource</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List160">
@@ -10750,6 +10924,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileContentDescription">
 		<xs:annotation>
+			<xs:documentation>Textual description of a resource file, eg CMYK separations of jacket</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10777,6 +10952,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileDate">
 		<xs:annotation>
+			<xs:documentation>Date associated with a resource file</xs:documentation>
 			<xs:documentation>● Removed &lt;DateFormat> at release 3.1</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
@@ -10804,6 +10980,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileDateRole">
 		<xs:annotation>
+			<xs:documentation>Role of date associated with a resource file, eg date last updated</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10830,6 +11007,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileDescription">
 		<xs:annotation>
+			<xs:documentation>Textual description for a resource file, to augment coded file details and features</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10857,6 +11035,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileDetail">
 		<xs:annotation>
+			<xs:documentation>Code providing detail of a resource file</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10883,6 +11062,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileFeature">
 		<xs:annotation>
+			<xs:documentation>Details of a feature of a resource file</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10914,6 +11094,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileFeatureDescription">
 		<xs:annotation>
+			<xs:documentation>Textual description of a feature of a resource file</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10941,6 +11122,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileFeatureType">
 		<xs:annotation>
+			<xs:documentation>Type of a feature of a resource file</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10967,6 +11149,7 @@
 	</xs:element>
 	<xs:element name="ResourceFileFeatureValue">
 		<xs:annotation>
+			<xs:documentation>Value of a feature of a resource file</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -10994,6 +11177,7 @@
 	<xs:element name="ResourceFileLink">
 		<xs:annotation>
 			<xs:documentation>URL which provides a link to a resource required for manufacturing or packaging of the product</xs:documentation>
+			<xs:documentation>NB use CDATA to avoid escaping &amp; if there is more than a single query parameter</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -11019,6 +11203,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ResourceForm">
+		<xs:annotation>
+			<xs:documentation>Form of supply of a version of a supporting resource, eg downloadable, linkable</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List161">
@@ -11071,6 +11258,7 @@
 	</xs:element>
 	<xs:element name="ResourceIDType">
 		<xs:annotation>
+			<xs:documentation>Type of identifier for a resource</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -11098,6 +11286,7 @@
 	<xs:element name="ResourceLink">
 		<xs:annotation>
 			<xs:documentation>URL which provides access to cited content used for marketing and promotional purposes (eg a link to a bestseller list)</xs:documentation>
+			<xs:documentation>NB use CDATA to avoid escaping &amp; if there is more than a single query parameter</xs:documentation>
 			<xs:documentation>● Added language attribute at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -11150,6 +11339,10 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ResourceRole">
+		<xs:annotation>
+			<xs:documentation>The role or purpose of a resource required for manufacturing or packaging the product, eg (to come)</xs:documentation>
+			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List251">
@@ -11248,6 +11441,9 @@
 		</xs:unique>
 	</xs:element>
 	<xs:element name="ResourceVersionFeatureType">
+		<xs:annotation>
+			<xs:documentation>Type of a particular feature of one version of a resource used for marketing and promotional purposes, eg pixel size, hash value</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List162">
@@ -11732,6 +11928,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ScriptCode">
+		<xs:annotation>
+			<xs:documentation>The type of script used to represent a language in the book, eg Latin, Cyrillic</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List121">
@@ -11756,7 +11955,7 @@
 	</xs:element>
 	<xs:element name="Sender">
 		<xs:annotation>
-			<xs:documentation>Details of the sender of the ONIX message (which may be different from the source of individual records in the message)</xs:documentation>
+			<xs:documentation>Details of the sender organization of the ONIX message (which may be different from the source of individual records in the message)</xs:documentation>
 			<xs:documentation>● Added &lt;TelephoneNumber> at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -11818,7 +12017,7 @@
 	</xs:element>
 	<xs:element name="SenderIDType">
 		<xs:annotation>
-			<xs:documentation>Type of identifier for the sender of the ONIX message</xs:documentation>
+			<xs:documentation>Type of identifier for the sender of the ONIX message, eg GLN, SAN</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -11922,7 +12121,7 @@
 	</xs:element>
 	<xs:element name="SourceName">
 		<xs:annotation>
-			<xs:documentation>Organization name of the organization responsible for an ascribed collection</xs:documentation>
+			<xs:documentation>Organization name of the organization responsible for curating an ascribed collection</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -11975,6 +12174,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="SourceType">
+		<xs:annotation>
+			<xs:documentation>Type of media from which the cited content originated, eg print, TV</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List157">
@@ -11999,6 +12201,7 @@
 	</xs:element>
 	<xs:element name="SpecificationBundleName">
 		<xs:annotation>
+			<xs:documentation>Details of a ‘bundle’ of product specifications for the creatiom of the product</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12026,6 +12229,7 @@
 	</xs:element>
 	<xs:element name="SpecificationBundleNameTypeName">
 		<xs:annotation>
+			<xs:documentation>Scheme from which the name of a ‘bundle’ of product specifications for the creatiom of the product is taken</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12053,6 +12257,7 @@
 	</xs:element>
 	<xs:element name="SpecificationBundleNameValue">
 		<xs:annotation>
+			<xs:documentation>Name of a ‘bundle’ of product specifications for the creatiom of the product is taken</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12079,6 +12284,7 @@
 	</xs:element>
 	<xs:element name="SpecificationDescription">
 		<xs:annotation>
+			<xs:documentation>Textual description of the specifications of a product, where the coded details and features are inadequete</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12106,6 +12312,7 @@
 	</xs:element>
 	<xs:element name="SpecificationDetail">
 		<xs:annotation>
+			<xs:documentation>Code specifying a detail of the technical specification for the product</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12132,6 +12339,7 @@
 	</xs:element>
 	<xs:element name="SpecificationFeature">
 		<xs:annotation>
+			<xs:documentation>Container specifying a feature of the technical specification for the product</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12163,6 +12371,7 @@
 	</xs:element>
 	<xs:element name="SpecificationFeatureDescription">
 		<xs:annotation>
+			<xs:documentation>Textual description of a specification feature, used when &lt;SpecificationFeatureValue> is not adequate</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12190,6 +12399,7 @@
 	</xs:element>
 	<xs:element name="SpecificationFeatureType">
 		<xs:annotation>
+			<xs:documentation>Type of Specification feature, eg paper type, weight or color, special finish</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12216,6 +12426,7 @@
 	</xs:element>
 	<xs:element name="SpecificationFeatureValue">
 		<xs:annotation>
+			<xs:documentation>Controlled value specifying or describing a specification feature</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12270,7 +12481,7 @@
 	</xs:element>
 	<xs:element name="StartTime">
 		<xs:annotation>
-			<xs:documentation>The start time of a content item, relative to the beginning of the whole of gthe product’s audio or video content (not to the beginning of a specific filc containing that audio or video content)</xs:documentation>
+			<xs:documentation>The start time of a content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific filc containing that audio or video content)</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.5</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12485,6 +12696,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="StudyBibleType">
+		<xs:annotation>
+			<xs:documentation>Particular study version of the Bible</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="List84">
@@ -12983,7 +13197,7 @@
 	</xs:element>
 	<xs:element name="SupplierIDType">
 		<xs:annotation>
-			<xs:documentation>Type of identifier for a supplier organization</xs:documentation>
+			<xs:documentation>Type of identifier for a supplier organization, eg SAN, GLN</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -13221,7 +13435,7 @@
 	</xs:element>
 	<xs:element name="SupplyContactRole">
 		<xs:annotation>
-			<xs:documentation>Role in relation to the product of a contact at the supplier</xs:documentation>
+			<xs:documentation>Role of a contact at the supplier in relation to the product</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.4</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -13937,6 +14151,7 @@
 	<xs:element name="TextSourceLink">
 		<xs:annotation>
 			<xs:documentation>URL which provides access to full text content used for marketing and promotional purposes (eg a link to the full text of a review)</xs:documentation>
+			<xs:documentation>NB use CDATA to avoid escaping &amp; if there is more than a single query parameter</xs:documentation>
 			<xs:documentation>● Added at release 3.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -14747,6 +14962,7 @@
 	<xs:element name="WebsiteLink">
 		<xs:annotation>
 			<xs:documentation>URL of the website</xs:documentation>
+			<xs:documentation>NB use CDATA to avoid escaping &amp; if there is more than a single query parameter</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -15045,6 +15261,7 @@
 	</xs:group>
 	<xs:group name="gp.editions">
 		<xs:annotation>
+			<xs:documentation>Edition types and numbering of the product</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;EditionStatement> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -15063,12 +15280,16 @@
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="gp.languages">
+		<xs:annotation>
+			<xs:documentation>Language of the product</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="Language" />
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="gp.extents">
 		<xs:annotation>
+			<xs:documentation>Extent of the product and other contents</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;IllustrationsNote> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -15080,6 +15301,9 @@
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="gp.subjects">
+		<xs:annotation>
+			<xs:documentation>The ‘aboutness’ of the product</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="Subject" />
 			<xs:element minOccurs="0" maxOccurs="unbounded" ref="NameAsSubject" />
@@ -15087,6 +15311,7 @@
 	</xs:group>
 	<xs:group name="gp.audiences">
 		<xs:annotation>
+			<xs:documentation>Intended readership / audience of the product</xs:documentation>
 			<xs:documentation>● Removed &lt;AudienceCode> at release 3.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;AudienceDescription> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
@@ -15177,6 +15402,7 @@
 	</xs:group>
 	<xs:group name="gp.product_specification">
 		<xs:annotation>
+			<xs:documentation>Group of elements specifying the manufacturing specification of the product, eg for POD</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -15188,6 +15414,7 @@
 	</xs:group>
 	<xs:group name="gp.resource_specification">
 		<xs:annotation>
+			<xs:documentation>Group of elements specifying the specification of a resource required to manufacture the product, eg for POD</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -15317,6 +15544,7 @@
 	<xs:simpleType name="dt.NonEmptyURI">
 		<xs:annotation>
 			<xs:documentation>Datatype for URI, ideally without leading or trailing white space</xs:documentation>
+			<xs:documentation>NB use CDATA to avoid escaping &amp; if there is more than a single query parameter</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:anyURI">
 			<xs:pattern value="\S+" />
@@ -15324,7 +15552,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="dt.TimeOrDuration">
 		<xs:annotation>
-			<xs:documentation>Datatype for duration HHHmmsscc</xs:documentation>
+			<xs:documentation>Datatype for duration HHHmmss(cc)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[0-9]{3}[0-5][0-9][0-5][0-9]([0-9]{2})?" />
