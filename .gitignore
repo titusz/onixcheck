@@ -48,9 +48,6 @@ htmlcov
 output/*.html
 output/*/index.html
 
-# Sphinx
-docs/_build
-
 .DS_Store
 *~
 .*.sw[po]

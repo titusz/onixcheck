@@ -2,6 +2,7 @@
 
 [![PyPI Package](http://img.shields.io/pypi/v/onixcheck.svg?style=flat-square)](https://pypi.python.org/pypi/onixcheck)
 [![PyPI Downloads](http://img.shields.io/pypi/dm/onixcheck.svg?style=flat-square)](https://pypi.python.org/pypi/onixcheck)
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/titusz/onixcheck)
 
 ## Introduction
 
