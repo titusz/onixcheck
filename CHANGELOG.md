@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fix PyInstaller config so the ONIX 3.1 XSD schema tree is bundled in the Windows binary (fixes #11)
+
 ## 0.9.11 (2026-01-27)
 
 - Update ONIX 3.0/3.1 schemas to Code List Issue 72
