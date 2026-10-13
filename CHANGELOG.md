@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Fix Windows binary failing on ONIX 3.1 files due to missing XSD schemas (#11)
+- Bundle the whole schema directory in the PyInstaller build and test the spec against it
+
 ## 0.9.11 (2026-01-27)
 
 - Update ONIX 3.0/3.1 schemas to Code List Issue 72
