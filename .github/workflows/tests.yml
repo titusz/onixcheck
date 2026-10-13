@@ -42,3 +42,33 @@ jobs:
 
     - name: Minimize uv cache
       run: uv cache prune --ci
+
+  windows-exe:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7
+      with:
+        python-version: "3.12"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Install dependencies
+      run: uv sync --all-extras --dev
+
+    - name: Build Windows executable
+      run: uv run poe build-exe
+
+    - name: Validate sample files with executable
+      shell: bash
+      run: |
+        dist/onixcheck.exe src/onixcheck/data/valid_onix2_ref.xml
+        for f in valid_onix3_ref valid_onix3_short valid_onix31_ref valid_onix31_short; do
+          dist/onixcheck.exe "src/onixcheck/data/$f.xml" -s xsd rng
+        done
+
+    - name: Minimize uv cache
+      run: uv cache prune --ci
