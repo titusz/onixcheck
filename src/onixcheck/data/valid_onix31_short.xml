@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ONIXmessage release="3.1">
-    <header>
-        <sender>
-            <sendername>John Doe</sendername>
-        </sender>
-        <sentdatetime>20150717T210409</sentdatetime>
-    </header>
-    <product>
-        <recordreference>org.john-doe.some-id</recordreference>
-        <notificationtype>03</notificationtype>
-        <productidentifier>
-            <productidtype>15</productidtype>
-            <idvalue>9788871184371</idvalue>
-        </productidentifier>
-    </product>
+  <header>
+    <sender>
+      <x298>John Doe</x298>
+    </sender>
+    <x307>20150717T210409</x307>
+  </header>
+  <product>
+    <a001>org.john-doe.some-id</a001>
+    <a002>03</a002>
+    <productidentifier>
+      <b221>15</b221>
+      <b244>9788871184371</b244>
+    </productidentifier>
+  </product>
 </ONIXmessage>

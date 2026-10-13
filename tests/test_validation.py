@@ -1,8 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from io import BytesIO
+from os.path import basename
+import pytest
 import onixcheck
 from onixcheck import data
+
+VALID_ONIX3_SAMPLES = [
+    data.VALID_ONIX3_REF,
+    data.VALID_ONIX3_REF_NS,
+    data.VALID_ONIX3_SHORT,
+    data.VALID_ONIX31_REF,
+    data.VALID_ONIX31_SHORT,
+]
 
 
 def test_validation_with_file_path():
@@ -41,3 +51,13 @@ def test_validation_biblon_schema():
     """Test validation with biblon schema"""
     errors = onixcheck.validate(data.VALID_GOOGLE_ONIX_30_SAMPLE, schemas=("biblon",))
     assert isinstance(errors, list)
+
+
+@pytest.mark.parametrize("path", [data.VALID_ONIX2_REF] + VALID_ONIX3_SAMPLES, ids=basename)
+def test_valid_samples_pass_xsd(path):
+    assert onixcheck.validate(path, schemas=("xsd",)) == []
+
+
+@pytest.mark.parametrize("path", VALID_ONIX3_SAMPLES, ids=basename)
+def test_valid_onix3_samples_pass_rng(path):
+    assert onixcheck.validate(path, schemas=("rng",)) == []
