@@ -15,12 +15,12 @@
 	*          Recent revisions: Graham Bell         *
 	*                                                *
 	*                  Release 3.1                   *
-	*                   Revision 2                   *
+	*                   Revision 3                   *
 	*                Status: Released                *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2025-12-11               *
+	*              Revised: 2026-03-10               *
 	*                                                *
-	*             (c) 2000-2025 EDItEUR              *
+	*             (c) 2000-2026 EDItEUR              *
 	*            https://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -57,6 +57,18 @@
 
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+
+	2026-04-14: reverted overenthusiastic validation of title types
+
+	2026-03-10: ONIX for Books 3.1 revision 3
+	            1. added alternative <TextSource> structure for creators of <TextContent>, following pattern of <Contributor> and <NameAsSubject>, to improve metadata describing reviewers
+	            2. added <SequenceNumber> <b034> and <SubjectDescription> in <NameAsSubject>, again following pattern of <Contributor>, to support prioritization
+	            3. added <PublisherNameInverted> <x592> and <ImprintNameInverted> <x593>, following pattern of <CorporateName>, to support sorting with Éditions Abeille et Castore order
+	            4  modified cardinality of <Affiliation>, added textscript attributes to <BiographicalNote>, <Affiiation>, <ProfessionalPosition>, <Text> and <SubjectHeadingText>, to support transliterations
+	            5. minor improvements to validation of title types, multi-level sequence numbers
+	            6. revised uniqueness constraints requiring unique language and textscript combinations
+	            7. removed indirect references to SourceTypeCode, TextCaseCode, TextFormatCode, replaced with direct references to codelists
+	            8. bumped @version to 3.1.3.0
 
 	2025-12-11: added @version on <schema>, starting at 3.1.2.0 representing the version of this schema, any subsequent corrections to this will be 3.1.2.1, 3.1.2.2 and so on
 
@@ -192,7 +204,7 @@
 	           20. added <CopyrightType> within <CopyrightStatement> - uses list 219
 	           21. added <SupplierCodeTypeName> in <SupplierOwnCoding>
 	           22. added <ToQuantity> within <Discount>
-	           23. changed cardinality on <PromotionCampaign>, <InitialPrintRun>,<CopiesSold>, <BookClubAdoption>, <PrizeName>, <ListName>, <SourceTitle>
+	           23. changed cardinality on <PromotionCampaign>, <InitialPrintRun>, <CopiesSold>, <BookClubAdoption>, <PrizeName>, <ListName>, <SourceTitle>
 	           24. added textformat attribute to <EditionStatement> and changed data type to flow
 	           25. added language attribute to <SourceTitle>, <PartNumber>, ImprintName>, <CityOfPublication>, <ConferencePlace> and to 12 contributor name elements
 	           26. added textscript attribute to <PartNumber>, <TitleText>, <TitlePrefix>, <TitleWithoutPrefix>, <Subtitle>
@@ -310,14 +322,14 @@
 	2009-04-09: Release 3.0 schema for public release
 
 -->
-<xs:schema xmlns="http://ns.editeur.org/onix/3.1/short" version="3.1.2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:onix="http://ns.editeur.org/onix/3.1/short" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.1/short">
+<xs:schema xmlns="http://ns.editeur.org/onix/3.1/short" version="3.1.3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:onix="http://ns.editeur.org/onix/3.1/short" elementFormDefault="qualified" targetNamespace="http://ns.editeur.org/onix/3.1/short">
 	<xs:include schemaLocation="ONIX_BookProduct_CodeLists.xsd" />
 	<xs:include schemaLocation="ONIX_XHTML_Subset.xsd" />
 
 	<xs:element name="ONIXmessage">
 		<xs:annotation>
 			<xs:documentation>Root element – the top level container within an ONIX message</xs:documentation>
-			<xs:documentation>● Added &lt;NoProduct> at revision 3.0.2</xs:documentation>
+			<xs:documentation>● Added &lt;NoProduct/> at revision 3.0.2</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -344,7 +356,7 @@
 			<xs:attributeGroup ref="generalAttributes" />
 			<xs:attributeGroup ref="releaseAttribute" />
 		</xs:complexType>
-		<xs:unique name="Product_RecordReference_must_be_unique">
+		<xs:unique name="Product·RecordReference·must·be·unique">
 			<xs:selector xpath="onix:product" />
 			<xs:field xpath="onix:a001" />
 		</xs:unique>
@@ -467,6 +479,7 @@
 	<xs:element name="b046">
 		<xs:annotation>
 			<xs:documentation>Name of an organization to which a contributor is professionally affiliated</xs:documentation>
+			<xs:documentation>● Added textscript attribute at revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -487,6 +500,7 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -521,7 +535,7 @@
 	</xs:element>
 	<xs:element name="x580">
 		<xs:annotation>
-			<xs:documentation>Type of identifier which uniquely identifies the affiliate organization, eg an ROR, ISNI etc</xs:documentation>
+			<xs:documentation>Type of identifier which uniquely identifies the affiliate organization, eg ROR, ISNI</xs:documentation>
 			<xs:documentation>● Added at release 3.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -729,7 +743,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="AncillaryContentDescription_language_attribute_must_be_unique">
+		<xs:unique name="AncillaryContentDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x424" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -1530,6 +1544,7 @@
 	<xs:element name="b044">
 		<xs:annotation>
 			<xs:documentation>Textual biography of a contributor (or of a subject)</xs:documentation>
+			<xs:documentation>● Added textscript attribute at revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
@@ -1550,6 +1565,7 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="textformatAttribute" />
 				</xs:extension>
 			</xs:complexContent>
@@ -1581,13 +1597,17 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Body_SpecificationDetail_must_be_unique">
+		<xs:unique name="BodyManifest·SpecificationDetail·must·be·unique">
 			<xs:selector xpath="onix:x560" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Body_SpecficationDescription_language_attribute_must_be_unique">
+		<xs:unique name="BodyManifest·SpecficationDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x564" />
 			<xs:field xpath="@language" />
+		</xs:unique>
+		<xs:unique name="BodyResource·SequenceNumber·must·be·unique">
+			<xs:selector xpath="onix:bodyresource" />
+			<xs:field xpath="onix:b034" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="bodyresource">
@@ -1616,15 +1636,15 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Body_ResourceFileDetail_must_be_unique">
+		<xs:unique name="BodyResource·ResourceFileDetail·must·be·unique">
 			<xs:selector xpath="onix:x567" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Body_ResourceFileLink_must_be_unique">
+		<xs:unique name="BodyResource·ResourceFileLink·must·be·unique">
 			<xs:selector xpath="onix:x572" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Body_ResourceFileDateRole_must_be_unique">
+		<xs:unique name="BodyResource·ResourceFileDateRole·must·be·unique">
 			<xs:selector xpath="onix:resourcefiledate" />
 			<xs:field xpath="onix:x573" />
 		</xs:unique>
@@ -1763,19 +1783,19 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="CitedContent_SourceTitle_language_attribute_must_be_unique">
+		<xs:unique name="CitedContent·SourceTitle·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x428" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ListName_language_attribute_must_be_unique">
+		<xs:unique name="ListName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x432" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="CitationNote_language_attribute_must_be_unique">
+		<xs:unique name="CitationNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x434" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="CitedContent_ContentDateRole_must_be_unique">
+		<xs:unique name="CitedContent·ContentDateRole·must·be·unique">
 			<xs:selector xpath="onix:contentdate" />
 			<xs:field xpath="onix:x429" />
 		</xs:unique>
@@ -1859,19 +1879,19 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="TextContent_SequenceNumber_must_be_unique">
+		<xs:unique name="TextContent·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:textcontent" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="CitedContent_SequenceNumber_must_be_unique">
+		<xs:unique name="CitedContent·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:citedcontent" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="SupportingResource_SequenceNumber_must_be_unique">
+		<xs:unique name="SupportingResource·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:supportingresource" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="Prize_SequenceNumber_must_be_unique">
+		<xs:unique name="Prize·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:prize" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
@@ -1880,7 +1900,7 @@
 		<xs:annotation>
 			<xs:documentation>Details of a collection (eg a set or series, or a curated grouping of products)</xs:documentation>
 			<xs:documentation>● Added &lt;CollectionFrequency> at release 3.1</xs:documentation>
-			<xs:documentation>● Added &lt;NoContributor> (in gp.authorship) at revision 3.0.4</xs:documentation>
+			<xs:documentation>● Added &lt;NoContributor/> (in gp.authorship) at revision 3.0.4</xs:documentation>
 			<xs:documentation>● Added &lt;CollectionSequence> and &lt;ContributorStatement> (in gp.authorship) at revision 3.0.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;ContributorStatement> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
@@ -1910,11 +1930,11 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Collection_Contributor_SequenceNumber_must_be_unique">
-			<xs:selector xpath="onix:contributor" />
-			<xs:field xpath="onix:b034" />
+		<xs:unique name="Collection·TitleType·must·be·unique">
+			<xs:selector xpath="onix:titledetail" />
+			<xs:field xpath="onix:b202" />
 		</xs:unique>
-		<xs:unique name="Collection_ContributorStatement_language_attribute_must_be_unique">
+		<xs:unique name="Collection·ContributorStatement·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b049" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -2454,18 +2474,18 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ContentItem_LevelSequenceNumber_must_be_unique">
+		<xs:unique name="ContentItem·LevelSequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:contentitem" />
 			<xs:field xpath="onix:b284" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="contentitem">
 		<xs:annotation>
-			<xs:documentation>Details of a textual content item (eg a chapter)</xs:documentation>
+			<xs:documentation>Details of a textual content item (eg a chapter, a section)</xs:documentation>
 			<xs:documentation>● Added &lt;CopyrightStatementText> at revision 3.1.1</xs:documentation>
 			<xs:documentation>● Added &lt;EpubUsageConstraint>, extended &lt;EpubLicense>, &lt;Publisher> and &lt;CopyrightStatement> at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;AVItem> at revision 3.0.5</xs:documentation>
-			<xs:documentation>● Added &lt;ContributorStatement>, &lt;NoContributor> (in gp.authorship), &lt;Language> at revision 3.0.4</xs:documentation>
+			<xs:documentation>● Added &lt;ContributorStatement>, &lt;NoContributor/> (in gp.authorship), &lt;Language> at revision 3.0.4</xs:documentation>
 			<xs:documentation>● Added &lt;RelatedProduct> at revision 3.0.3</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;ContributorStatement> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
@@ -2516,36 +2536,40 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ContentItem_CopyrightStatementText_language_attribute_must_be_unique">
+		<xs:unique name="ContentItem·CopyrightStatementText·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x588" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ContentItem_ContributorStatement_language_attribute_must_be_unique">
+		<xs:unique name="ContentItem·ContributorStatement·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b049" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ContentItem_Contributor_SequenceNumber_must_be_unique">
+		<xs:unique name="ContentItem·Contributor·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:contributor" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="ContentItem_EpubLicenseName_language_attribute_must_be_unique">
+		<xs:unique name="ContentItem·EpubLicenseName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:x511" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ContentItem_EpubLicenseDateRole_must_be_unique">
+		<xs:unique name="ContentItem·EpubLicenseDateRole·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:epublicensedate" />
 			<xs:field xpath="onix:x585" />
 		</xs:unique>
-		<xs:unique name="ContentItem_TextContent_SequenceNumber_must_be_unique">
+		<xs:unique name="ContentItem·TextContent·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:textcontent" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="ContentItem_CitedContent_SequenceNumber_must_be_unique">
+		<xs:unique name="ContentItem·CitedContent·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:citedcontent" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="ContentItem_SupportingResource_SequenceNumber_must_be_unique">
+		<xs:unique name="ContentItem·SupportingResource·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:supportingresource" />
+			<xs:field xpath="onix:b034" />
+		</xs:unique>
+		<xs:unique name="ContentItem·NameAsSubject·SequenceNumber·must·be·unique">
+			<xs:selector xpath="onix:nameassubject" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
 	</xs:element>
@@ -2613,33 +2637,44 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="CorporateName_language_attribute_must_be_unique">
+		<xs:unique name="CorporateName·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:b047" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
-		<xs:unique name="CorporateNameInverted_language_attribute_must_be_unique">
+		<xs:unique name="CorporateNameInverted·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:x443" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
-		<xs:unique name="BiographicalNote_language_attribute_must_be_unique">
+		<xs:unique name="BiographicalNote·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:b044" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
-		<xs:unique name="ContributorDescription_language_attribute_must_be_unique">
+		<xs:unique name="ContributorDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b048" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ContributorRole_must_be_unique">
+		<xs:unique name="ContributorRole·must·be·unique">
 			<xs:selector xpath="onix:b035" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="ContributorDateRole_must_be_unique">
+		<xs:unique name="ContributorDateRole·must·be·unique">
 			<xs:selector xpath="onix:contributordate" />
 			<xs:field xpath="onix:x417" />
 		</xs:unique>
-		<xs:unique name="Contributor_Prize_SequenceNumber_must_be_unique">
+		<xs:unique name="Contributor·Prize·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:prize" />
 			<xs:field xpath="onix:b034" />
+		</xs:unique>
+		<xs:unique name="Contributor·FromLanguage·must·be·unique">
+			<xs:selector xpath="onix:x412" />
+			<xs:field xpath="." />
+		</xs:unique>
+		<xs:unique name="Contributor·ToLanguage·must·be·unique">
+			<xs:selector xpath="onix:x413" />
+			<xs:field xpath="." />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="contributordate">
@@ -2757,7 +2792,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="LocationName_language_attribute_must_be_unique">
+		<xs:unique name="LocationName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:j349" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -2815,7 +2850,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ContributorReference_Role_must_be_unique">
+		<xs:unique name="ContributorReference·Role·must·be·unique">
 			<xs:selector xpath="onix:b035" />
 			<xs:field xpath="." />
 		</xs:unique>
@@ -3131,8 +3166,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -3163,8 +3198,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -3326,11 +3361,11 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Cover_SpecificationDetail_must_be_unique">
+		<xs:unique name="Cover·SpecificationDetail·must·be·unique">
 			<xs:selector xpath="onix:x560" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Cover_SpecficationDescription_language_attribute_must_be_unique">
+		<xs:unique name="Cover·SpecficationDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x564" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -3365,15 +3400,15 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Cover_ResourceFileDetail_must_be_unique">
+		<xs:unique name="Cover·ResourceFileDetail·must·be·unique">
 			<xs:selector xpath="onix:x567" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Cover_ResourceFileLink_must_be_unique">
+		<xs:unique name="Cover·ResourceFileLink·must·be·unique">
 			<xs:selector xpath="onix:x572" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Cover_ResourceFileDateRole_must_be_unique">
+		<xs:unique name="Cover·ResourceFileDateRole·must·be·unique">
 			<xs:selector xpath="onix:resourcefiledate" />
 			<xs:field xpath="onix:x573" />
 		</xs:unique>
@@ -3406,7 +3441,7 @@
 	</xs:element>
 	<xs:element name="b306">
 		<xs:annotation>
-			<xs:documentation>Date on which a particular event of the type specified in the preceding date role happens</xs:documentation>
+			<xs:documentation>Date on which a particular event of the type specified in the preceding date role occurs</xs:documentation>
 			<xs:documentation>● Added dateformat attribute at revision 3.0 (2010)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -3578,54 +3613,66 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ProductFormDetail_must_be_unique">
+		<!-- xs:unique name="TitleType·must·be·unique">
+			<xs:selector xpath="onix:titledetail" />
+			<xs:field xpath="onix:b202" />
+		</xs:unique -->
+		<xs:unique name="ProductFormDetail·must·be·unique">
 			<xs:selector xpath="onix:b333" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="ProductContentType_must_be_unique">
-			<xs:selector xpath="onix:x416|onix:b385" />
+		<xs:unique name="ProductContentType·must·be·unique">
+			<xs:selector xpath="onix:x416 | onix:b385" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Measure_must_be_unique">
+		<xs:unique name="Measure·must·be·unique">
 			<xs:selector xpath="onix:measure" />
 			<xs:field xpath="onix:x315" />
 			<xs:field xpath="onix:c095" />
 		</xs:unique>
-		<xs:unique name="Contributor_SequenceNumber_must_be_unique">
-			<xs:selector xpath="onix:contributor" />
+		<xs:unique name="Map·scale·must·be·unique">
+			<xs:selector xpath="onix:b063" />
+			<xs:field xpath="." />
+		</xs:unique>
+		<xs:unique name="Contributor·SequenceNumber·must·be·unique">
+			<xs:selector xpath="onix:contributor|onix:collection/onix:contributor" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
-		<xs:unique name="EpubLicenseDateRole_must_be_unique">
+		<xs:unique name="EpubLicenseDateRole·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:epublicensedate" />
 			<xs:field xpath="onix:x585" />
 		</xs:unique>
-		<xs:unique name="EditionType_must_be_unique">
+		<xs:unique name="EditionType·must·be·unique">
 			<xs:selector xpath="onix:x419" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="ProductFormDescription_language_attribute_must_be_unique">
+		<xs:unique name="ProductFormDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b014" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ContributorStatement_language_must_be_unique">
+		<xs:unique name="ContributorStatement·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b049" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="IllustrationsNote_language_attribute_must_be_unique">
+		<xs:unique name="IllustrationsNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b062" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="EditionStatement_language_attribute_must_be_unique">
+		<xs:unique name="EditionStatement·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b058" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="AudienceDescription_language_attribute_must_be_unique">
+		<xs:unique name="AudienceDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b207" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="EpubLicenseName_language_attribute_must_be_unique">
+		<xs:unique name="EpubLicenseName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:x511" />
 			<xs:field xpath="@language" />
+		</xs:unique>
+		<xs:unique name="NameAsSubject·SequenceNumber·must·be·unique">
+			<xs:selector xpath="onix:nameassubject" />
+			<xs:field xpath="onix:b034" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="discount">
@@ -3746,7 +3793,7 @@
 	</xs:element>
 	<xs:element name="j363">
 		<xs:annotation>
-			<xs:documentation>Method used to obfustate the actual business-to-business discount percentage</xs:documentation>
+			<xs:documentation>Method used to obfuscate the actual business-to-business discount percentage</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -3772,7 +3819,7 @@
 	</xs:element>
 	<xs:element name="j378">
 		<xs:annotation>
-			<xs:documentation>Name of proprietary method used to obfustate the actual business-to-business discount percentage</xs:documentation>
+			<xs:documentation>Name of proprietary method used to obfuscate the actual business-to-business discount percentage</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -4012,7 +4059,7 @@
 	</xs:element>
 	<xs:element name="x543">
 		<xs:annotation>
-			<xs:documentation>The end time of an audiovisual content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific filc containing that audio or video content)</xs:documentation>
+			<xs:documentation>The end time of an audiovisual content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific file containing that audio or video content)</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.5</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -4420,19 +4467,19 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="EventName_language_attribute_must_be_unique">
+		<xs:unique name="EventName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x516" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="EventAcronym_language_attribute_must_be_unique">
+		<xs:unique name="EventAcronym·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x517" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="EventTheme_language_attribute_must_be_unique">
+		<xs:unique name="EventTheme·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x519" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="EventPlace_language_attribute_must_be_unique">
+		<xs:unique name="EventPlace·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x521" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -4682,19 +4729,19 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="EventOccurrence_LocationName_language_attribute_must_be_unique">
+		<xs:unique name="EventOccurrence·LocationName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:j349" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="EventOccurrence_EventDescription_language_attribute_must_be_unique">
+		<xs:unique name="EventOccurrence·EventDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x550" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="VenueNote_language_attribute_must_be_unique">
+		<xs:unique name="VenueNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x553" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="OccurrenceDateRole_must_be_unique">
+		<xs:unique name="OccurrenceDateRole·must·be·unique">
 			<xs:selector xpath="onix:occurrencedate" />
 			<xs:field xpath="onix:x554" />
 		</xs:unique>
@@ -4818,6 +4865,7 @@
 	</xs:element>
 	<xs:element name="x522">
 		<xs:annotation>
+			<xs:documentation>Type of identifier for a sponsoring organization</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -5330,7 +5378,7 @@
 	<xs:element name="header">
 		<xs:annotation>
 			<xs:documentation>Container for message metadata</xs:documentation>
-			<xs:documentation>● Deprecated &lt;DefaultLanguageOfText>, &lt;DefaultPriceType> and &lt;DefaultCurrency> at release 3.1</xs:documentation>
+			<xs:documentation>● Deprecated &lt;DefaultLanguageOfText>, &lt;DefaultPriceType> and &lt;DefaultCurrency> from release 3.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;MessageNote> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -5361,14 +5409,14 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="MessageNote_language_attribute_must_be_unique">
+		<xs:unique name="MessageNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:m183" />
 			<xs:field xpath="@language" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="b233">
 		<xs:annotation>
-			<xs:documentation>Type of an identifier – the name of the identifier scheme, used when the identifier comes from a proprietary rather than a standard identifier scheme</xs:documentation>
+			<xs:documentation>Type of a proprietary identifier – the name of the identifier scheme, used when the identifier comes from a proprietary rather than a standard identifier scheme</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -5395,7 +5443,7 @@
 	</xs:element>
 	<xs:element name="b244">
 		<xs:annotation>
-			<xs:documentation>Value of proprietary identifier, taken from the specified identifier scheme</xs:documentation>
+			<xs:documentation>Value of an identifier, taken from the specified identifier scheme</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -5447,7 +5495,7 @@
 	</xs:element>
 	<xs:element name="b062">
 		<xs:annotation>
-			<xs:documentation>Text description of the type and number of illustrations in the product</xs:documentation>
+			<xs:documentation>Textual description of the type and number of illustrations in the product</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
@@ -5476,14 +5524,20 @@
 	<xs:element name="imprint">
 		<xs:annotation>
 			<xs:documentation>Details of the publisher’s imprint or branding under which the product is marketed</xs:documentation>
+			<xs:documentation>● Added &lt;ImprintNameInverted> at revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:sequence>
 					<xs:element maxOccurs="unbounded" ref="imprintidentifier" />
 					<xs:element minOccurs="0" ref="b079" />
+					<xs:element minOccurs="0" ref="x593" />
 				</xs:sequence>
-				<xs:element ref="b079" />
+				<xs:sequence>
+					<xs:element ref="b079" />
+					<xs:element minOccurs="0" ref="x593" />
+				</xs:sequence>
+				<xs:element ref="x593" />
 			</xs:choice>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -5585,6 +5639,35 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="x593">
+		<xs:annotation>
+			<xs:documentation>Text name of the publisher’s imprint or brand, in inverted order (eg Borough Press, The)</xs:documentation>
+			<xs:documentation>● Added at revision 3.1.3</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.NonEmptyString">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="ImprintNameInverted" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x593" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+					<xs:attributeGroup ref="collationkeyAttribute" />
+					<xs:attributeGroup ref="languageAttribute" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="k167">
 		<xs:annotation>
 			<xs:documentation>Textual description of the initial impression, eg number of copies and associated marketing effort</xs:documentation>
@@ -5640,11 +5723,11 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Insert_SpecificationDetail_must_be_unique">
+		<xs:unique name="Insert·SpecificationDetail·must·be·unique">
 			<xs:selector xpath="onix:x560" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Insert_SpecificationDescription_language_attribute_must_be_unique">
+		<xs:unique name="Insert·SpecificationDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x564" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -5760,15 +5843,15 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Insert_ResourceFileDetail_must_be_unique">
+		<xs:unique name="Insert·ResourceFileDetail·must·be·unique">
 			<xs:selector xpath="onix:x567" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Insert_ResourceFileLink_must_be_unique">
+		<xs:unique name="Insert·ResourceFileLink·must·be·unique">
 			<xs:selector xpath="onix:x572" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="Insert_ResourceFileDateRole_must_be_unique">
+		<xs:unique name="Insert·ResourceFileDateRole·must·be·unique">
 			<xs:selector xpath="onix:resourcefiledate" />
 			<xs:field xpath="onix:x573" />
 		</xs:unique>
@@ -5798,8 +5881,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -5963,8 +6046,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -6177,7 +6260,7 @@
 	</xs:element>
 	<xs:element name="market">
 		<xs:annotation>
-			<xs:documentation>Details of a ‘market’ or distribution territory, primarily its geographical extent but any sales restrictions applicable within that area</xs:documentation>
+			<xs:documentation>Details of a ‘market’ or distribution territory, primarily its geographical extent but also any sales restrictions applicable within that area</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -6292,31 +6375,31 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="MarketPublishingStatusNote_language_attribute_must_be_unique">
+		<xs:unique name="MarketPublishingStatusNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x406" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PromotionCampaign_language_attribute_must_be_unique">
+		<xs:unique name="PromotionCampaign·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:k165" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="InitialPrintRun_language_attribute_must_be_unique">
+		<xs:unique name="InitialPrintRun·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:k167" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ReprintDetail_language_attribute_must_be_unique">
+		<xs:unique name="ReprintDetail·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:k309" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="CopiesSold_language_attribute_must_be_unique">
+		<xs:unique name="CopiesSold·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:k168" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="BookClubAdoption_language_attribute_must_be_unique">
+		<xs:unique name="BookClubAdoption·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:k169" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="MarketDateRole_must_be_unique">
+		<xs:unique name="MarketDateRole·must·be·unique">
 			<xs:selector xpath="onix:marketdate" />
 			<xs:field xpath="onix:j408" />
 		</xs:unique>
@@ -6617,6 +6700,7 @@
 	<xs:element name="nameassubject">
 		<xs:annotation>
 			<xs:documentation>Details of a person, persona or corporate identity that is the subject of the product</xs:documentation>
+			<xs:documentation>● Added &lt;SequenceNumber> and &lt;SubjectDescription> at revision 3.1.3</xs:documentation>
 			<xs:documentation>● Removed &lt;Gender> at release 3.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of corporate names at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;AlternativeName>, &lt;SubjectDate>, &lt;ProfessionalAffiliation>, &lt;Gender> at revision 3.0.3</xs:documentation>
@@ -6625,6 +6709,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element minOccurs="0" ref="b034" />
 				<xs:element minOccurs="0" ref="x414" />
 				<xs:choice>
 					<xs:sequence>
@@ -6648,6 +6733,7 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="alternativename" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="subjectdate" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="professionalaffiliation" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x591" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -6665,17 +6751,23 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Subject_CorporateName_language_attribute_must_be_unique">
+		<xs:unique name="Subject·CorporateName·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:b047" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
-		<xs:unique name="Subject_CorporateNameInverted_language_attribute_must_be_unique">
+		<xs:unique name="Subject·CorporateNameInverted·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:x443" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
-		<xs:unique name="SubjectDateRole_must_be_unique">
+		<xs:unique name="SubjectDateRole·must·be·unique">
 			<xs:selector xpath="onix:subjectdate" />
 			<xs:field xpath="onix:x534" />
+		</xs:unique>
+		<xs:unique name="SubjectDescription·language·attribute·must·be·unique">
+			<xs:selector xpath="onix:x591" />
+			<xs:field xpath="@language" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="nameidentifier">
@@ -6756,8 +6848,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -6787,8 +6879,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -7549,8 +7641,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -7580,8 +7672,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -7690,8 +7782,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -7761,15 +7853,15 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="PriceTypeDescription_language_attribute_must_be_unique">
+		<xs:unique name="PriceTypeDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:j262" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="Price_EpubLicenseName_language_attribute_must_be_unique">
+		<xs:unique name="Price·EpubLicenseName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:x511" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PriceDateRole_must_be_unique">
+		<xs:unique name="PriceDateRole·must·be·unique">
 			<xs:selector xpath="onix:pricedate" />
 			<xs:field xpath="onix:x476" />
 		</xs:unique>
@@ -8533,16 +8625,20 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="PrizeName_language_attribute_must_be_unique">
+		<xs:unique name="PrizeName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:g126" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PrizeStatement_language_attribute_must_be_unique">
+		<xs:unique name="PrizeStatement·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x503" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PrizeJury_language_attribute_must_be_unique">
+		<xs:unique name="PrizeJury·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:g343" />
+			<xs:field xpath="@language" />
+		</xs:unique>
+		<xs:unique name="AwardingBody·language·attribute·must·be·unique">
+			<xs:selector xpath="onix:x584" />
 			<xs:field xpath="@language" />
 		</xs:unique>
 	</xs:element>
@@ -8600,7 +8696,7 @@
 	</xs:element>
 	<xs:element name="prizeidentifier">
 		<xs:annotation>
-			<xs:documentation>An identifier which uniquely identifies the prize, eg a FAST ID or a proprietary identifier</xs:documentation>
+			<xs:documentation>Identifier which uniquely identifies the prize, eg a FAST ID or a proprietary identifier</xs:documentation>
 			<xs:documentation>● Added at revision 3.1.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -8827,18 +8923,18 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="DeletionText_language_attribute_must_be_unique">
+		<xs:unique name="DeletionText·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:a199" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="ProductSupply_MarketReference_must_be_unique">
+		<xs:unique name="ProductSupply·MarketReference·must·be·unique">
 			<xs:selector xpath="onix:productsupply" />
 			<xs:field xpath="onix:x587" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="j396">
 		<xs:annotation>
-			<xs:documentation>The availability of the product from a particular supplier</xs:documentation>
+			<xs:documentation>Availability of the product from a particular supplier</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -8999,7 +9095,7 @@
 	</xs:element>
 	<xs:element name="productcontact">
 		<xs:annotation>
-			<xs:documentation>Details of a organization responsible for answering enquiries about the product</xs:documentation>
+			<xs:documentation>Details of an organization responsible for answering enquiries about the product</xs:documentation>
 			<xs:documentation>● Added &lt;StreetAddress>, &lt;LocationName>, &lt;PostalCode>, &lt;RegionCode> and &lt;CountryCode> at revision 3.1.2</xs:documentation>
 			<xs:documentation>● Added &lt;FaxNumber>, changed cardinality of &lt;EmailAddress> at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;TelephoneNumber> at revision 3.0.8</xs:documentation>
@@ -9285,7 +9381,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ProductFormFeatureDescription_language_attribute_must_be_unique">
+		<xs:unique name="ProductFormFeatureDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b336" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -9547,20 +9643,20 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ProductPart_ProductFormDetail_must_be_unique">
+		<xs:unique name="ProductPart·ProductFormDetail·must·be·unique">
 			<xs:selector xpath="onix:b333" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="ProductPart_ProductContentType_must_be_unique">
+		<xs:unique name="ProductPart·ProductContentType·must·be·unique">
 			<xs:selector xpath="onix:b385" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="ProductPart_Measure_must_be_unique">
+		<xs:unique name="ProductPart·Measure·must·be·unique">
 			<xs:selector xpath="onix:measure" />
 			<xs:field xpath="onix:x315" />
 			<xs:field xpath="onix:c095" />
 		</xs:unique>
-		<xs:unique name="ProductPart_ProductFormDescription_language_attribute_must_be_unique">
+		<xs:unique name="ProductPart·ProductFormDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b014" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -9593,7 +9689,7 @@
 	</xs:element>
 	<xs:element name="productsupply">
 		<xs:annotation>
-			<xs:documentation>Container for data describing a market, and specific publishing and supply details of the product in that market</xs:documentation>
+			<xs:documentation>Container for data describing a market, and specific publishing and supply details of the product in that market. Loosely, Block 6, although Block 6 may be the combination of all &lt;ProductSupply> composites</xs:documentation>
 			<xs:documentation>● Added &lt;MarketReference> at release 3.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;SupplyDetail> at release 3.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;SupplyDetail> at revision 3.0 (2010)</xs:documentation>
@@ -9625,6 +9721,7 @@
 	<xs:element name="professionalaffiliation">
 		<xs:annotation>
 			<xs:documentation>Details of a professional position held by a contributor to the product at the time of its creation</xs:documentation>
+			<xs:documentation>● Modified cardinality of &lt;Affiliation> at revision 3.1.3</xs:documentation>
 			<xs:documentation>● Added &lt;AffiliationIdentifier> at release 3.1</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;ProfessionalPosition> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
@@ -9633,7 +9730,7 @@
 				<xs:sequence>
 					<xs:element maxOccurs="unbounded" ref="b045" />
 					<xs:element minOccurs="0" maxOccurs="unbounded" ref="affiliationidentifier" />
-					<xs:element minOccurs="0" ref="b046" />
+					<xs:element minOccurs="0" maxOccurs="unbounded" ref="b046" />
 				</xs:sequence>
 				<xs:sequence>
 					<xs:element maxOccurs="unbounded" ref="affiliationidentifier" />
@@ -9657,14 +9754,21 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ProfessionalPosition_language_attribute_must_be_unique">
+		<xs:unique name="ProfessionalPosition·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:b045" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
+		</xs:unique>
+		<xs:unique name="Affiliation·language·and·textscript·attributes·must·be·unique">
+			<xs:selector xpath="onix:b046" />
+			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="b045">
 		<xs:annotation>
 			<xs:documentation>‘Job title’ held by the contributor at the named affiliated institution</xs:documentation>
+			<xs:documentation>● Added textscript attribute at revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -9685,6 +9789,7 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -9737,17 +9842,21 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="PromotionalEvent_EventName_language_attribute_must_be_unique">
+		<xs:unique name="PromotionalEvent·EventName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x516" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PromotionalEvent_EventDescription_language_attribute_must_be_unique">
+		<xs:unique name="PromotionalEvent·EventDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x550" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PromotionalEvent_ContributorStatement_language_attribute_must_be_unique">
+		<xs:unique name="PromotionalEvent·ContributorStatement·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b049" />
 			<xs:field xpath="@language" />
+		</xs:unique>
+		<xs:unique name="PromotionalEvent·Contributor·SequenceNumber·must·be·unique">
+			<xs:selector xpath="onix:contributor|onix:contributorreference" />
+			<xs:field xpath="onix:b034" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="k165">
@@ -9834,6 +9943,7 @@
 	<xs:element name="publisher">
 		<xs:annotation>
 			<xs:documentation>Details of an organization responsible for publishing the product</xs:documentation>
+			<xs:documentation>● Added &lt;PublisherNameInverted> at revision 3.1.3</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;PublisherName> at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;Funding> at revision 3.0.3</xs:documentation>
 		</xs:annotation>
@@ -9844,8 +9954,13 @@
 					<xs:sequence>
 						<xs:element maxOccurs="unbounded" ref="publisheridentifier" />
 						<xs:element minOccurs="0" maxOccurs="unbounded" ref="b081" />
+						<xs:element minOccurs="0" maxOccurs="unbounded" ref="x592" />
 					</xs:sequence>
-					<xs:element maxOccurs="unbounded" ref="b081" />
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" ref="b081" />
+						<xs:element minOccurs="0" maxOccurs="unbounded" ref="x592" />
+					</xs:sequence>
+					<xs:element maxOccurs="unbounded" ref="x592" />
 				</xs:choice>
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="funding" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="website" />
@@ -9866,6 +9981,16 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
+		<xs:unique name="PublisherName·language·and·textscript·attributes·must·be·unique">
+			<xs:selector xpath="onix:b081" />
+			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
+		</xs:unique>
+		<xs:unique name="PublisherNameInverted·language·and·textscript·attributes·must·be·unique">
+			<xs:selector xpath="onix:x592" />
+			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
+		</xs:unique>
 	</xs:element>
 	<xs:element name="publisheridentifier">
 		<xs:annotation>
@@ -9940,6 +10065,36 @@
 						<xs:simpleType>
 							<xs:restriction base="xs:token">
 								<xs:enumeration value="b081" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+					<xs:attributeGroup ref="collationkeyAttribute" />
+					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="x592">
+		<xs:annotation>
+			<xs:documentation>Name of the organization responsible for publishing the product, in inverted form (eg Abeille et Castore, Éditions)</xs:documentation>
+			<xs:documentation>● Added at revision 3.1.3</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="dt.NonEmptyString">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="PublisherNameInverted" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x592" />
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
@@ -10070,19 +10225,19 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="CopyrightStatementText_language_attribute_must_be_unique">
+		<xs:unique name="CopyrightStatementText·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x588" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PublishingStatusNote_language_attribute_must_be_unique">
+		<xs:unique name="PublishingStatusNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b395" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="CityOfPublication_language_attribute_must_be_unique">
+		<xs:unique name="CityOfPublication·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b209" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="PublishingDateRole_must_be_unique">
+		<xs:unique name="PublishingDateRole·must·be·unique">
 			<xs:selector xpath="onix:publishingdate" />
 			<xs:field xpath="onix:x448" />
 		</xs:unique>
@@ -10591,11 +10746,11 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ProductRelationCode_must_be_unique">
+		<xs:unique name="ProductRelationCode·must·be·unique">
 			<xs:selector xpath="onix:x455" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="RelatedProduct_ProductFormDetail_must_be_unique">
+		<xs:unique name="RelatedProduct·ProductFormDetail·must·be·unique">
 			<xs:selector xpath="onix:b333" />
 			<xs:field xpath="." />
 		</xs:unique>
@@ -10681,7 +10836,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ReligiousTextFeatureDescription_language_attribute_must_be_unique">
+		<xs:unique name="ReligiousTextFeatureDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b360" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -10891,7 +11046,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Resource_FeatureNote_language_attribute_must_be_unique">
+		<xs:unique name="Resource·FeatureNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x440" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -10924,7 +11079,7 @@
 	</xs:element>
 	<xs:element name="x576">
 		<xs:annotation>
-			<xs:documentation>Date associated with a resource file</xs:documentation>
+			<xs:documentation>Textual description of a resource file, eg CMYK separations of jacket</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.8</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -11087,7 +11242,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ResourceFileFeatureDescription_language_attribute_must_be_unique">
+		<xs:unique name="ResourceFileFeatureDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x570" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -11376,7 +11531,7 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="resourceversionfeature" />
 				<xs:element maxOccurs="unbounded" ref="x435" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="epubusageconstraint" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" name="epublicense" type="epublicensewithdatetype"/>
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="epublicense" type="epublicensewithdatetype" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="contentdate" />
 			</xs:sequence>
 			<xs:attribute name="refname">
@@ -11395,15 +11550,15 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ResourceVersion_EpubLicenseDateRole_must_be_unique">
+		<xs:unique name="ResourceVersion·EpubLicenseDateRole·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:epublicensedate" />
 			<xs:field xpath="onix:x585" />
 		</xs:unique>
-		<xs:unique name="ResourceVersion_ContentDateRole_must_be_unique">
+		<xs:unique name="ResourceVersion·ContentDateRole·must·be·unique">
 			<xs:selector xpath="onix:contentdate" />
 			<xs:field xpath="onix:x429" />
 		</xs:unique>
-		<xs:unique name="ResourceVersion_FeatureType_must_be_unique">
+		<xs:unique name="ResourceVersion·FeatureType·must·be·unique">
 			<xs:selector xpath="onix:resourceversionfeature" />
 			<xs:field xpath="onix:x442" />
 		</xs:unique>
@@ -11435,7 +11590,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Version_FeatureNote_language_attribute_must_be_unique">
+		<xs:unique name="Version·FeatureNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x440" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -11573,7 +11728,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="ReturnsNote_language_attribute_must_be_unique">
+		<xs:unique name="ReturnsNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x528" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -11633,7 +11788,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="RatingUnits_language_attribute_must_be_unique">
+		<xs:unique name="RatingUnits·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x527" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -11807,7 +11962,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="SalesRestrictionNote_language_attribute_must_be_unique">
+		<xs:unique name="SalesRestrictionNote·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x453" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -11869,6 +12024,7 @@
 	<xs:element name="salesrights">
 		<xs:annotation>
 			<xs:documentation>Details of a geographical territory and the sales rights and restriction that apply in that territory</xs:documentation>
+			<xs:documentation>● Added &lt;PublisherNameInverted> at revision 3.1.3</xs:documentation>
 			<xs:documentation>● Modified cardinality of &lt;PublisherName> at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;SalesRestriction> at revision 3.0.2</xs:documentation>
 		</xs:annotation>
@@ -11879,6 +12035,7 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="salesrestriction" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="productidentifier" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="b081" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x592" />
 			</xs:sequence>
 			<xs:attribute name="refname">
 				<xs:simpleType>
@@ -11896,14 +12053,20 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="EquivalentProduct_PublisherName_language_attribute_must_be_unique">
+		<xs:unique name="Equivalent·Product·PublisherName·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:b081" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
+		</xs:unique>
+		<xs:unique name="Equivalent·Product·PublisherNameInverted·language·and·textscript·attributes·must·be·unique">
+			<xs:selector xpath="onix:x592" />
+			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="b089">
 		<xs:annotation>
-			<xs:documentation>The sales rights (eg for sale, not for sale) that apply in a territory</xs:documentation>
+			<xs:documentation>The type of sales rights (eg for sale, not for sale) that apply in a territory</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -12017,7 +12180,7 @@
 	</xs:element>
 	<xs:element name="m379">
 		<xs:annotation>
-			<xs:documentation>Type of identifier for the sender of the ONIX message, eg a GLN, SAN</xs:documentation>
+			<xs:documentation>Type of identifier for the sender of the ONIX message, eg GLN, SAN</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -12095,7 +12258,7 @@
 	</xs:element>
 	<xs:element name="b034">
 		<xs:annotation>
-			<xs:documentation>Ordinal number, eg of a contributor, indicating the required order (which may be different from the order of occurrence in the ONIX XML file itself)</xs:documentation>
+			<xs:documentation>Ordinal number, eg of a contributor, of a resource, indicating the required order (which may be different from the order of occurrence in the ONIX XML file itself)</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -12364,7 +12527,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="SpecificationFeatureDescription_language_attribute_must_be_unique">
+		<xs:unique name="SpecificationFeatureDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x563" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -12481,7 +12644,7 @@
 	</xs:element>
 	<xs:element name="x542">
 		<xs:annotation>
-			<xs:documentation>The start time of a content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific filc containing that audio or video content)</xs:documentation>
+			<xs:documentation>The start time of a content item, relative to the beginning of the whole of the product’s audio or video content (not to the beginning of a specific file containing that audio or video content)</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.5</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -12556,7 +12719,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Stock_LocationName_language_attribute_must_be_unique">
+		<xs:unique name="Stock·LocationName·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:j349" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -12756,9 +12919,10 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="SubjectHeadingText_language_attribute_must_be_unique">
+		<xs:unique name="SubjectHeadingText·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:b070" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="b069">
@@ -12842,9 +13006,39 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="x591">
+		<xs:annotation>
+			<xs:documentation>Brief description of a subject (in Name as subject)</xs:documentation>
+			<xs:documentation>● Added at revision 3.1.3</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:complexContent>
+				<xs:extension base="Flow">
+					<xs:attribute name="refname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="SubjectDescription" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="shortname">
+						<xs:simpleType>
+							<xs:restriction base="xs:token">
+								<xs:enumeration value="x591" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="generalAttributes" />
+					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textformatAttribute" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="b070">
 		<xs:annotation>
 			<xs:documentation>Heading text associated with the code in &lt;SubjectCode>, or the text of the subject heading where no code is available (eg for keywords)</xs:documentation>
+			<xs:documentation>● Added textscript attribute at revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -12865,6 +13059,7 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -13006,8 +13201,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -13561,7 +13756,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="SupplyDateRole_must_be_unique">
+		<xs:unique name="SupplyDateRole·must·be·unique">
 			<xs:selector xpath="onix:supplydate" />
 			<xs:field xpath="onix:x461" />
 		</xs:unique>
@@ -13598,7 +13793,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="Repeats_of_SupportingResource_ContentAudience_must_be_unique">
+		<xs:unique name="Repeats·of·SupportingResource·ContentAudience·must·be·unique">
 			<xs:selector xpath="onix:x427" />
 			<xs:field xpath="." />
 		</xs:unique>
@@ -13643,7 +13838,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="PricePartDescription_language_attribute_must_be_unique">
+		<xs:unique name="PricePartDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x535" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -13865,6 +14060,7 @@
 	<xs:element name="d104">
 		<xs:annotation>
 			<xs:documentation>Textual content of a supporting text, primarily for marketing and promotional purposes</xs:documentation>
+			<xs:documentation>● Added textscript attribute at revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:complexContent>
@@ -13885,6 +14081,7 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="textformatAttribute" />
 				</xs:extension>
 			</xs:complexContent>
@@ -13893,6 +14090,7 @@
 	<xs:element name="d107">
 		<xs:annotation>
 			<xs:documentation>Name of an author of a supporting text</xs:documentation>
+			<xs:documentation>● Deprecated from revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -13920,6 +14118,7 @@
 	<xs:element name="textcontent">
 		<xs:annotation>
 			<xs:documentation>Details of a supporting text, primarily for marketing and promotional purposes</xs:documentation>
+			<xs:documentation>● Added &lt;TextSource>, deprecated &lt;TextAuthor>, &lt;TextSourceCorporate> at revision 3.1.3</xs:documentation>
 			<xs:documentation>● Added &lt;EpubUsageConstraint> and &lt;EpubLicense> at revision 3.1.1</xs:documentation>
 			<xs:documentation>● Added &lt;SequenceNumber> and &lt;TextSourceLink> at release 3.1</xs:documentation>
 			<xs:documentation>● Added &lt;TextSourceDescription> at revision 3.0.7</xs:documentation>
@@ -13935,13 +14134,18 @@
 				<xs:element minOccurs="0" ref="territory" />
 				<xs:element maxOccurs="unbounded" ref="d104" />
 				<xs:element minOccurs="0" ref="reviewrating" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="d107" />
-				<xs:element minOccurs="0" ref="b374" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x557" />
+				<xs:choice>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" ref="d107" />
+						<xs:element minOccurs="0" ref="b374" />
+						<xs:element minOccurs="0" maxOccurs="unbounded" ref="x557" />
+					</xs:sequence>
+					<xs:element maxOccurs="unbounded" ref="textsource" />
+				</xs:choice>
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x428" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x581" />
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="epubusageconstraint"/>
-				<xs:element minOccurs="0" maxOccurs="unbounded" name="epublicense" type="epublicensewithdatetype"/>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="epubusageconstraint" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="epublicense" type="epublicensewithdatetype" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="contentdate" />
 			</xs:sequence>
 			<xs:attribute name="refname">
@@ -13960,29 +14164,34 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="TextContent_EpubLicenseDateRole_must_be_unique">
+		<xs:unique name="TextContent·EpubLicenseDateRole·must·be·unique">
 			<xs:selector xpath="onix:epublicense/onix:epublicensedate" />
 			<xs:field xpath="onix:x585" />
 		</xs:unique>
-		<xs:unique name="Text_language_attribute_must_be_unique">
+		<xs:unique name="Text·language·and·textscript·attributes·must·be·unique">
 			<xs:selector xpath="onix:d104" />
 			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
 		</xs:unique>
-		<xs:unique name="TextSourceDescription_language_attribute_must_be_unique">
+		<xs:unique name="TextSourceDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x557" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="SourceTitle_language_attribute_must_be_unique">
+		<xs:unique name="TextContent·SourceTitle·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:x428" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="Repeats_of_TextContent_ContentAudience_must_be_unique">
+		<xs:unique name="Repeats·of·TextContent·ContentAudience·must·be·unique">
 			<xs:selector xpath="onix:x427" />
 			<xs:field xpath="." />
 		</xs:unique>
-		<xs:unique name="TextContent_ContentDate_ContentDateRole_must_be_unique">
+		<xs:unique name="TextContent·ContentDate·ContentDateRole·must·be·unique">
 			<xs:selector xpath="onix:contentdate" />
 			<xs:field xpath="onix:x429" />
+		</xs:unique>
+		<xs:unique name="TextSource·SequenceNumber·must·be·unique">
+			<xs:selector xpath="onix:textsource" />
+			<xs:field xpath="onix:b034" />
 		</xs:unique>
 	</xs:element>
 	<xs:element name="textitem">
@@ -14092,9 +14301,73 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="textsource">
+		<xs:annotation>
+			<xs:documentation>Name of author or corporate source of supporting text</xs:documentation>
+			<xs:documentation>● Added at revision 3.1.3</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" ref="b034" />
+				<xs:element minOccurs="0" ref="x414" />
+				<xs:choice>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" ref="nameidentifier" />
+						<xs:choice minOccurs="0">
+							<xs:sequence>
+								<xs:group ref="gp.unstructured_name" />
+								<xs:group minOccurs="0" ref="gp.structured_name" />
+							</xs:sequence>
+							<xs:group ref="gp.structured_name" />
+							<xs:group ref="gp.corporate_name" />
+							<xs:element ref="b249" />
+						</xs:choice>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:group ref="gp.unstructured_name" />
+						<xs:group minOccurs="0" ref="gp.structured_name" />
+					</xs:sequence>
+					<xs:group ref="gp.structured_name" />
+					<xs:group ref="gp.corporate_name" />
+				</xs:choice>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="professionalaffiliation" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="x557" />
+			</xs:sequence>
+			<xs:attribute name="refname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="TextSource" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="shortname">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="textsource" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attributeGroup ref="generalAttributes" />
+		</xs:complexType>
+		<xs:unique name="TextSource·CorporateName·language·and·textscript·attributes·must·be·unique">
+			<xs:selector xpath="onix:b047" />
+			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
+		</xs:unique>
+		<xs:unique name="TextSource·CorporateNameInverted·language·and·textscript·attributes·must·be·unique">
+			<xs:selector xpath="onix:x443" />
+			<xs:field xpath="@language" />
+			<xs:field xpath="@textscript" />
+		</xs:unique>
+		<xs:unique name="TextSource·TextSourceDescription·language·attribute·must·be·unique">
+			<xs:selector xpath="onix:x557" />
+			<xs:field xpath="@language" />
+		</xs:unique>
+	</xs:element>
 	<xs:element name="b374">
 		<xs:annotation>
 			<xs:documentation>Name of organization or corporate author of a supporting text</xs:documentation>
+			<xs:documentation>● Deprecated from revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -14122,6 +14395,7 @@
 	<xs:element name="x557">
 		<xs:annotation>
 			<xs:documentation>Brief description of a personal or corporate author of a supporting text</xs:documentation>
+			<xs:documentation>● Deprecated within &lt;TextContent> (but not within &lt;TextSource>) at revision 3.1.3</xs:documentation>
 			<xs:documentation>● Added at revision 3.0.7</xs:documentation>
 		</xs:annotation>
 		<xs:complexType mixed="true">
@@ -14338,7 +14612,7 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="TitleElement_SequenceNumber_must_be_unique">
+		<xs:unique name="TitleElement·SequenceNumber·must·be·unique">
 			<xs:selector xpath="onix:titleelement" />
 			<xs:field xpath="onix:b034" />
 		</xs:unique>
@@ -14347,7 +14621,7 @@
 		<xs:annotation>
 			<xs:documentation>Details of one element (or part) of a title of a product, collection or content item</xs:documentation>
 			<xs:documentation>● Deprecated &lt;TitleText> at release 3.1</xs:documentation>
-			<xs:documentation>● Added &lt;NoPrefix> at revision 3.0.2</xs:documentation>
+			<xs:documentation>● Added &lt;NoPrefix/> at revision 3.0.2</xs:documentation>
 			<xs:documentation>● Added &lt;SequenceNumber> at revision 3.0.1</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -14493,8 +14767,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -14524,8 +14798,8 @@
 					</xs:attribute>
 					<xs:attributeGroup ref="generalAttributes" />
 					<xs:attributeGroup ref="collationkeyAttribute" />
-					<xs:attributeGroup ref="textscriptAttribute" />
 					<xs:attributeGroup ref="languageAttribute" />
+					<xs:attributeGroup ref="textscriptAttribute" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -14562,7 +14836,7 @@
 	<xs:element name="b203">
 		<xs:annotation>
 			<xs:documentation>Full text of a title element, without any subtitle, used only when &lt;TitleWithoutPrefix> and one of &lt;TitlePrefix> or &lt;NoPrefix/> cannot be used</xs:documentation>
-			<xs:documentation>● Deprecated from release 3.1 – use either &lt;TitlePrefix> or &lt;NoPrefix>, plus &lt;TitleWithoutPrefix> instead</xs:documentation>
+			<xs:documentation>● Deprecated from release 3.1 – use either &lt;TitlePrefix> or &lt;NoPrefix/>, plus &lt;TitleWithoutPrefix> instead</xs:documentation>
 			<xs:documentation>● Added textscript attribute at revision 3.0.2</xs:documentation>
 			<xs:documentation>● Added collationkey attribute at revision 3.0.1</xs:documentation>
 		</xs:annotation>
@@ -14757,7 +15031,7 @@
 	</xs:element>
 	<xs:element name="j192">
 		<xs:annotation>
-			<xs:documentation>Positive indication that a product is free of charge, or a price is yet to be announced, or the product otherwise unpriced</xs:documentation>
+			<xs:documentation>Positive indication that a product is free of charge, or a price is yet to be announced, or the product is otherwise unpriced</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -14921,11 +15195,11 @@
 			</xs:attribute>
 			<xs:attributeGroup ref="generalAttributes" />
 		</xs:complexType>
-		<xs:unique name="WebsiteDescription_language_attribute_must_be_unique">
+		<xs:unique name="WebsiteDescription·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b294" />
 			<xs:field xpath="@language" />
 		</xs:unique>
-		<xs:unique name="WebsiteLink_language_attribute_must_be_unique">
+		<xs:unique name="WebsiteLink·language·attribute·must·be·unique">
 			<xs:selector xpath="onix:b295" />
 			<xs:field xpath="@language" />
 		</xs:unique>
@@ -15015,7 +15289,7 @@
 	</xs:element>
 	<xs:element name="workidentifier">
 		<xs:annotation>
-			<xs:documentation>Identifier for the work that is related to the product (in the manner specified by &lt;WorkRelationCode>)</xs:documentation>
+			<xs:documentation>Identifier for the work that is related to the product</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -15042,7 +15316,7 @@
 	</xs:element>
 	<xs:element name="b201">
 		<xs:annotation>
-			<xs:documentation>Type of identifier for the work that is related to the product (in the manner specified by &lt;WorkRelationCode>)</xs:documentation>
+			<xs:documentation>Type of identifier for the work that is related to the product (in the manner specified by &lt;WorkRelationCode>), eg proprietary, ISCC</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:simpleContent>
@@ -15577,17 +15851,19 @@
 	<xs:simpleType name="dt.MultiLevelNumber">
 		<xs:annotation>
 			<xs:documentation>Datatype for string of dot-separated numbers, eg 3.12.8</xs:documentation>
+			<xs:documentation>● Improved pattern to disallow using zero at any level from revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:pattern value="\d+(\.\d+)*" />
+			<xs:pattern value="[1-9][0-9]*(\.[1-9][0-9]*)*" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="dt.MultiLevelNumberOrHyphen">
 		<xs:annotation>
 			<xs:documentation>Datatype for string of dot-separated numbers where hyphen can replace a number, eg 3.-.8</xs:documentation>
+			<xs:documentation>● Improved pattern to disallow using zero at any level from revision 3.1.3</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:pattern value="(\d+|-)(\.(\d+|-))*" />
+			<xs:pattern value="([1-9][0-9]*|-)(\.([1-9][0-9]*|-))*" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="epublicensetype">
@@ -15658,7 +15934,7 @@
 		</xs:annotation>
 		<xs:attribute name="datestamp" type="dt.DateOrDateTime" />
 		<xs:attribute name="sourcename" type="dt.NonEmptyString" />
-		<xs:attribute name="sourcetype" type="SourceTypeCode" />
+		<xs:attribute name="sourcetype" type="List3" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="dateformatAttribute">
 		<xs:annotation>
@@ -15678,13 +15954,13 @@
 		<xs:annotation>
 			<xs:documentation>Case of textual data, eg ALL CAPS, Title Case, Sentence case</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="textcase" type="TextCaseCode" />
+		<xs:attribute name="textcase" type="List14" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="textformatAttribute">
 		<xs:annotation>
 			<xs:documentation>Markup of textual data element (eg No markup [either Ascii, or 'according to the encoding'], HTML or XHTML)</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="textformat" type="TextFormatCode" />
+		<xs:attribute name="textformat" type="List34" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="textscriptAttribute">
 		<xs:annotation>

@@ -15,12 +15,12 @@
 	*          Recent revisions: Graham Bell         *
 	*                                                *
 	*                  Release 3.1                   *
-	*                   Revision 2                   *
+	*                   Revision 3                   *
 	*                Status: Released                *
 	*            Release date: 2009-04-09            *
-	*              Revised: 2024-10-28               *
+	*              Revised: 2026-03-10               *
 	*                                                *
-	*             (c) 2000-2024 EDItEUR              *
+	*             (c) 2000-2026 EDItEUR              *
 	*            https://www.editeur.org/            *
 	*                                                *
 	**************************************************
@@ -57,6 +57,13 @@
 
 
 	SCHEMA REVISION HISTORY (IN REVERSE CHRONOLOGICAL ORDER)
+
+	2026-03-10: ONIX for Books 3.1 revision 3
+	            1. added alternative <TextSource> structure for creators of <TextContent>, following pattern of <Contributor> and <NameAsSubject>, to improve metadata describing reviewers
+	            2. added <SequenceNumber> <b034> and <SubjectDescription> in <NameAsSubject>, again following pattern of <Contributor>, to support prioritization
+	            3. added <PublisherNameInverted> <x592> and <ImprintNameInverted> <x593>, following pattern of <CorporateName>, to support sorting with Éditions Abeille et Castore order
+	            4  modified cardinality of <Affiliation>, added textscript attributes to <BiographicalNote>, <Affiiation>, <ProfessionalPosition>, <Text> and <SubjectHeadingText>, to support transliterations
+	            5. removed indirect references to SourceTypeCode, TextCaseCode, TextFormatCode, replaced with direct references to codelists
 
 	2024-10-28: ONIX for Books 3.1 revision 2
 	            1. added <StreetAddress>, <LocationName>, <PostalCode>, <RegionCode>, <CountryCode> to <ProductContact> and <SupplyContact> (to support GPSR). Also added <PostalCode> into <EventOccurrence>
@@ -377,6 +384,7 @@
 			<optional><attribute name="shortname"><value>b046</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<ref name="languageAttribute" />
+			<ref name="textscriptAttribute" />
 			<ref name="dt.NonEmptyString" />
 		</element>
 	</define>
@@ -771,6 +779,7 @@
 			<optional><attribute name="shortname"><value>b044</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<ref name="languageAttribute" />
+			<ref name="textscriptAttribute" />
 			<ref name="textformatAttribute" />
 			<ref name="Flow" />
 		</element>
@@ -781,7 +790,7 @@
 			<optional><attribute name="shortname"><value>bodymanifest</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<group>
-				<ref name="gp.product_specification"/>
+				<ref name="gp.product_specification" />
 				<oneOrMore><ref name="BodyResource" /></oneOrMore>
 			</group>
 		</element>
@@ -1418,7 +1427,7 @@
 			<optional><attribute name="shortname"><value>covermanifest</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<group>
-				<ref name="gp.product_specification"/>
+				<ref name="gp.product_specification" />
 				<oneOrMore><ref name="CoverResource" /></oneOrMore>
 			</group>
 		</element>
@@ -2194,8 +2203,13 @@
 					<group>
 						<oneOrMore><ref name="ImprintIdentifier" /></oneOrMore>
 						<optional><ref name="ImprintName" /></optional>
+						<optional><ref name="ImprintNameInverted" /></optional>
 					</group>
-					<ref name="ImprintName" />
+					<group>
+						<ref name="ImprintName" />
+						<optional><ref name="ImprintNameInverted" /></optional>
+					</group>
+					<ref name="ImprintNameInverted" />
 				</choice>
 			</group>
 		</element>
@@ -2230,6 +2244,16 @@
 			<ref name="dt.NonEmptyString" />
 		</element>
 	</define>
+	<define name="ImprintNameInverted">
+		<element name="x593">
+			<optional><attribute name="refname"><value>ImprintNameInverted</value></attribute></optional>
+			<optional><attribute name="shortname"><value>x593</value></attribute></optional>
+			<ref name="generalAttributes" />
+			<ref name="languageAttribute" />
+			<ref name="collationkeyAttribute" />
+			<ref name="dt.NonEmptyString" />
+		</element>
+	</define>
 	<define name="InitialPrintRun">
 		<element name="k167">
 			<optional><attribute name="refname"><value>InitialPrintRun</value></attribute></optional>
@@ -2246,7 +2270,7 @@
 			<optional><attribute name="shortname"><value>insertmanifest</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<group>
-				<ref name="gp.product_specification"/>
+				<ref name="gp.product_specification" />
 				<ref name="InsertPoint" />
 				<oneOrMore><ref name="InsertResource" /></oneOrMore>
 			</group>
@@ -2582,6 +2606,7 @@
 			<optional><attribute name="shortname"><value>nameassubject</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<group>
+				<optional><ref name="SequenceNumber" /></optional>
 				<optional><ref name="NameType" /></optional>
 				<choice>
 					<group>
@@ -2607,6 +2632,7 @@
 				<zeroOrMore><ref name="AlternativeName" /></zeroOrMore>
 				<zeroOrMore><ref name="SubjectDate" /></zeroOrMore>
 				<zeroOrMore><ref name="ProfessionalAffiliation" /></zeroOrMore>
+				<zeroOrMore><ref name="SubjectDescription" /></zeroOrMore>
 			</group>
 		</element>
 	</define>
@@ -3665,13 +3691,13 @@
 					<group>
 						<oneOrMore><ref name="ProfessionalPosition" /></oneOrMore>
 						<zeroOrMore><ref name="AffiliationIdentifier" /></zeroOrMore>
-						<optional><ref name="Affiliation" /></optional>
+						<zeroOrMore><ref name="Affiliation" /></zeroOrMore>
 					</group>
 					<group>
 						<oneOrMore><ref name="AffiliationIdentifier" /></oneOrMore>
-						<optional><ref name="Affiliation" /></optional>
+						<zeroOrMore><ref name="Affiliation" /></zeroOrMore>
 					</group>
-					<ref name="Affiliation" />
+					<oneOrMore><ref name="Affiliation" /></oneOrMore>
 				</choice>
 			</group>
 		</element>
@@ -3682,6 +3708,7 @@
 			<optional><attribute name="shortname"><value>b045</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<ref name="languageAttribute" />
+			<ref name="textscriptAttribute" />
 			<ref name="dt.NonEmptyString" />
 		</element>
 	</define>
@@ -3757,8 +3784,13 @@
 				<group>
 					<oneOrMore><ref name="PublisherIdentifier" /></oneOrMore>
 					<zeroOrMore><ref name="PublisherName" /></zeroOrMore>
+					<zeroOrMore><ref name="PublisherNameInverted" /></zeroOrMore>
 				</group>
-				<oneOrMore><ref name="PublisherName" /></oneOrMore>
+				<group>
+					<oneOrMore><ref name="PublisherName" /></oneOrMore>
+					<zeroOrMore><ref name="PublisherNameInverted" /></zeroOrMore>
+				</group>
+				<oneOrMore><ref name="PublisherNameInverted" /></oneOrMore>
 			</choice>
 			<zeroOrMore><ref name="Funding" /></zeroOrMore>
 			<zeroOrMore><ref name="Website" /></zeroOrMore>
@@ -3789,8 +3821,19 @@
 			<optional><attribute name="refname"><value>PublisherName</value></attribute></optional>
 			<optional><attribute name="shortname"><value>b081</value></attribute></optional>
 			<ref name="generalAttributes" />
-			<ref name="languageAttribute" />
 			<ref name="collationkeyAttribute" />
+			<ref name="languageAttribute" />
+			<ref name="textscriptAttribute" />
+			<ref name="dt.NonEmptyString" />
+		</element>
+	</define>
+	<define name="PublisherNameInverted">
+		<element name="x592">
+			<optional><attribute name="refname"><value>PublisherNameInverted</value></attribute></optional>
+			<optional><attribute name="shortname"><value>x592</value></attribute></optional>
+			<ref name="generalAttributes" />
+			<ref name="collationkeyAttribute" />
+			<ref name="languageAttribute" />
 			<ref name="textscriptAttribute" />
 			<ref name="dt.NonEmptyString" />
 		</element>
@@ -4387,6 +4430,7 @@
 				<zeroOrMore><ref name="SalesRestriction" /></zeroOrMore>
 				<zeroOrMore><ref name="ProductIdentifier" /></zeroOrMore>
 				<zeroOrMore><ref name="PublisherName" /></zeroOrMore>
+				<zeroOrMore><ref name="PublisherNameInverted" /></zeroOrMore>
 			</group>
 		</element>
 	</define>
@@ -4803,12 +4847,23 @@
 			<ref name="List177" />
 		</element>
 	</define>
+	<define name="SubjectDescription">
+		<element name="SubjectDescription">
+			<optional><attribute name="refname"><value>SubjectDescription</value></attribute></optional>
+			<optional><attribute name="shortname"><value>x591</value></attribute></optional>
+			<ref name="generalAttributes" />
+			<ref name="languageAttribute" />
+			<ref name="textformatAttribute" />
+			<ref name="Flow" />
+		</element>
+	</define>
 	<define name="SubjectHeadingText">
 		<element name="b070">
 			<optional><attribute name="refname"><value>SubjectHeadingText</value></attribute></optional>
 			<optional><attribute name="shortname"><value>b070</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<ref name="languageAttribute" />
+			<ref name="textscriptAttribute" />
 			<ref name="dt.NonEmptyString" />
 		</element>
 	</define>
@@ -5219,6 +5274,7 @@
 			<optional><attribute name="shortname"><value>d104</value></attribute></optional>
 			<ref name="generalAttributes" />
 			<ref name="languageAttribute" />
+			<ref name="textscriptAttribute" />
 			<ref name="textformatAttribute" />
 			<ref name="Flow" />
 		</element>
@@ -5244,9 +5300,14 @@
 				<optional><ref name="Territory" /></optional>
 				<oneOrMore><ref name="Text" /></oneOrMore>
 				<optional><ref name="ReviewRating" /></optional>
-				<zeroOrMore><ref name="TextAuthor" /></zeroOrMore>
-				<optional><ref name="TextSourceCorporate" /></optional>
-				<zeroOrMore><ref name="TextSourceDescription" /></zeroOrMore>
+				<choice>
+					<group>
+						<zeroOrMore><ref name="TextAuthor" /></zeroOrMore>
+						<optional><ref name="TextSourceCorporate" /></optional>
+						<zeroOrMore><ref name="TextSourceDescription" /></zeroOrMore>
+					</group>
+					<oneOrMore><ref name="TextSource" /></oneOrMore>
+				</choice>
 				<zeroOrMore><ref name="SourceTitle" /></zeroOrMore>
 				<zeroOrMore><ref name="TextSourceLink" /></zeroOrMore>
 				<zeroOrMore><ref name="EpubUsageConstraint" /></zeroOrMore>
@@ -5303,6 +5364,39 @@
 			<ref name="generalAttributes" />
 			<ref name="languageAttribute" />
 			<ref name="dt.NonEmptyString" />
+		</element>
+	</define>
+	<define name="TextSource">
+		<element name="textsource">
+			<optional><attribute name="refname"><value>TextSource</value></attribute></optional>
+			<optional><attribute name="shortname"><value>textsource</value></attribute></optional>
+			<group>
+				<zeroOrMore><ref name="SequenceNumber" /></zeroOrMore>
+				<zeroOrMore><ref name="NameType" /></zeroOrMore>
+				<choice>
+					<group>
+						<oneOrMore><ref name="NameIdentifier" /></oneOrMore>
+						<optional>
+							<choice>
+								<group>
+									<ref name="gp.unstructured_name" />
+									<optional><ref name="gp.structured_name" /></optional>
+								</group>
+								<ref name="gp.structured_name" />
+								<ref name="gp.corporate_name" />
+							</choice>
+						</optional>
+					</group>
+					<group>
+						<ref name="gp.unstructured_name" />
+						<optional><ref name="gp.structured_name" /></optional>
+					</group>
+					<ref name="gp.structured_name" />
+					<ref name="gp.corporate_name" />
+				</choice>
+				<zeroOrMore><ref name="ProfessionalAffiliation" /></zeroOrMore>
+				<zeroOrMore><ref name="TextSourceDescription" /></zeroOrMore>
+			</group>
 		</element>
 	</define>
 	<define name="TextSourceDescription">
@@ -5977,12 +6071,12 @@
 	</define>
 	<define name="dt.MultiLevelNumber">
 		<data type="string">
-			<param name="pattern">\d+(\.\d+)*</param>
+			<param name="pattern">[1-9][0-9]*(\.[1-9][0-9]*)*</param>
 		</data>
 	</define>
 	<define name="dt.MultiLevelNumberOrHyphen">
 		<data type="string">
-			<param name="pattern">(\d+|-)(\.(\d+|-))*</param>
+			<param name="pattern">([1-9][0-9]*|-)(\.([1-9][0-9]*|-))*</param>
 		</data>
 	</define>
 	<define name="releaseAttribute">
@@ -5993,8 +6087,8 @@
 	</define>
 	<define name="generalAttributes">
 		<optional><attribute name="datestamp"><ref name="dt.DateOrDateTime" /></attribute></optional>
-		<optional><attribute name="sourcetype"><ref name="SourceTypeCode" /></attribute></optional>
 		<optional><attribute name="sourcename"><text /></attribute></optional>
+		<optional><attribute name="sourcetype"><ref name="List3" /></attribute></optional>
 	</define>
 	<define name="dateformatAttribute">
 		<optional><attribute name="dateformat"><ref name="List55" /></attribute></optional>
@@ -6003,10 +6097,10 @@
 		<optional><attribute name="language"><ref name="List74" /></attribute></optional>
 	</define>
 	<define name="textcaseAttribute">
-		<optional><attribute name="textcase"><ref name="TextCaseCode" /></attribute></optional>
+		<optional><attribute name="textcase"><ref name="List14" /></attribute></optional>
 	</define>
 	<define name="textformatAttribute">
-		<optional><attribute name="textformat"><ref name="TextFormatCode" /></attribute></optional>
+		<optional><attribute name="textformat"><ref name="List34" /></attribute></optional>
 	</define>
 	<define name="textscriptAttribute">
 		<optional><attribute name="textscript"><ref name="List121" /></attribute></optional>
