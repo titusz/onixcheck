@@ -8,6 +8,8 @@
 - Build the Windows binary in CI and validate sample files with it
 - Fix invalid ONIX 3.1 short-tag sample file and validate all sample files in tests
 - Update lxml to 6.1.0
+- Drop support for Python 3.9 (end of life since October 2025)
+- Update pytest and setuptools to fix security alerts (CVE-2025-71176, CVE-2026-59890)
 
 ## 0.9.11 (2026-01-27)
 

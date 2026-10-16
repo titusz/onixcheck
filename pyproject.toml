@@ -3,7 +3,7 @@ name = "onixcheck"
 version = "0.9.12"
 description = "ONIX validation library and commandline tool"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [
     { name = "Titusz Pan", email = "tp@py7.de" }
@@ -59,7 +59,7 @@ packages = ["src/onixcheck"]
 
 [tool.ruff]
 line-length = 112
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.format]
 line-ending = "lf"
